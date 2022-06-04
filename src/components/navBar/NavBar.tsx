@@ -4,24 +4,26 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
-import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
-import CastleIcon from "@mui/icons-material/Castle";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+import HomeIcon from "@mui/icons-material/Home";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MenuIcon from "@mui/icons-material/Menu";
 import Brand from "../../sharedComponents/Brand";
-import useToggleDrawer from "../../customHooks/useToggleDrawer";
+import useToggleEle from "../../customHooks/useToggleEle";
 import UserInfo from "./UserInfo";
 import Drawer from "./NavDrawr";
 
 const NavBar = () => {
   const navigate = useNavigate();
-  const [open, toggleDrawer, closeDrawer] = useToggleDrawer();
+  const [open, handelOpen, handelClose] = useToggleEle();
   return (
     <Box flexGrow={1}>
       <AppBar
@@ -30,7 +32,7 @@ const NavBar = () => {
       >
         <Toolbar>
           <IconButton
-            onClick={toggleDrawer}
+            onClick={handelOpen}
             color="primary"
             sx={{ display: { md: "none" } }}
           >
@@ -38,12 +40,13 @@ const NavBar = () => {
           </IconButton>
           <Drawer
             open={open}
-            toggleDrawer={toggleDrawer}
-            closeDrawer={closeDrawer}
+            toggleDrawer={handelOpen}
+            closeDrawer={handelClose}
           />
           <Button
             variant="contained"
             sx={{ display: { xs: "none", md: "flex" } }}
+            onClick={() => navigate("/signup")}
           >
             تسجيل الدخول
           </Button>
@@ -57,7 +60,7 @@ const NavBar = () => {
           >
             <Tooltip title="">
               <IconButton color="primary">
-                <AirplanemodeActiveIcon />
+                <HomeIcon />
               </IconButton>
             </Tooltip>
             <Tooltip title="">
@@ -67,17 +70,22 @@ const NavBar = () => {
             </Tooltip>
             <Tooltip title="">
               <IconButton color="primary">
+                <AirplanemodeActiveIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="">
+              <IconButton color="primary">
+                <LocationOnIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="">
+              <IconButton color="primary">
+                <Inventory2Icon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="">
+              <IconButton color="primary">
                 <FavoriteIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="">
-              <IconButton color="primary">
-                <RestaurantMenuIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="">
-              <IconButton color="primary">
-                <CastleIcon />
               </IconButton>
             </Tooltip>
           </Stack>
