@@ -1,5 +1,8 @@
-import createTheme from '@mui/material/styles/createTheme'
+import createTheme from "@mui/material/styles/createTheme";
 const theme = createTheme({
-
-})
-export default theme
+  direction: "rtl",
+  typography: {
+    fontFamily: "Almarai",
+  },
+});
+export default theme;

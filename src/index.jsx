@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from "react-dom";
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
@@ -9,20 +10,31 @@ import CssBaseline from '@mui/material/CssBaseline'
 import ThemeProvider from '@mui/material/styles/ThemeProvider'
 import theme from './Theme'
 import {BrowserRouter} from 'react-router-dom'
-const container = document.getElementById('root')!;
-const root = createRoot(container);
+import rtlPlugin from 'stylis-plugin-rtl';
+import { CacheProvider } from '@emotion/react';
+import createCache from '@emotion/cache';
+import { prefixer } from 'stylis';
+const cacheRtl = createCache({
+  key: 'muirtl',
+  stylisPlugins: [prefixer, rtlPlugin],
+});
+// const container = document.getElementById('root')!;
+// const root = createRoot(container);
 
-root.render(
+ReactDOM.render(
   <React.StrictMode>
+    <BrowserRouter>
     <Provider store={store}>
+      <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
       <CssBaseline/>
       <App />
       </ThemeProvider>
+      </CacheProvider>
     </Provider>
-    <BrowserRouter>
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
