@@ -44,9 +44,9 @@ const Signup = () => {
         <Box
           sx={{
             p: 4,
-            border: "1px solid var(--yellow-color)",
+            border: "1px solid var(--golden-color)",
             borderRadius: "1rem",
-            boxShadow: "0px 0px 4px  var(--yellow-color)",
+            boxShadow: "0px 0px 4px  var(--golden-color)",
           }}
         >
           <Stack
@@ -56,13 +56,15 @@ const Signup = () => {
           >
             <UserImg />
           </Stack>
-          <InputText label="الاسم الأول" />
-          <InputText label="الاسم الأخير" />
-          <InputText label="البريدالالكتروني" />
-          <InputPassword label="كلمة المرور" />
-          <InputPassword label="تأكيد كلمة المرور" />
-          <InputSelect label="المدينة" items={governorates} />
-          <InputSelect label="الجنس" items={gender} />
+          <Stack justifyContent={"center"} alignItems={"center"} spacing={2}>
+            <InputText label="الاسم الأول" type="text" />
+            <InputText label="الاسم الأخير" type="text" />
+            <InputText label="البريدالالكتروني" type="email" />
+            <InputPassword label="كلمة المرور" />
+            <InputPassword label="تأكيد كلمة المرور" />
+            <InputSelect label="المدينة" items={governorates} />
+            <InputSelect label="الجنس" items={gender} />
+          </Stack>
           <Button
             variant="contained"
             sx={{ display: "block", m: "15px auto", minWidth: "50%" }}

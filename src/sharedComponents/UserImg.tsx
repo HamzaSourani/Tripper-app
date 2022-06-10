@@ -13,7 +13,7 @@ const UserImg = () => {
   return (
     <Box position={"relative"}>
       <Avatar src={imgSrc} alt="" sx={{ width: 160, height: 160 }} />
-      <Box position={"absolute"}>
+      <Box position={"absolute"} bottom={15} left={1}>
         {" "}
         <input
           accept="image/*"
@@ -23,7 +23,17 @@ const UserImg = () => {
           onChange={handleImgUpload}
         />
         <label htmlFor="raised-button-file">
-          <Stack justifyContent={"center"} alignItems="center" component="span">
+          <Stack
+            sx={{
+              borderRadius: "50%",
+              backgroundColor: "white",
+              p: 1,
+              boxShadow: 3,
+            }}
+            justifyContent={"center"}
+            alignItems="center"
+            component="span"
+          >
             <CameraAltIcon sx={{ color: "var(--golden-color)" }} />
           </Stack>
         </label>

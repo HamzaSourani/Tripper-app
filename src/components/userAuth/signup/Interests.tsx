@@ -1,5 +1,5 @@
 import React from "react";
-import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -23,28 +23,35 @@ type interestsProps = {
   open: boolean;
   handelClose: () => void;
 };
+const governorates = ["حماة", "حمص", "حلب", "دمشق", "الاذقية", "طرطوس"];
 const interests = ["بحر", " مناطق سياحية", "مناطق جبلية", "مناطق أثرية"];
 const Interests = ({ open, handelClose }: interestsProps) => {
   const [interestValue, setInterestValue] = React.useState<string[]>([]);
-  const addValueHandeler = (value: string) => {
-    setInterestValue((interestValue) => [value, ...interestValue]);
+  const selectValueHandler = (value: string) => {
+    let temp: string[] = [];
+    if (interestValue.includes(value)) {
+      temp = interestValue.filter((i) => i !== value);
+      setInterestValue([...temp]);
+    } else setInterestValue((interestValue) => [value, ...interestValue]);
   };
   return (
     <Dialog
-      sx={{ "& .MuiDialog-paper": { p: { lg: 3 } } }}
+      sx={{ "& .MuiDialog-paper": { p: { xs: 2, lg: 3 } } }}
       open={open}
       onClose={handelClose}
       TransitionComponent={Transition}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <Brand />
+      <Stack justifyContent="space-evenly" alignItems={"center"}>
+        <Brand />
+      </Stack>
       <DialogTitle id="alert-dialog-title">
         الرجاء اخيار اهماماتك الخاصة لتجربة أكثر راحة
       </DialogTitle>
       <DialogContent sx={{ direction: "ltr" }}>
-        <Grid
-          container
+        <Stack
+          direction={"row"}
           spacing={1}
           justifyContent="space-evenly"
           alignItems={"center"}
@@ -55,26 +62,42 @@ const Interests = ({ open, handelClose }: interestsProps) => {
                 key={i}
                 selected={Boolean(interestValue.find((_i) => _i === i))}
                 value={i}
-                addValueHandeler={() => addValueHandeler(i)}
+                selectValueHandler={() => selectValueHandler(i)}
               />
             );
           })}
-        </Grid>
+        </Stack>
       </DialogContent>
       <DialogTitle id="alert-dialog-title">
         الرجاء اخيار المدن المهتم بها
       </DialogTitle>
       <DialogContent sx={{ direction: "ltr" }}>
-        <Grid
-          container
+        <Stack
+          direction={"row"}
           spacing={1}
           justifyContent="space-evenly"
           alignItems={"center"}
-        ></Grid>
+        >
+          {governorates.map((governorate) => {
+            return (
+              <InterestedButoon
+                key={governorate}
+                selected={Boolean(
+                  interestValue.find(
+                    (_governorate) => _governorate === governorate
+                  )
+                )}
+                value={governorate}
+                selectValueHandler={() => selectValueHandler(governorate)}
+              />
+            );
+          })}
+        </Stack>
       </DialogContent>
-      <DialogActions>
-        <Button variant="contained">إعادة تعيين</Button>
-      </DialogActions>
+
+      <Button variant="contained" sx={{ mx: "5%" }}>
+        متابعة
+      </Button>
     </Dialog>
   );
 };

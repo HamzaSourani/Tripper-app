@@ -1,16 +1,23 @@
 import React from "react";
-
+import Button from "@mui/material/Button";
 type interestedButoonProps = {
   selected: boolean;
   value: string;
-  addValueHandeler: () => void;
+  selectValueHandler: () => void;
 };
 const InterestedButoon = ({
   selected,
   value,
-  addValueHandeler,
+  selectValueHandler,
 }: interestedButoonProps) => {
-  return <div>InterestedButoon</div>;
+  return (
+    <Button
+      variant={selected ? "contained" : "outlined"}
+      onClick={selectValueHandler}
+    >
+      {value}
+    </Button>
+  );
 };
 
 export default InterestedButoon;
