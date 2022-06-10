@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -23,9 +23,16 @@ import Drawer from "./NavDrawr";
 
 const NavBar = () => {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [open, handelOpen, handelClose] = useToggleEle();
+  const activeLinkHandler = (path: string) => {
+    return {
+      color: pathname === path ? "var(--golden-color)" : "",
+      border: pathname === path ? "1px solid var(--golden-color)" : "",
+    };
+  };
   return (
-    <Box flexGrow={1}>
+    <Box flexGrow={1} mb={5}>
       <AppBar
         sx={{ backgroundColor: "#fff", direction: "ltr" }}
         position="static"
@@ -59,7 +66,12 @@ const NavBar = () => {
             sx={{ m: "auto", display: { xs: "none", md: "flex" } }}
           >
             <Tooltip title="">
-              <IconButton color="primary">
+              <IconButton
+                color="primary"
+                sx={{
+                  ...activeLinkHandler("/"),
+                }}
+              >
                 <HomeIcon />
               </IconButton>
             </Tooltip>
@@ -84,7 +96,11 @@ const NavBar = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="">
-              <IconButton color="primary">
+              <IconButton
+                sx={{ ...activeLinkHandler("/favorite") }}
+                color="primary"
+                onClick={() => navigate("/favorite")}
+              >
                 <FavoriteIcon />
               </IconButton>
             </Tooltip>
