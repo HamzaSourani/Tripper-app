@@ -5,14 +5,18 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 type inputPasswordProps = {
   label: string;
+  value: string;
+  setValue: (newValue: string) => void;
 };
-const InputPassword = ({ label }: inputPasswordProps) => {
+const InputPassword = ({ label, value, setValue }: inputPasswordProps) => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   return (
     <>
       <TextField
         label={label}
         type={showPassword ? "text" : "password"}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
         InputProps={{
           endAdornment: (
             <InputAdornment

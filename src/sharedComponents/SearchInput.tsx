@@ -8,6 +8,7 @@ const SearchInput = () => {
       <TextField
         placeholder="البحث عن ..."
         type="text"
+        fullWidth
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -18,11 +19,9 @@ const SearchInput = () => {
         sx={{
           display: "block",
           "& .MuiOutlinedInput-root": {
-            width: "100%",
             borderRadius: "1rem",
             boxShadow: 1,
           },
-          width: "80%",
         }}
       />
     </>

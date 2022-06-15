@@ -5,12 +5,13 @@ import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 type inputSelectProps = {
   label: string;
-  items: string[];
+  items: { ui: string; server: string }[];
+  value: string;
+  setValue: (newValue: string) => void;
 };
-const InputSelect = ({ label, items }: inputSelectProps) => {
-  const [item, setItem] = React.useState<string>("");
+const InputSelect = ({ label, items, value, setValue }: inputSelectProps) => {
   const handleChange = (e: SelectChangeEvent) => {
-    setItem(e.target.value as string);
+    setValue(e.target.value as string);
   };
   return (
     <FormControl
@@ -31,12 +32,12 @@ const InputSelect = ({ label, items }: inputSelectProps) => {
       <Select
         labelId="select-label"
         id="select"
-        value={item}
+        value={value}
         label={label}
         onChange={handleChange}
       >
         {items.map((i) => (
-          <MenuItem value={i}>{i}</MenuItem>
+          <MenuItem value={i.server}>{i.ui}</MenuItem>
         ))}
       </Select>
     </FormControl>

@@ -3,9 +3,10 @@ import TextField from "@mui/material/TextField";
 type inputTextProps = {
   label: string;
   type: "text" | "email";
+  value: string;
+  setValue: (newValue: string) => void;
 };
-const InputText = ({ label, type }: inputTextProps) => {
-  const [value, setValue] = React.useState<string>("");
+const InputText = ({ label, type, value, setValue }: inputTextProps) => {
   return (
     <>
       <TextField

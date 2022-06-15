@@ -1,8 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Stack from "@mui/material/Stack";
-import Typography from "@mui/material/Typography";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
@@ -25,7 +24,9 @@ type interestsProps = {
 };
 const governorates = ["حماة", "حمص", "حلب", "دمشق", "الاذقية", "طرطوس"];
 const interests = ["بحر", " مناطق سياحية", "مناطق جبلية", "مناطق أثرية"];
+
 const Interests = ({ open, handelClose }: interestsProps) => {
+  const navigate = useNavigate();
   const [interestValue, setInterestValue] = React.useState<string[]>([]);
   const selectValueHandler = (value: string) => {
     let temp: string[] = [];
@@ -34,6 +35,7 @@ const Interests = ({ open, handelClose }: interestsProps) => {
       setInterestValue([...temp]);
     } else setInterestValue((interestValue) => [value, ...interestValue]);
   };
+
   return (
     <Dialog
       sx={{ "& .MuiDialog-paper": { p: { xs: 2, lg: 3 } } }}
@@ -95,7 +97,11 @@ const Interests = ({ open, handelClose }: interestsProps) => {
         </Stack>
       </DialogContent>
 
-      <Button variant="contained" sx={{ mx: "5%" }}>
+      <Button
+        variant="contained"
+        sx={{ mx: "5%" }}
+        onClick={() => navigate("/")}
+      >
         متابعة
       </Button>
     </Dialog>

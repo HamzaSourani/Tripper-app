@@ -30,3 +30,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.carousel-item-padding-5-px {
+  padding: 0 5px;
+}

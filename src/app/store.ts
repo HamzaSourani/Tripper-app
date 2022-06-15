@@ -1,9 +1,10 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-
-
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import UserAuth from "../features/UserAuthSlice";
+import governorateReducer from "../features/governorateSlice";
 export const store = configureStore({
   reducer: {
-   
+    userAuth: UserAuth,
+    governorate: governorateReducer,
   },
 });
 

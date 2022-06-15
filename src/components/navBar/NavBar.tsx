@@ -20,8 +20,10 @@ import Brand from "../../sharedComponents/Brand";
 import useToggleEle from "../../customHooks/useToggleEle";
 import UserInfo from "./UserInfo";
 import Drawer from "./NavDrawr";
+import useThereIsUser from "../../customHooks/useThereIsUser";
 
 const NavBar = () => {
+  const thereIsUser = useThereIsUser();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [open, handelOpen, handelClose] = useToggleEle();
@@ -50,13 +52,15 @@ const NavBar = () => {
             toggleDrawer={handelOpen}
             closeDrawer={handelClose}
           />
-          <Button
-            variant="contained"
-            sx={{ display: { xs: "none", md: "flex" } }}
-            onClick={() => navigate("/signup")}
-          >
-            تسجيل الدخول
-          </Button>
+          {!thereIsUser && (
+            <Button
+              variant="contained"
+              sx={{ display: { xs: "none", md: "flex" } }}
+              onClick={() => navigate("/signup")}
+            >
+              إنشاء حساب
+            </Button>
+          )}
           {false && <UserInfo />}
           <Stack
             direction={"row"}
