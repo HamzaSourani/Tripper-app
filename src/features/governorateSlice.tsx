@@ -18,13 +18,13 @@ export const fetchGovernorate = createAsyncThunk(
   "governorate/fetchGovernorate",
   async () => {
     const res = await axios({
-      method: "git",
+      method: "get",
       url: "http://tripper.dentatic.com/api/countries/212/cities",
       headers: {
         Accept: "application/json",
       },
     });
-    return res.data;
+    return res.data.data as governorateState;
   }
 );
 const initialState: governorateState = [];
@@ -34,7 +34,7 @@ const governorateSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(fetchGovernorate.fulfilled, (state, action) => {
-      state = action.payload;
+      return [...action.payload];
     });
   },
 });

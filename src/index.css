@@ -33,3 +33,6 @@ code {
 .carousel-item-padding-5-px {
   padding: 0 5px;
 }
+.carousel-container {
+  padding-bottom: 10px;
+}

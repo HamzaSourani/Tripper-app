@@ -7,22 +7,21 @@ type carouselprops = {
 };
 const responsive = {
   superLargeDesktop: {
-    breakpoint: { max: 4000, min: 3000 },
-    items: 5,
+    breakpoint: { max: 4000, min: 1400 },
+    items: 4,
   },
   desktop: {
-    breakpoint: { max: 3000, min: 1024 },
+    breakpoint: { max: 1400, min: 900 },
     items: 3,
   },
   tablet: {
-    breakpoint: { max: 1024, min: 464 },
+    breakpoint: { max: 900, min: 600 },
     items: 2,
-    partialVisibilityGutter: 60,
   },
   mobile: {
-    breakpoint: { max: 464, min: 0 },
+    breakpoint: { max: 600, min: 0 },
     items: 1,
-    partialVisibilityGutter: 60,
+    partialVisibilityGutter: 90,
   },
 };
 const CarouselComponent = ({ children }: carouselprops) => {
@@ -32,6 +31,7 @@ const CarouselComponent = ({ children }: carouselprops) => {
       arrows={false}
       partialVisible={true}
       responsive={responsive}
+      containerClass="carousel-container"
       itemClass="carousel-item-padding-5-px"
     >
       {children}

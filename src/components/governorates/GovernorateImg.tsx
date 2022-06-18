@@ -1,24 +1,21 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
+import IconTextStack from "../../sharedComponents/IconTextStack";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Typography from "@mui/material/Typography";
-type governorateCardProps = {
-  name: string;
-  img: string | null;
-  id: number;
-  onClick: () => void;
-};
-const GovernorateCard = ({ name, img, id, onClick }: governorateCardProps) => {
+type governorateImgProps = { img: string; governorateName: string };
+const GovernorateImg = ({ img, governorateName }: governorateImgProps) => {
+  const navigate = useNavigate();
   return (
     <Box
-      onClick={onClick}
       sx={{
         position: "relative",
         pt: "55%",
         width: "100%",
+        boxShadow: 2,
         borderRadius: ".5rem",
-        "&:hover": {
-          cursor: "pointer",
-        },
       }}
     >
       <Box
@@ -49,15 +46,24 @@ const GovernorateCard = ({ name, img, id, onClick }: governorateCardProps) => {
           borderRadius: "inherit",
         }}
       ></Box>
-      <Typography
-        sx={{ position: "absolute", left: 20, bottom: 20 }}
-        variant="h5"
-        color="white"
+      <IconTextStack
+        sx={{ display: { lg: "none" } }}
+        _onClick={() => navigate(-1)}
+        top={20}
+        left={20}
       >
-        {name}
-      </Typography>
+        <ArrowForwardIcon />
+      </IconTextStack>
+      <IconTextStack bottom={20} right={20}>
+        <>
+          <LocationOnIcon color="primary" />
+          <Typography
+            color={"GrayText"}
+          >{`سورية، ${governorateName}`}</Typography>
+        </>
+      </IconTextStack>
     </Box>
   );
 };
 
-export default GovernorateCard;
+export default GovernorateImg;

@@ -55,6 +55,7 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const logInOut = useThereIsUser() ? "تسجيل الخروج" : "إنشاء حساب";
+  const navigateToHandler = (to: string) => navigate(to);
   const handleLog = () => {
     if (thereIsUser) {
       (async () => {
@@ -89,13 +90,19 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
         </Typography>
       </Stack>
       <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+      <RowStack
+        onClick={() => navigateToHandler("/home")}
+        closeDrawer={closeDrawer}
+      >
         <>
           <HomeIcon color="primary" />
           <Typography sx={{ color: "var(--gray-color)" }}>الرئيسية</Typography>
         </>
       </RowStack>
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+      <RowStack
+        onClick={() => navigateToHandler("/governorates")}
+        closeDrawer={closeDrawer}
+      >
         <>
           <LocationCityIcon color="primary" />
           <Typography sx={{ color: "var(--gray-color)" }}>المدن</Typography>
@@ -107,7 +114,10 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
           <Typography sx={{ color: "var(--gray-color)" }}>الرحلات</Typography>
         </>
       </RowStack>
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+      <RowStack
+        onClick={() => navigateToHandler("/places")}
+        closeDrawer={closeDrawer}
+      >
         <>
           <LocationOnIcon color="primary" />
           <Typography sx={{ color: "var(--gray-color)" }}>الاماكن</Typography>
@@ -119,7 +129,10 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
           <Typography sx={{ color: "var(--gray-color)" }}>المنتجات</Typography>
         </>
       </RowStack>
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+      <RowStack
+        onClick={() => navigateToHandler("/favorite")}
+        closeDrawer={closeDrawer}
+      >
         <>
           <FavoriteIcon color="primary" />
           <Typography sx={{ color: "var(--gray-color)" }}>المفضلة</Typography>

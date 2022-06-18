@@ -4,12 +4,14 @@ type iconTextStackProps = {
   children: ReactNode;
 } & Partial<position>;
 interface position {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
+  left: {} | number;
+  right: {} | number;
+  top: {} | number;
+  bottom: {} | number;
+  _onClick: () => void;
+  sx: object;
 }
-const isposition = (position: number | undefined) => {
+const isposition = (position: {} | number | undefined) => {
   return position ? position : "";
 };
 const IconTextStack = ({
@@ -18,9 +20,12 @@ const IconTextStack = ({
   left,
   bottom,
   top,
+  _onClick,
+  sx,
 }: iconTextStackProps) => {
   return (
     <Stack
+      onClick={_onClick}
       sx={{
         position: "absolute",
         bottom: isposition(bottom),
@@ -31,8 +36,13 @@ const IconTextStack = ({
         backgroundColor: "rgba(255,255,255,.9)",
         p: "5px 10px",
         boxShadow: 3,
+        "&:hover": {
+          cursor: typeof _onClick !== "undefined" ? "pointer" : "default",
+        },
+
+        ...sx,
       }}
-      spacing={1}
+      spacing={0.5}
       direction={"row"}
       justifyContent={"center"}
       alignItems="center"

@@ -10,7 +10,12 @@ import IconTextStack from "./IconTextStack";
 import AvatarGroup from "./AvatarGroup";
 const TripCard = () => {
   return (
-    <Stack justifyContent={"center"} alignItems={"start"} spacing={1}>
+    <Stack
+      sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
+      justifyContent={"center"}
+      alignItems={"start"}
+      spacing={1}
+    >
       <Box
         sx={{
           position: "relative",
@@ -40,7 +45,7 @@ const TripCard = () => {
           sx={{
             position: "absolute",
             bottom: 20,
-            left: 20,
+            left: { xs: 10, md: 20 },
             borderRadius: "50%",
             backgroundColor: "white",
             p: 1,
@@ -51,19 +56,23 @@ const TripCard = () => {
         >
           <FavoriteBorderIcon color="primary" />
         </Stack>
-        <IconTextStack right={20} top={20}>
+        <IconTextStack right={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
           <Typography color={"text.primary"} variant="body1">
             يوم1
           </Typography>
           <AccessTimeIcon color="primary" />
         </IconTextStack>
-        <IconTextStack left={20} top={20}>
+        <IconTextStack left={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
           <Typography color={"text.primary"} variant="body1">
             15 نيسان
           </Typography>
           <DateRangeIcon color="primary" />
         </IconTextStack>
-        <AvatarGroup right={20} bottom={20} subscribers={[1, 2, 3, 4, 5]}>
+        <AvatarGroup
+          right={{ xs: 10, md: 20 }}
+          bottom={{ xs: 10, md: 20 }}
+          subscribers={[1, 2, 3, 4, 5]}
+        >
           <Typography color={"white"}>24/+14</Typography>
         </AvatarGroup>
       </Box>

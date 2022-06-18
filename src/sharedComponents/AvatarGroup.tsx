@@ -7,12 +7,12 @@ type avatarGroupProps = {
   children: ReactNode;
 } & Partial<position>;
 interface position {
-  left: number;
-  right: number;
-  top: number;
-  bottom: number;
+  left: {} | number;
+  right: {} | number;
+  top: {} | number;
+  bottom: {} | number;
 }
-const isposition = (position: number | undefined) => {
+const isposition = (position: {} | number | undefined) => {
   return position ? position : "";
 };
 const AvatarGroup = ({
@@ -50,10 +50,12 @@ const AvatarGroup = ({
           },
           "& .MuiAvatar-root:last-child": {
             ml: "-12px",
+            width: 30,
+            height: 30,
           },
           "& .MuiAvatar-root": {
-            width: 35,
-            height: 35,
+            width: 30,
+            height: 30,
             ml: "-12px",
           },
         }}

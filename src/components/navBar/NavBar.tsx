@@ -10,9 +10,7 @@ import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
 import LoginIcon from "@mui/icons-material/Login";
-import LogoutIcon from "@mui/icons-material/Logout";
 import HomeIcon from "@mui/icons-material/Home";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -57,6 +55,7 @@ const NavBar = () => {
               variant="contained"
               sx={{ display: { xs: "none", md: "flex" } }}
               onClick={() => navigate("/signup")}
+              endIcon={<LoginIcon />}
             >
               إنشاء حساب
             </Button>
@@ -69,37 +68,46 @@ const NavBar = () => {
             spacing={3}
             sx={{ m: "auto", display: { xs: "none", md: "flex" } }}
           >
-            <Tooltip title="">
+            <Tooltip title="الرئيسية">
               <IconButton
                 color="primary"
                 sx={{
-                  ...activeLinkHandler("/"),
+                  ...activeLinkHandler("/home"),
                 }}
+                onClick={() => navigate("/home")}
               >
                 <HomeIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="">
-              <IconButton color="primary">
+            <Tooltip title="المدن">
+              <IconButton
+                color="primary"
+                sx={{
+                  ...activeLinkHandler("/governorates"),
+                }}
+                onClick={() => navigate("/governorates")}
+              >
                 <LocationCityIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="">
+            <Tooltip title="الرحلات">
               <IconButton color="primary">
                 <AirplanemodeActiveIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="">
-              <IconButton color="primary">
+            <Tooltip title="الأماكن">
+              <IconButton
+                color="primary"
+                sx={{
+                  ...activeLinkHandler("/places"),
+                }}
+                onClick={() => navigate("/places")}
+              >
                 <LocationOnIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="">
-              <IconButton color="primary">
-                <Inventory2Icon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="">
+
+            <Tooltip title="المفضلة">
               <IconButton
                 sx={{ ...activeLinkHandler("/favorite") }}
                 color="primary"

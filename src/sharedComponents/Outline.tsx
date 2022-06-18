@@ -9,7 +9,13 @@ const Outline = ({ title, navigateTo }: outlineProps) => {
   const navigate = useNavigate();
   return (
     <Stack direction={"row"} alignItems="center" sx={{ my: 1 }}>
-      <Typography sx={{ flexGrow: 1, fontWeight: "bold" }} variant="h4">
+      <Typography
+        sx={{
+          flexGrow: 1,
+          fontSize: { xs: "25px", sm: "27Px", md: "30px", lg: "32px" },
+          fontWeight: { sx: "defualt", md: "700" },
+        }}
+      >
         {title}
       </Typography>
       <Typography
