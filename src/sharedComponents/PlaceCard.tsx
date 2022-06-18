@@ -34,6 +34,7 @@ const PlaceCard = ({ onClick, props }: placeType) => {
       spacing={1}
     >
       <Box
+        onClick={onClick}
         sx={{
           position: "relative",
           pt: "55%",
@@ -85,13 +86,27 @@ const PlaceCard = ({ onClick, props }: placeType) => {
       <Grid container alignItems={"center"} sx={{ pl: 1 }}>
         <Grid item xs={3}>
           <Stack direction={"row"} alignItems="center" spacing={1}>
-            <FavoriteBorderIcon color="primary" />
+            <FavoriteBorderIcon
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+              color="primary"
+            />
             <Typography>{props.favorites}</Typography>
           </Stack>
         </Grid>
         <Grid item xs={3}>
           <Stack direction={"row"} alignItems="center" spacing={1}>
-            <CommentIcon color="primary" />
+            <CommentIcon
+              sx={{
+                "&:hover": {
+                  cursor: "pointer",
+                },
+              }}
+              color="primary"
+            />
             <Typography>{props.comment}</Typography>
           </Stack>
         </Grid>

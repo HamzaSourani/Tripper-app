@@ -14,10 +14,10 @@ const Places = () => {
   return (
     <>
       <Outlet />
-      <Container disableGutters>
+      <Container>
         <Grid
           container
-          justifyContent={{ xs: "center", lg: "flex-start" }}
+          justifyContent={{ xs: "center", sm: "flex-start" }}
           alignItems="center"
           spacing={2}
         >
@@ -34,7 +34,7 @@ const Places = () => {
                 <PlaceCard
                   key={index}
                   props={place}
-                  onClick={() => navigate(`${pathname}/${place.id}`)}
+                  onClick={() => navigate(`${pathname}/place/${place.id}`)}
                 />
               </Grid>
             );

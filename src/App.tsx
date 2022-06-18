@@ -13,6 +13,7 @@ const GovernorateDetails = lazy(
   () => import("./components/governorates/GovernorateDetails")
 );
 const Places = lazy(() => import("./components/places/Places"));
+const PlaceDetails = lazy(() => import("./components/places/PlaceDetails"));
 function App() {
   return (
     <div className="App">
@@ -32,22 +33,22 @@ function App() {
           <Route path="places" element={<Places />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path={`home/:governorateId`} element={<GovernorateDetails />}>
-            <Route index element={<NavBar />} />
-          </Route>
           <Route
-            path={`governorates/:governorateId`}
+            path={`home/governorate/:governorateId`}
             element={<GovernorateDetails />}
           >
             <Route index element={<NavBar />} />
           </Route>
-          <Route path={`home/:governorateId`} element={<GovernorateDetails />}>
-            <Route index element={<NavBar />} />
-          </Route>
           <Route
-            path={`governorates/:governorateId`}
+            path={`governorates/governorate/:governorateId`}
             element={<GovernorateDetails />}
           >
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route path={`home/place/:placeId`} element={<PlaceDetails />}>
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route path={`places/place/:placeId`} element={<PlaceDetails />}>
             <Route index element={<NavBar />} />
           </Route>
         </Routes>

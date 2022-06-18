@@ -14,10 +14,10 @@ const Governorates = () => {
   return (
     <>
       <Outlet />
-      <Container disableGutters>
+      <Container>
         <Grid
           container
-          justifyContent={{ xs: "center", lg: "flex-start" }}
+          justifyContent={{ xs: "center", sm: "flex-start" }}
           alignItems="center"
           spacing={2}
         >
@@ -28,15 +28,16 @@ const Governorates = () => {
             <SearchInput />
           </Grid>
 
-          {governorates.map((governorate) => {
+          {governorates.map((governorate, index) => {
             return (
-              <Grid item xs={11} sm={6} md={4}>
+              <Grid key={governorate.id} item xs={11} sm={6} md={4}>
                 <GovernorateCard
-                  key={governorate.id}
                   name={governorate.name}
                   img={governorate.img}
                   id={governorate.id}
-                  onClick={() => navigate(`${pathname}/${governorate.id}`)}
+                  onClick={() =>
+                    navigate(`${pathname}/governorate/${governorate.id}`)
+                  }
                 />
               </Grid>
             );

@@ -33,7 +33,9 @@ const Home = () => {
                   name={governorate.name}
                   img={governorate.img}
                   id={governorate.id}
-                  onClick={() => navigate(`${pathname}/${governorate.id}`)}
+                  onClick={() =>
+                    navigate(`${pathname}/governorate/${governorate.id}`)
+                  }
                 />
               );
             })}
@@ -44,8 +46,8 @@ const Home = () => {
         </Grid>
         <Grid item xs={11}>
           <Carousel>
-            {[1, 2, 3, 4, 5].map(() => {
-              return <TripCard />;
+            {[1, 2, 3, 4, 5].map((i) => {
+              return <TripCard key={i} />;
             })}
           </Carousel>
         </Grid>
@@ -59,7 +61,7 @@ const Home = () => {
                 <PlaceCard
                   key={index}
                   props={place}
-                  onClick={() => navigate(`${pathname}/${place.id}`)}
+                  onClick={() => navigate(`${pathname}/place/${place.id}`)}
                 />
               );
             })}
