@@ -25,7 +25,7 @@ const PlaceImg = ({
     <Box
       sx={{
         position: "relative",
-        pt: "55%",
+        pt: { xs: "75%", md: "55%" },
         width: "100%",
         boxShadow: 2,
         borderRadius: ".5rem",
@@ -68,7 +68,7 @@ const PlaceImg = ({
         <ArrowForwardIcon />
       </IconTextStack>
 
-      <IconTextStack bottom={20} right={120}>
+      <IconTextStack bottom={20} right={{ xs: 90, md: 120 }}>
         <>
           <LocationOnIcon color="primary" />
           <Typography
@@ -76,9 +76,9 @@ const PlaceImg = ({
           >{`سورية، ${governorateName}`}</Typography>
         </>
       </IconTextStack>
-      <IconTextStack bottom={20} right={20}>
+      <IconTextStack bottom={20} right={{ xs: 10, md: 20 }}>
         <>
-          <StarIcon color="primary" />
+          <StarIcon sx={{ color: "var(--golden-color)" }} />
           <Typography color={"GrayText"}>{rate}</Typography>
         </>
       </IconTextStack>
