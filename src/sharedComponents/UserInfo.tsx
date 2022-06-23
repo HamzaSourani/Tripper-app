@@ -9,25 +9,25 @@ import Typography from "@mui/material/Typography";
 import useAnchorMenu from "../customHooks/useAnchorMenu";
 import axios from "axios";
 import { useAppDispatch } from "../app/hooks";
-import { logout } from "../features/UserAuthSlice";
+//import { logout } from "../features/UserAuthSlice";
 const UserInfo = () => {
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
   const dispatch = useAppDispatch();
-  const handleLogout = async () => {
-    const res = await axios({
-      method: "get",
-      url: "http://tripper.dentatic.com/api/client/auth/logout",
-      headers: {
-        Accept: "application/json",
-      },
-    });
-    dispatch(logout);
-  };
+  // const handleLogout = async () => {
+  //   const res = await axios({
+  //     method: "get",
+  //     url: "http://tripper.dentatic.com/api/client/auth/logout",
+  //     headers: {
+  //       Accept: "application/json",
+  //     },
+  //   });
+  //   dispatch(logout);
+  // };
   return (
     <Box sx={{ flexGrow: 0 }}>
-      <Tooltip title="Open settings">
+      <Tooltip title="إعدادت المستخدم">
         <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+          <Avatar alt="" src="" />
         </IconButton>
       </Tooltip>
       <Menu
@@ -47,9 +47,7 @@ const UserInfo = () => {
         onClose={handleCloseMenu}
       >
         <MenuItem onClick={handleCloseMenu}>
-          <Typography textAlign="center" onClick={handleLogout}>
-            "تسجيل الخروج"
-          </Typography>
+          <Typography textAlign="center">"تسجيل الخروج"</Typography>
         </MenuItem>
       </Menu>
     </Box>

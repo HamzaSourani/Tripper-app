@@ -2,11 +2,13 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import UserAuth from "../features/UserAuthSlice";
 import governorateReducer from "../features/governorateSlice";
 import placesReducer from "../features/placesSlice";
+import placeAddcommentReducer from "../features/PlaceAddCommentSlice";
 export const store = configureStore({
   reducer: {
     userAuth: UserAuth,
     governorate: governorateReducer,
     places: placesReducer,
+    placeAddComment: placeAddcommentReducer,
   },
 });
 

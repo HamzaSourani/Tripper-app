@@ -32,6 +32,7 @@ const IconTextStack = ({
         left: isposition(left),
         right: isposition(right),
         top: isposition(top),
+        textAlign: "center",
         borderRadius: "8px",
         backgroundColor: "rgba(255,255,255,.9)",
         p: "5px 10px",

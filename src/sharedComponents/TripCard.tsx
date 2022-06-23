@@ -8,13 +8,17 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import IconTextStack from "./IconTextStack";
 import AvatarGroup from "./AvatarGroup";
-const TripCard = () => {
+type tripCardProps = {
+  onClick: () => void;
+};
+const TripCard = ({ onClick }: tripCardProps) => {
   return (
     <Stack
       sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
       justifyContent={"center"}
       alignItems={"start"}
       spacing={1}
+      onClick={onClick}
     >
       <Box
         sx={{

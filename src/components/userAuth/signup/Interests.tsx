@@ -22,12 +22,14 @@ type interestsProps = {
   open: boolean;
   handelClose: () => void;
 };
+
 const governorates = ["حماة", "حمص", "حلب", "دمشق", "الاذقية", "طرطوس"];
 const interests = ["بحر", " مناطق سياحية", "مناطق جبلية", "مناطق أثرية"];
 
 const Interests = ({ open, handelClose }: interestsProps) => {
   const navigate = useNavigate();
   const [interestValue, setInterestValue] = React.useState<string[]>([]);
+
   const selectValueHandler = (value: string) => {
     let temp: string[] = [];
     if (interestValue.includes(value)) {
@@ -100,7 +102,7 @@ const Interests = ({ open, handelClose }: interestsProps) => {
       <Button
         variant="contained"
         sx={{ mx: "5%" }}
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/home")}
       >
         متابعة
       </Button>

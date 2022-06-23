@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-import { signup } from "../../../features/UserAuthSlice";
+import { useAppSelector } from "../../../app/hooks";
+import { RootState } from "../../../app/store";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -12,8 +12,9 @@ import InputPassword from "../../../sharedComponents/InputPassword";
 import InputText from "../../../sharedComponents/InputText";
 import InputSelect from "../../../sharedComponents/InputSelect";
 import useToggleEle from "../../../customHooks/useToggleEle";
+import useFetchUserData from "../../../customHooks/useFetchUserData";
 import Interests from "./Interests";
-import axios from "axios";
+import { userSignup } from "../../../sharedType/userType";
 const genderTypes = [
   { ui: "ذكر", server: "male" },
   { ui: "مؤنث", server: "female" },
@@ -33,7 +34,7 @@ const governorates = [
   { ui: "القنيطرة", server: "12" },
   { ui: "ادلب", server: "13" },
 ];
-type statusType = "idle" | "loading" | "succeeded" | "failed";
+
 const Signup = () => {
   const [open, handelOpen, handelClose] = useToggleEle();
   const [firstName, setFirstName] = useState<string>("");
@@ -43,10 +44,8 @@ const Signup = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [cityId, setCityId] = useState<string>("");
   const [gender, setGender] = useState<string>("");
-  const [authStatus, setAuthStatus] = useState<statusType>("idle");
-  const [authError, setAuthError] = useState<string>("");
-  const [userData, setUserData] = useState<{}>({});
-  const dispatch = useAppDispatch();
+  const userData = useAppSelector((state: RootState) => state.userAuth);
+
   const userInfo = {
     first_name: firstName,
     last_name: lastName,
@@ -55,16 +54,12 @@ const Signup = () => {
     password_confirmation: passwordConfirmation,
     gender,
     city_id: cityId,
-  };
-  const temp = {
-    first_name: "hamza",
-    last_name: "sorany",
-    email: "199899@gmail.com",
-    password: "123123123",
-    password_confirmation: "123123123",
-    gender: "male",
-    city_id: "1",
-  };
+  } as userSignup;
+
+  const [authError, authStatus, handleUserAuth] = useFetchUserData(
+    userInfo,
+    "signup"
+  );
   const canSendData = [
     firstName,
     lastName,
@@ -74,36 +69,10 @@ const Signup = () => {
     gender,
     cityId,
   ].every(Boolean);
-  const handlepostUserAuth = async () => {
-    try {
-      setAuthStatus("loading");
-      setAuthError("");
-      const res = await axios({
-        method: "post",
-        url: "http://tripper.dentatic.com/api/client/auth/register",
-        data: canSendData ? userInfo : temp,
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      setAuthStatus("succeeded");
-      setUserData(res.data);
-    } catch (error) {
-      setAuthStatus("failed");
-      const _error = error as {
-        response: {
-          data: {
-            message: string;
-          };
-        };
-      };
-      setAuthError(_error!.response.data.message);
-    }
-  };
 
   useEffect(() => {
     if (authStatus === "succeeded") {
-      dispatch(signup(userData));
+      localStorage.setItem("userData", JSON.stringify(userData));
       setCityId("");
       setEmail("");
       setFirstName("");
@@ -113,7 +82,7 @@ const Signup = () => {
       setPasswordConfirmation("");
       handelOpen();
     }
-  }, [authStatus, handelOpen, dispatch, userData]);
+  }, [authStatus, handelOpen, userData]);
 
   return (
     <Grid
@@ -188,16 +157,16 @@ const Signup = () => {
               {authError}
             </Box>
           )}
-          {/* {canSendData && ( */}
-          <Button
-            variant="contained"
-            sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
-            onClick={handlepostUserAuth}
-            disabled={authStatus === "loading"}
-          >
-            إنشاء حساب
-          </Button>
-          {/* )} */}
+          {canSendData && (
+            <Button
+              variant="contained"
+              sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
+              onClick={handleUserAuth}
+              disabled={authStatus === "loading"}
+            >
+              إنشاء حساب
+            </Button>
+          )}
           <Interests open={open} handelClose={handelClose} />
           <Stack direction={"row"} justifyContent="center" spacing={1}>
             <Typography>لديك حساب مسبق؟</Typography>

@@ -1,4 +1,7 @@
 import React from "react";
+import { RootState } from "../app/store";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { mountComment, unMountComment } from "../features/PlaceAddCommentSlice";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import List from "@mui/material/List";
@@ -11,10 +14,27 @@ import StarIcon from "@mui/icons-material/Star";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 const Comments = () => {
-  const [addComment, setِAddComment] = React.useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const commentStatus = useAppSelector(
+    (state: RootState) => state.placeAddComment
+  );
   const [commentValue, setCommentValue] = React.useState<string>("");
+  const input = React.useRef<HTMLInputElement>(null);
+  console.log(commentStatus.focus);
+  if (commentStatus.focus) {
+    input.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }
+
+  React.useEffect(() => {
+    return () => {
+      dispatch(unMountComment());
+    };
+  }, [dispatch]);
+
   const sendCommentHandler = () => {
-    setِAddComment(false);
+    dispatch(unMountComment());
   };
   return (
     <>
@@ -36,14 +56,14 @@ const Comments = () => {
           }}
           color={"GrayText"}
           onClick={() => {
-            setِAddComment(true);
+            dispatch(mountComment());
           }}
         >
           إضافة تعليق
         </Typography>
       </Stack>
       <List sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}>
-        {addComment && (
+        {commentStatus.addComment && (
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
               <Avatar alt="" src="/images/aleppo.jpg" />
@@ -58,6 +78,7 @@ const Comments = () => {
                   justifyContent={"center"}
                 >
                   <TextField
+                    focused={commentStatus.focus}
                     fullWidth
                     variant="outlined"
                     multiline

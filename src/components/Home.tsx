@@ -9,7 +9,7 @@ import useFetchGovernorate from "../customHooks/useFetchGovernorate";
 import Outline from "../sharedComponents/Outline";
 import PlaceCard from "../sharedComponents/PlaceCard";
 import useFetchPlaces from "../customHooks/useFetchPlaces";
-const array = [1, 2, 3, 4, 5, 6];
+import InputFilter from "../sharedComponents/InputFilter";
 const Home = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -21,6 +21,9 @@ const Home = () => {
     <div>
       <Outlet />
       <Grid container justifyContent={"center"}>
+        <Grid item xs={11} md={9}>
+          <InputFilter />
+        </Grid>
         <Grid item xs={11} lg={11.5}>
           <Outline title="المحافظات السورية" navigateTo="/governorates" />
         </Grid>
@@ -42,17 +45,22 @@ const Home = () => {
           </Carousel>
         </Grid>
         <Grid item xs={11} lg={11.5}>
-          <Outline title="اشهر الرحلات" navigateTo="/governorates" />
+          <Outline title="اشهر الرحلات" navigateTo={`${pathname}/trips`} />
         </Grid>
         <Grid item xs={11}>
           <Carousel>
             {[1, 2, 3, 4, 5].map((i) => {
-              return <TripCard key={i} />;
+              return (
+                <TripCard
+                  key={i}
+                  onClick={() => navigate(`${pathname}/trip/${i}`)}
+                />
+              );
             })}
           </Carousel>
         </Grid>
         <Grid item xs={11} lg={11.5}>
-          <Outline title="اشهر الأماكن" navigateTo="/places" />
+          <Outline title="اشهر الأماكن" navigateTo={`${pathname}/places`} />
         </Grid>
         <Grid item xs={11}>
           <Carousel>

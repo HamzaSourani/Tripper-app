@@ -22,6 +22,7 @@ import useThereIsUser from "../../customHooks/useThereIsUser";
 
 const NavBar = () => {
   const thereIsUser = useThereIsUser();
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [open, handelOpen, handelClose] = useToggleEle();
@@ -60,7 +61,7 @@ const NavBar = () => {
               إنشاء حساب
             </Button>
           )}
-          {false && <UserInfo />}
+          {thereIsUser && <UserInfo />}
           <Stack
             direction={"row"}
             justifyContent="center"

@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, Outlet } from "react-router-dom";
+import { useParams, Outlet, useNavigate } from "react-router-dom";
 import useFetchGovernorateDetails from "../../customHooks/useFetchGoveronrateDetails";
 import GovernorateImg from "./GovernorateImg";
 import Grid from "@mui/material/Grid";
@@ -41,6 +41,7 @@ const citySections = [
 type sectionType = "مطاعم" | "مقاهي" | "أثري" | "فنادق";
 const GovernorateDetails = () => {
   const { governorateId } = useParams<paramsType>();
+  const navigate = useNavigate();
   const isthereGover =
     typeof governorateId !== "undefined" ? governorateId : "1";
   const [governorateDetails, responseStatus] =
@@ -75,7 +76,7 @@ const GovernorateDetails = () => {
             />
             <Carousel>
               {[1, 2, 3, 4, 5].map(() => {
-                return <TripCard />;
+                return <TripCard onClick={() => navigate(``)} />;
               })}
             </Carousel>
           </Grid>

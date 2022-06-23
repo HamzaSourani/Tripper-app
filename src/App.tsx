@@ -14,6 +14,9 @@ const GovernorateDetails = lazy(
 );
 const Places = lazy(() => import("./components/places/Places"));
 const PlaceDetails = lazy(() => import("./components/places/PlaceDetails"));
+const Trips = lazy(() => import("./components/trip/Trips"));
+const TripDetails = lazy(() => import("./components/trip/TripDetails"));
+
 function App() {
   return (
     <div className="App">
@@ -30,9 +33,7 @@ function App() {
           <Route path="governorates" element={<Governorates />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path="places" element={<Places />}>
-            <Route index element={<NavBar />} />
-          </Route>
+
           <Route
             path={`home/governorate/:governorateId`}
             element={<GovernorateDetails />}
@@ -45,10 +46,37 @@ function App() {
           >
             <Route index element={<NavBar />} />
           </Route>
+          <Route path="home/places" element={<Places />}>
+            <Route index element={<NavBar />} />
+          </Route>
           <Route path={`home/place/:placeId`} element={<PlaceDetails />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path={`places/place/:placeId`} element={<PlaceDetails />}>
+          <Route path={`home/places/place/:placeId`} element={<PlaceDetails />}>
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route path="home/trips" element={<Trips />}>
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route path="home/place/:placeId/trips" element={<Trips />}>
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route path={`home/trip/:tripId`} element={<TripDetails />}>
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route path={`home/trips/trip/:tripId`} element={<TripDetails />}>
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route
+            path={`home/place/:placeId/trips/trip/:tripId`}
+            element={<TripDetails />}
+          >
+            <Route index element={<NavBar />} />
+          </Route>
+          <Route
+            path={`home/place/:placeId/trip/:tripId`}
+            element={<TripDetails />}
+          >
             <Route index element={<NavBar />} />
           </Route>
         </Routes>

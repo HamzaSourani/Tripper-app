@@ -1,9 +1,9 @@
 import React from "react";
-import { useParams, Outlet } from "react-router-dom";
+import { useParams, Outlet, useNavigate, useLocation } from "react-router-dom";
 import useFetchGovernorateDetails from "../../customHooks/useFetchGoveronrateDetails";
+import { RootState } from "../../app/store";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Carousel from "../../sharedComponents/Carousel";
@@ -16,12 +16,15 @@ import Comments from "../../sharedComponents/Comments";
 type paramsType = {
   placeId: string | undefined;
 };
+
 const PlaceDetails = () => {
   const { placeId } = useParams<paramsType>();
-  const places = useAppSelector((state) => state.places);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const places = useAppSelector((state: RootState) => state.places);
   if (typeof placeId !== "undefined") {
     const place = places.find((place) => place.id === placeId);
-    console.log(place);
+
     return (
       <>
         <Outlet />
@@ -71,13 +74,18 @@ const PlaceDetails = () => {
           <Grid item xs={11} lg={11}>
             <Outline
               title={`الرحلات إلى ${place?.name}`}
-              navigateTo="/governorates"
+              navigateTo={`${pathname}/trips`}
             />
           </Grid>
           <Grid item xs={11}>
             <Carousel>
               {[1, 2, 3, 4, 5].map((i) => {
-                return <TripCard key={i} />;
+                return (
+                  <TripCard
+                    key={i}
+                    onClick={() => navigate(`${pathname}/trip/${i}`)}
+                  />
+                );
               })}
             </Carousel>
           </Grid>

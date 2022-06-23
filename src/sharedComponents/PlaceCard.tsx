@@ -1,4 +1,7 @@
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAppDispatch } from "../app/hooks";
+import { mountComment } from "../features/PlaceAddCommentSlice";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
@@ -26,6 +29,13 @@ type placeType = {
   onClick: () => void;
 };
 const PlaceCard = ({ onClick, props }: placeType) => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const dispatch = useAppDispatch();
+  const addCommentHandler = () => {
+    dispatch(mountComment());
+    navigate(`${pathname}/place/${props.id}`);
+  };
   return (
     <Stack
       sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
@@ -98,7 +108,12 @@ const PlaceCard = ({ onClick, props }: placeType) => {
           </Stack>
         </Grid>
         <Grid item xs={3}>
-          <Stack direction={"row"} alignItems="center" spacing={1}>
+          <Stack
+            onClick={addCommentHandler}
+            direction={"row"}
+            alignItems="center"
+            spacing={1}
+          >
             <CommentIcon
               sx={{
                 "&:hover": {

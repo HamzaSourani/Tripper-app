@@ -64,23 +64,36 @@ const ProductCard = () => {
           <Typography color={"white"}>24/+14</Typography>
         </AvatarGroup>
       </Box>
-      <Grid style={{ marginRight: "12px" }} container rowSpacing={1}>
-        <Grid item xs={12}>
-          <Typography variant="body1" color={"GrayText"}>
-            {"مشروبات"}
-          </Typography>
-        </Grid>
-        <Grid item xs={7.8} lg={8.4}>
-          <Typography fontWeight={"bold"} variant="body1" color={"MenuText"}>
+      <Stack spacing={1} sx={{ p: 1, width: "100%" }}>
+        <Typography variant="body1" color={"GrayText"}>
+          {"مشروبات"}
+        </Typography>
+        <Stack direction={"row"} spacing={2}>
+          <Typography
+            sx={{ flexGrow: 1 }}
+            fontWeight={"bold"}
+            variant="body1"
+            color={"MenuText"}
+          >
             {"عصير الليمون الطبيعي عمل بيت"}
           </Typography>
-        </Grid>
-        <Grid item xs={4.2} lg={3.6}>
-          <Typography fontWeight={"bold"} variant="h5" color={"primary"}>
-            {`${"500"}S.P`}
-          </Typography>
-        </Grid>
-      </Grid>
+
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={{ xs: 0, sm: 0.5 }}
+            alignItems={"center"}
+          >
+            <Typography
+              sx={{ fontSize: { xs: 25, sm: 28, md: 30, lg: 32 } }}
+              color={"primary"}
+              fontWeight="bold"
+            >
+              5000
+            </Typography>
+            <Typography color={"GrayText"}>ل.س</Typography>
+          </Stack>
+        </Stack>
+      </Stack>
     </Stack>
   );
 };

@@ -4,13 +4,12 @@ import { useAppSelector } from "../../app/hooks";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import InputFilter from "../../sharedComponents/InputFilter";
-import PlaceCard from "../../sharedComponents/PlaceCard";
+import TripCard from "../../sharedComponents/TripCard";
 import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
-
-const Places = () => {
+const Trips = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const places = useAppSelector((state) => state.places);
+
   return (
     <>
       <Outlet />
@@ -22,19 +21,17 @@ const Places = () => {
           spacing={2}
         >
           <Grid item xs={11}>
-            <OutlineGoBack title="أشهر الأماكن" />
+            <OutlineGoBack title="أشهر الرحلات" />
           </Grid>
           <Grid item xs={11} md={9}>
             <InputFilter />
           </Grid>
 
-          {places.map((place, index) => {
+          {[1, 2, 3, 4, 5].map((trip, index) => {
             return (
               <Grid item xs={11} sm={6} md={4}>
-                <PlaceCard
-                  key={index}
-                  props={place}
-                  onClick={() => navigate(`${pathname}/place/${place.id}`)}
+                <TripCard
+                  onClick={() => navigate(`${pathname}/trip/${trip}`)}
                 />
               </Grid>
             );
@@ -45,4 +42,4 @@ const Places = () => {
   );
 };
 
-export default Places;
+export default Trips;

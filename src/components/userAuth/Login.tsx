@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -8,56 +8,34 @@ import Typography from "@mui/material/Typography";
 import InputPassword from "../../sharedComponents/InputPassword";
 import InputText from "../../sharedComponents/InputText";
 import Brand from "../../sharedComponents/Brand";
-import { useAppDispatch } from "../../app/hooks";
-import { login } from "../../features/UserAuthSlice";
-import axios from "axios";
-type statusType = "idle" | "loading" | "succeeded" | "failed";
+import useFetchUserData from "../../customHooks/useFetchUserData";
+import { useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
 const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-  const [authStatus, setAuthStatus] = useState<statusType>("idle");
-  const [authError, setAuthError] = useState<string>("");
-  const [userData, setUserData] = useState<{}>({});
-  const dispatch = useAppDispatch();
+
   const userInfo = {
     email,
     password,
   };
+  const [authError, authStatus, handleUserAuth] = useFetchUserData(
+    userInfo,
+    "login"
+  );
+  console.log(authError);
+  const navigate = useNavigate();
   const canSendData = [email, password].every(Boolean);
-  const handlepostUserAuth = async () => {
-    try {
-      setAuthStatus("loading");
-      setAuthError("");
-      const res = await axios({
-        method: "post",
-        url: "https://www.tripper.dentatic.com/api/client/auth/login",
-        data: userInfo,
-        headers: {
-          Accept: "application/json",
-        },
-      });
-      setAuthStatus("succeeded");
-      setUserData(res.data);
-    } catch (error) {
-      setAuthStatus("failed");
-      const _error = error as {
-        response: {
-          data: {
-            message: string;
-          };
-        };
-      };
-      setAuthError(_error!.response.data.message);
-    }
-  };
+  const userData = useAppSelector((state: RootState) => state.userAuth);
 
   React.useEffect(() => {
     if (authStatus === "succeeded") {
-      dispatch(login(userData));
+      localStorage.setItem("userData", JSON.stringify(userData));
       setEmail("");
       setPassword("");
+      navigate("/home");
     }
-  }, [authStatus, dispatch, userData]);
+  }, [authStatus, navigate, userData]);
 
   return (
     <Grid
@@ -111,7 +89,7 @@ const Login = () => {
             <Button
               variant="contained"
               sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
-              onClick={handlepostUserAuth}
+              onClick={() => handleUserAuth()}
               disabled={authStatus === "loading"}
             >
               تسجيل الدخول

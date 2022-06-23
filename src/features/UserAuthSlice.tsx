@@ -1,56 +1,51 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "../app/store";
 import axios from "axios";
-interface userAuthState {
-  data: {};
-}
+import { userAuthState, userLogin, userSignup } from "../sharedType/userType";
 
-const initialState: userAuthState = {
-  data: {},
-};
+const initialState: userAuthState = {};
 
-// export const signup = createAsyncThunk(
-//   "userAuth/signup",
-//   async (userInfo: userInfoType) => {
-//     const response = await axios({
-//       method: "post",
-//       url: "http://tripper.dentatic.com/api/client/auth/register",
-//       data: userInfo,
-//       headers: {
-//         Accept: "application/json",
-//       },
-//     });
-//     return response.data;
-//   }
-// );
+export const login = createAsyncThunk(
+  "userAuth/login",
+  async (userInfo: userLogin) => {
+    const response = await axios({
+      method: "post",
+      url: "http://www.tripper.dentatic.com/api/client/auth/login",
+      data: userInfo,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  }
+);
+export const signup = createAsyncThunk(
+  "userAuth/signup",
+  async (userInfo: userSignup) => {
+    const response = await axios({
+      method: "post",
+      url: "http://tripper.dentatic.com/api/client/auth/register",
+      data: userInfo,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  }
+);
 export const userAuthSlice = createSlice({
   name: "userAuth",
   initialState,
 
-  reducers: {
-    signup(state, action) {
-      state.data = action.payload;
-    },
-    login(state, action) {
-      state.data = action.payload;
-    },
-    logout(state) {
-      state.data = {};
-    },
+  reducers: {},
+  extraReducers(builder) {
+    builder.addCase(signup.fulfilled, (state, action) => {
+      return action.payload.data;
+    });
+    builder.addCase(login.fulfilled, (state, action) => {
+      return action.payload.data;
+    });
   },
-  // extraReducers(builder) {
-  //   builder.addCase(signup.pending, (state, action) => {
-  //     state.status = "loading";
-  //   });
-  //   builder.addCase(signup.fulfilled, (state, action) => {
-  //     state.status = "succeeded";
-  //     state.data = { ...action.payload };
-  //   });
-  //   builder.addCase(signup.rejected, (state, action) => {
-  //     state.status = "failed";
-  //     state.error = action.error.message;
-  //   });
-  // },
 });
-export const { signup, login, logout } = userAuthSlice.actions;
+
 export default userAuthSlice.reducer;

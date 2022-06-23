@@ -11,6 +11,7 @@ interface position {
   right: {} | number;
   top: {} | number;
   bottom: {} | number;
+  sx: object;
 }
 const isposition = (position: {} | number | undefined) => {
   return position ? position : "";
@@ -22,6 +23,7 @@ const AvatarGroup = ({
   top,
   subscribers,
   children,
+  sx,
 }: avatarGroupProps) => {
   return (
     <Stack
@@ -31,9 +33,10 @@ const AvatarGroup = ({
         left: isposition(left),
         right: isposition(right),
         top: isposition(top),
+        ...sx,
       }}
       direction={"row"}
-      justifyContent="center"
+      justifyContent="flex-end"
       alignItems={"center"}
       spacing={3}
     >

@@ -18,7 +18,7 @@ import FeedIcon from "@mui/icons-material/Feed";
 import useThereIsUser from "../../customHooks/useThereIsUser";
 import axios from "axios";
 import { useAppDispatch } from "../../app/hooks";
-import { logout } from "../../features/UserAuthSlice";
+//import { logout } from "../../features/UserAuthSlice";
 type drawerProps = {
   open: boolean;
   toggleDrawer: () => void;
@@ -59,14 +59,14 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
   const handleLog = () => {
     if (thereIsUser) {
       (async () => {
-        const res = await axios({
-          method: "get",
-          url: "http://tripper.dentatic.com/api/client/auth/logout",
-          headers: {
-            Accept: "application/json",
-          },
-        });
-        dispatch(logout);
+        // const res = await axios({
+        //   method: "get",
+        //   url: "http://tripper.dentatic.com/api/client/auth/logout",
+        //   headers: {
+        //     Accept: "application/json",
+        //   },
+        // });
+        // dispatch(logout);
       })();
     } else navigate("/signup");
   };
