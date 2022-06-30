@@ -36,8 +36,10 @@ const InputSelect = ({ label, items, value, setValue }: inputSelectProps) => {
         label={label}
         onChange={handleChange}
       >
-        {items.map((i) => (
-          <MenuItem value={i.server}>{i.ui}</MenuItem>
+        {items.map((i, index) => (
+          <MenuItem key={index} value={i.server}>
+            {i.ui}
+          </MenuItem>
         ))}
       </Select>
     </FormControl>

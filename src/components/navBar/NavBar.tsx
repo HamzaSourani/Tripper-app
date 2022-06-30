@@ -18,10 +18,10 @@ import Brand from "../../sharedComponents/Brand";
 import useToggleEle from "../../customHooks/useToggleEle";
 import UserInfo from "./UserInfo";
 import Drawer from "./NavDrawr";
-import useThereIsUser from "../../customHooks/useThereIsUser";
+import userDataHandler from "../../sharedFunction/userDataHandler";
 
 const NavBar = () => {
-  const thereIsUser = useThereIsUser();
+  const userData = userDataHandler();
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -51,7 +51,7 @@ const NavBar = () => {
             toggleDrawer={handelOpen}
             closeDrawer={handelClose}
           />
-          {!thereIsUser && (
+          {!userData && (
             <Button
               variant="contained"
               sx={{ display: { xs: "none", md: "flex" } }}
@@ -61,7 +61,7 @@ const NavBar = () => {
               إنشاء حساب
             </Button>
           )}
-          {thereIsUser && <UserInfo />}
+          {userData && <UserInfo />}
           <Stack
             direction={"row"}
             justifyContent="center"

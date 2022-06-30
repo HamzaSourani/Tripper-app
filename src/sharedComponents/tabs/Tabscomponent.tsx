@@ -33,12 +33,13 @@ const Tabscomponent = ({ tabsArray }: tabsProps) => {
           })}
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        Item One
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
+      {tabsArray.map((tab, index) => {
+        return (
+          <TabPanel key={index} value={value} index={index}>
+            {tab}
+          </TabPanel>
+        );
+      })}
     </Box>
   );
 };

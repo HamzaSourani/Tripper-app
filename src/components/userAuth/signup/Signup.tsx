@@ -72,6 +72,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (authStatus === "succeeded") {
+      localStorage.clear();
       localStorage.setItem("userData", JSON.stringify(userData));
       setCityId("");
       setEmail("");
@@ -108,7 +109,7 @@ const Signup = () => {
             justifyContent="center"
             alignItems={"center"}
           >
-            <UserImg />
+            <UserImg choose={true} />
           </Stack>
           <Stack justifyContent={"center"} alignItems={"center"} spacing={2}>
             <InputText

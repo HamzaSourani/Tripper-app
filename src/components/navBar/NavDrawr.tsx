@@ -15,7 +15,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
 import InfoIcon from "@mui/icons-material/Info";
 import FeedIcon from "@mui/icons-material/Feed";
-import useThereIsUser from "../../customHooks/useThereIsUser";
+import userDataHandler from "../../sharedFunction/userDataHandler";
 import axios from "axios";
 import { useAppDispatch } from "../../app/hooks";
 //import { logout } from "../../features/UserAuthSlice";
@@ -51,13 +51,13 @@ const RowStack = ({ children, onClick, closeDrawer }: stackProps) => {
   );
 };
 const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
-  const thereIsUser = useThereIsUser();
+  const userData = userDataHandler();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const logInOut = useThereIsUser() ? "تسجيل الخروج" : "إنشاء حساب";
+  const logInOut = userData ? "تسجيل الخروج" : "إنشاء حساب";
   const navigateToHandler = (to: string) => navigate(to);
   const handleLog = () => {
-    if (thereIsUser) {
+    if (userData) {
       (async () => {
         // const res = await axios({
         //   method: "get",

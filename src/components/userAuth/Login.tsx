@@ -30,6 +30,7 @@ const Login = () => {
 
   React.useEffect(() => {
     if (authStatus === "succeeded") {
+      localStorage.clear();
       localStorage.setItem("userData", JSON.stringify(userData));
       setEmail("");
       setPassword("");

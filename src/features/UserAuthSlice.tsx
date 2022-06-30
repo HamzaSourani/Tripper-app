@@ -3,7 +3,7 @@ import { RootState } from "../app/store";
 import axios from "axios";
 import { userAuthState, userLogin, userSignup } from "../sharedType/userType";
 
-const initialState: userAuthState = {};
+const initialState: userAuthState | {} = {};
 
 export const login = createAsyncThunk(
   "userAuth/login",

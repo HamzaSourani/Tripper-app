@@ -47,11 +47,11 @@ const AvatarGroup = ({
         total={5}
         sx={{
           direction: "rtl",
-          "& .MuiAvatar-root:first-child": {
+          "& .MuiAvatar-root:first-of-type": {
             width: 0,
             height: 0,
           },
-          "& .MuiAvatar-root:last-child": {
+          "& .MuiAvatar-root:last-of-type": {
             ml: "-12px",
             width: 30,
             height: 30,
@@ -63,8 +63,8 @@ const AvatarGroup = ({
           },
         }}
       >
-        {subscribers.map((subscriber) => {
-          return <Avatar alt="" src="" />;
+        {subscribers.map((subscriber, index) => {
+          return <Avatar key={index} alt="" src="" />;
         })}
       </AvatarGroupcomponent>
     </Stack>

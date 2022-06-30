@@ -3,15 +3,25 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-const UserImg = () => {
+import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
+type userImgProps = Partial<{
+  choose: boolean;
+  edit: boolean;
+}>;
+const UserImg = ({ choose, edit }: userImgProps) => {
+  const navigate = useNavigate();
   const [imgSrc, setImgSrc] = React.useState<string>("");
   const handleImgUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
     const file = window.URL.createObjectURL(e.target.files[0]);
     setImgSrc(file);
   };
+  const editProfileHandler = () => {
+    if (edit) navigate("/edit");
+  };
   return (
-    <Box position={"relative"}>
+    <Box onClick={editProfileHandler} position={"relative"}>
       <Avatar src={imgSrc} alt="" sx={{ width: 160, height: 160 }} />
       <Box position={"absolute"} bottom={15} left={1}>
         {" "}
@@ -34,7 +44,8 @@ const UserImg = () => {
             alignItems="center"
             component="span"
           >
-            <CameraAltIcon sx={{ color: "var(--golden-color)" }} />
+            {choose && <CameraAltIcon sx={{ color: "var(--golden-color)" }} />}
+            {edit && <EditIcon color="primary" />}
           </Stack>
         </label>
       </Box>
