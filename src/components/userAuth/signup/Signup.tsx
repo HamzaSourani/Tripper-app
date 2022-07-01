@@ -15,25 +15,8 @@ import useToggleEle from "../../../customHooks/useToggleEle";
 import useFetchUserData from "../../../customHooks/useFetchUserData";
 import Interests from "./Interests";
 import { userSignup } from "../../../sharedType/userType";
-const genderTypes = [
-  { ui: "ذكر", server: "male" },
-  { ui: "مؤنث", server: "female" },
-];
-const governorates = [
-  { ui: "دمشق", server: "1" },
-  { ui: "حلب", server: "2" },
-  { ui: "الاذقية", server: "3" },
-  { ui: "طرطوس", server: "4" },
-  { ui: "ريف دمشق", server: "5" },
-  { ui: "حمص", server: "6" },
-  { ui: "حماه", server: "7" },
-  { ui: "الحسكة", server: "8" },
-  { ui: "دير الزور", server: "9" },
-  { ui: "الرقة", server: "10" },
-  { ui: "السويداء", server: "11" },
-  { ui: "القنيطرة", server: "12" },
-  { ui: "ادلب", server: "13" },
-];
+import genderTypes from "../../../sharedData/genderTypes";
+import governorates from "../../../sharedData/governorates";
 
 const Signup = () => {
   const [open, handelOpen, handelClose] = useToggleEle();
@@ -74,6 +57,7 @@ const Signup = () => {
     if (authStatus === "succeeded") {
       localStorage.clear();
       localStorage.setItem("userData", JSON.stringify(userData));
+      console.log(JSON.parse(localStorage.getItem("userData")!));
       setCityId("");
       setEmail("");
       setFirstName("");
@@ -84,6 +68,7 @@ const Signup = () => {
       handelOpen();
     }
   }, [authStatus, handelOpen, userData]);
+  // console.log(JSON.parse(localStorage.getItem("userData")!));
 
   return (
     <Grid

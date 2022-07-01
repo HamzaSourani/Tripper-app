@@ -18,7 +18,7 @@ const UserImg = ({ choose, edit }: userImgProps) => {
     setImgSrc(file);
   };
   const editProfileHandler = () => {
-    if (edit) navigate("/edit");
+    if (edit) navigate("/edit-profile");
   };
   return (
     <Box onClick={editProfileHandler} position={"relative"}>

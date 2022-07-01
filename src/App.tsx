@@ -17,7 +17,8 @@ const Places = lazy(() => import("./components/places/Places"));
 const PlaceDetails = lazy(() => import("./components/places/PlaceDetails"));
 const Trips = lazy(() => import("./components/trip/Trips"));
 const TripDetails = lazy(() => import("./components/trip/TripDetails"));
-const Profile = lazy(() => import("./sharedComponents/Profile"));
+const Profile = lazy(() => import("./components/user/Profile"));
+const EditProfile = lazy(() => import("./components/user/EditProfile"));
 function App() {
   const userData = userDataHandler();
   return (
@@ -85,6 +86,9 @@ function App() {
                 <Route index element={<NavBar />} />
               </Route>
               <Route path="favorite" element={<Favorite />}>
+                <Route index element={<NavBar />} />
+              </Route>
+              <Route path="edit-profile" element={<EditProfile />}>
                 <Route index element={<NavBar />} />
               </Route>
             </>

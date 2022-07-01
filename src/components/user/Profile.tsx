@@ -3,16 +3,14 @@ import { Outlet } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import UserImg from "./UserImg";
-import userDataHandler from "../sharedFunction/userDataHandler";
-import Tabs from "./tabs/Tabscomponent";
+import UserImg from "../../sharedComponents/UserImg";
+import userDataHandler from "../../sharedFunction/userDataHandler";
+import Tabs from "../../sharedComponents/tabs/Tabscomponent";
+import extracingtUserData from "../../sharedFunction/extracingtUserData";
 const Profile = () => {
   const userData = userDataHandler();
 
-  const userName = userData
-    ? ` ${userData.first_name} ${userData.last_name}`
-    : "";
-  const userEmail = userData ? userData.email : "";
+  const { _userName, _userEmail } = extracingtUserData();
 
   return (
     <>
@@ -42,8 +40,8 @@ const Profile = () => {
             alignItems={"center"}
           >
             <UserImg edit={true} />
-            <Typography variant="h5">{userName}</Typography>
-            <Typography color={"GrayText"}>{userEmail}</Typography>
+            <Typography variant="h5">{_userName}</Typography>
+            <Typography color={"GrayText"}>{_userEmail}</Typography>
           </Stack>
           <Tabs tabsArray={["رحلاتي", "الأماكن", "المدن"]} />
         </Grid>

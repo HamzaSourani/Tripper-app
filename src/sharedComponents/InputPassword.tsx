@@ -6,9 +6,15 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 type inputPasswordProps = {
   label: string;
   value: string;
+  width?: string;
   setValue: (newValue: string) => void;
 };
-const InputPassword = ({ label, value, setValue }: inputPasswordProps) => {
+const InputPassword = ({
+  label,
+  value,
+  setValue,
+  width,
+}: inputPasswordProps) => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   return (
     <>
@@ -39,7 +45,7 @@ const InputPassword = ({ label, value, setValue }: inputPasswordProps) => {
             borderRadius: "1rem",
             boxShadow: 1,
           },
-          width: "80%",
+          width: width ? width : "80%",
         }}
       />
     </>
