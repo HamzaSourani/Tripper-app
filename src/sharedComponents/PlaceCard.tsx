@@ -8,10 +8,12 @@ import Box from "@mui/material/Box";
 import IconTextStack from "./IconTextStack";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AvatarGroup from "./AvatarGroup";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import CommentIcon from "@mui/icons-material/Comment";
 import StarIcon from "@mui/icons-material/Star";
-import { Grid } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import AddToFavorite from "../sharedComponents/AddToFavorite";
+import useAddToFavorite from "../customHooks/useAddToFavorite";
+
 type placeType = {
   props: {
     id: string;
@@ -36,6 +38,7 @@ const PlaceCard = ({ onClick, props }: placeType) => {
     dispatch(mountComment());
     navigate(`${pathname}/place/${props.id}`);
   };
+  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite();
   return (
     <Stack
       sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
@@ -95,15 +98,13 @@ const PlaceCard = ({ onClick, props }: placeType) => {
       </Stack>
       <Grid container alignItems={"center"} sx={{ pl: 1 }}>
         <Grid item xs={3}>
-          <Stack direction={"row"} alignItems="center" spacing={1}>
-            <FavoriteBorderIcon
-              sx={{
-                "&:hover": {
-                  cursor: "pointer",
-                },
-              }}
-              color="primary"
-            />
+          <Stack
+            direction={"row"}
+            alignItems="center"
+            spacing={1}
+            onClick={addToFavoriteHandler}
+          >
+            <AddToFavorite addToFavorite={addToFavorite} />
             <Typography>{props.favorites}</Typography>
           </Stack>
         </Grid>

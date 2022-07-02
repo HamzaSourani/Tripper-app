@@ -19,110 +19,118 @@ import useToggleEle from "../../customHooks/useToggleEle";
 import UserInfo from "./UserInfo";
 import Drawer from "./NavDrawr";
 import userDataHandler from "../../sharedFunction/userDataHandler";
-
+import { handleOpenGOToSignup } from "../../features/goToSignupSlice";
+import { useAppDispatch } from "../../app/hooks";
 const NavBar = () => {
   const userData = userDataHandler();
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [open, handelOpen, handelClose] = useToggleEle();
+
   const activeLinkHandler = (path: string) => {
     return {
       color: pathname === path ? "var(--golden-color)" : "",
       border: pathname === path ? "1px solid var(--golden-color)" : "",
     };
   };
+  const goToFavorite = () => {
+    if (userData) navigate("/favorite");
+    else dispatch(handleOpenGOToSignup());
+  };
   return (
-    <Box flexGrow={1} mb={5}>
-      <AppBar
-        sx={{ backgroundColor: "#fff", direction: "ltr" }}
-        position="static"
-      >
-        <Toolbar>
-          <IconButton
-            onClick={handelOpen}
-            color="primary"
-            sx={{ display: { md: "none" } }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Drawer
-            open={open}
-            toggleDrawer={handelOpen}
-            closeDrawer={handelClose}
-          />
-          {!userData && (
-            <Button
-              variant="contained"
-              sx={{ display: { xs: "none", md: "flex" } }}
-              onClick={() => navigate("/signup")}
-              endIcon={<LoginIcon />}
+    <>
+      <Box flexGrow={1} mb={5}>
+        <AppBar
+          sx={{ backgroundColor: "#fff", direction: "ltr" }}
+          position="static"
+        >
+          <Toolbar>
+            <IconButton
+              onClick={handelOpen}
+              color="primary"
+              sx={{ display: { md: "none" } }}
             >
-              إنشاء حساب
-            </Button>
-          )}
-          {userData && <UserInfo />}
-          <Stack
-            direction={"row"}
-            justifyContent="center"
-            alignItems={"center"}
-            spacing={3}
-            sx={{ m: "auto", display: { xs: "none", md: "flex" } }}
-          >
-            <Tooltip title="الرئيسية">
-              <IconButton
-                color="primary"
-                sx={{
-                  ...activeLinkHandler("/home"),
-                }}
-                onClick={() => navigate("/home")}
+              <MenuIcon />
+            </IconButton>
+            <Drawer
+              open={open}
+              toggleDrawer={handelOpen}
+              closeDrawer={handelClose}
+            />
+            {!userData && (
+              <Button
+                variant="contained"
+                sx={{ display: { xs: "none", md: "flex" } }}
+                onClick={() => navigate("/signup")}
+                endIcon={<LoginIcon />}
               >
-                <HomeIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="المدن">
-              <IconButton
-                color="primary"
-                sx={{
-                  ...activeLinkHandler("/governorates"),
-                }}
-                onClick={() => navigate("/governorates")}
-              >
-                <LocationCityIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="الرحلات">
-              <IconButton color="primary">
-                <AirplanemodeActiveIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="الأماكن">
-              <IconButton
-                color="primary"
-                sx={{
-                  ...activeLinkHandler("/places"),
-                }}
-                onClick={() => navigate("/places")}
-              >
-                <LocationOnIcon />
-              </IconButton>
-            </Tooltip>
+                إنشاء حساب
+              </Button>
+            )}
+            {userData && <UserInfo />}
+            <Stack
+              direction={"row"}
+              justifyContent="center"
+              alignItems={"center"}
+              spacing={3}
+              sx={{ m: "auto", display: { xs: "none", md: "flex" } }}
+            >
+              <Tooltip title="الرئيسية">
+                <IconButton
+                  color="primary"
+                  sx={{
+                    ...activeLinkHandler("/home"),
+                  }}
+                  onClick={() => navigate("/home")}
+                >
+                  <HomeIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="المدن">
+                <IconButton
+                  color="primary"
+                  sx={{
+                    ...activeLinkHandler("/governorates"),
+                  }}
+                  onClick={() => navigate("/governorates")}
+                >
+                  <LocationCityIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="الرحلات">
+                <IconButton color="primary">
+                  <AirplanemodeActiveIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="الأماكن">
+                <IconButton
+                  color="primary"
+                  sx={{
+                    ...activeLinkHandler("/places"),
+                  }}
+                  onClick={() => navigate("/places")}
+                >
+                  <LocationOnIcon />
+                </IconButton>
+              </Tooltip>
 
-            <Tooltip title="المفضلة">
-              <IconButton
-                sx={{ ...activeLinkHandler("/favorite") }}
-                color="primary"
-                onClick={() => navigate("/favorite")}
-              >
-                <FavoriteIcon />
-              </IconButton>
-            </Tooltip>
-          </Stack>
+              <Tooltip title="المفضلة">
+                <IconButton
+                  sx={{ ...activeLinkHandler("/favorite") }}
+                  color="primary"
+                  onClick={goToFavorite}
+                >
+                  <FavoriteIcon />
+                </IconButton>
+              </Tooltip>
+            </Stack>
 
-          <Brand />
-        </Toolbar>
-      </AppBar>
-    </Box>
+            <Brand />
+          </Toolbar>
+        </AppBar>
+      </Box>
+    </>
   );
 };
 

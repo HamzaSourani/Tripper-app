@@ -1,18 +1,18 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import IconTextStack from "../../sharedComponents/IconTextStack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import StarIcon from "@mui/icons-material/Star";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import AvatarGroup from "../../sharedComponents/AvatarGroup";
+import FavoriteIconContainer from "../../sharedComponents/FavoriteIconContainer";
 const TripImg = () => {
   const navigate = useNavigate();
+
   return (
     <Stack spacing={2}>
       <Box
@@ -52,6 +52,7 @@ const TripImg = () => {
             borderRadius: "inherit",
           }}
         ></Box>
+        <FavoriteIconContainer />
         <IconTextStack
           sx={{ display: { lg: "none" } }}
           _onClick={() => navigate(-1)}
@@ -66,22 +67,6 @@ const TripImg = () => {
             <Typography color={"GrayText"}>{4.5}</Typography>
           </>
         </IconTextStack>
-
-        <Stack
-          sx={{
-            position: "absolute",
-            bottom: 20,
-            left: { xs: 10, md: 20 },
-            borderRadius: "50%",
-            backgroundColor: "white",
-            p: 1,
-            boxShadow: 3,
-          }}
-          justifyContent={"center"}
-          alignItems="center"
-        >
-          <FavoriteBorderIcon color="primary" />
-        </Stack>
       </Box>
       <Stack direction={"row"} spacing={2} alignItems={"center"} sx={{ pl: 1 }}>
         <IconTextStack sx={{ position: "relative" }}>

@@ -4,6 +4,7 @@ import governorateReducer from "../features/governorateSlice";
 import placesReducer from "../features/placesSlice";
 import placeAddcommentReducer from "../features/PlaceAddCommentSlice";
 import transitionDirectionReducer from "../features/transitonDirectionSlice";
+import goToSignupReducer from "../features/goToSignupSlice";
 export const store = configureStore({
   reducer: {
     userAuth: UserAuth,
@@ -11,6 +12,7 @@ export const store = configureStore({
     places: placesReducer,
     placeAddComment: placeAddcommentReducer,
     transtionDirection: transitionDirectionReducer,
+    goToSignup: goToSignupReducer,
   },
 });
 

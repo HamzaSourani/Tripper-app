@@ -1,13 +1,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
-import IconTextStack from "../../sharedComponents/IconTextStack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import StarIcon from "@mui/icons-material/Star";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Typography from "@mui/material/Typography";
+import IconTextStack from "../../sharedComponents/IconTextStack";
+import FavoriteIconContainer from "../../sharedComponents/FavoriteIconContainer";
 type placeImgProps = {
   img: string;
   governorateName: string | undefined;
@@ -83,21 +82,7 @@ const PlaceImg = ({
         </>
       </IconTextStack>
 
-      <Stack
-        sx={{
-          position: "absolute",
-          bottom: 20,
-          left: { xs: 10, md: 20 },
-          borderRadius: "50%",
-          backgroundColor: "white",
-          p: 1,
-          boxShadow: 3,
-        }}
-        justifyContent={"center"}
-        alignItems="center"
-      >
-        <FavoriteBorderIcon color="primary" />
-      </Stack>
+      <FavoriteIconContainer />
     </Box>
   );
 };

@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/navBar/NavBar";
 import userDataHandler from "./sharedFunction/userDataHandler";
+import GoToSignup from "./sharedComponents/GoToSignup";
 const Home = lazy(() => import("./components/Home"));
 const Signup = lazy(() => import("./components/userAuth/signup/Signup"));
 const Login = lazy(() => import("./components/userAuth/Login"));
@@ -23,6 +24,7 @@ function App() {
   const userData = userDataHandler();
   return (
     <div className="App">
+      <GoToSignup />
       <Suspense fallback={<></>}>
         <Routes>
           <Route path="/home" element={<Home />}>

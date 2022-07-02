@@ -2,23 +2,24 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import IconTextStack from "./IconTextStack";
 import AvatarGroup from "./AvatarGroup";
+import AddToFavorite from "../sharedComponents/AddToFavorite";
+import useAddToFavorite from "../customHooks/useAddToFavorite";
+
 type tripCardProps = {
   onClick: () => void;
 };
 const TripCard = ({ onClick }: tripCardProps) => {
+  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite();
   return (
     <Stack
       sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
       justifyContent={"center"}
       alignItems={"start"}
       spacing={1}
-      onClick={onClick}
     >
       <Box
         sx={{
@@ -42,6 +43,7 @@ const TripCard = ({ onClick }: tripCardProps) => {
             right: 0,
             borderRadius: "inherit",
           }}
+          onClick={onClick}
           component={"img"}
           src="/images/aleppo.jpg"
         ></Box>
@@ -54,11 +56,13 @@ const TripCard = ({ onClick }: tripCardProps) => {
             backgroundColor: "white",
             p: 1,
             boxShadow: 3,
+            zIndex: "tooltip",
           }}
           justifyContent={"center"}
           alignItems="center"
+          onClick={addToFavoriteHandler}
         >
-          <FavoriteBorderIcon color="primary" />
+          <AddToFavorite addToFavorite={addToFavorite} />
         </Stack>
         <IconTextStack right={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
           <Typography color={"text.primary"} variant="body1">

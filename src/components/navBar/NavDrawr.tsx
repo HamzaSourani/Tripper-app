@@ -16,46 +16,30 @@ import Inventory2Icon from "@mui/icons-material/Inventory2";
 import InfoIcon from "@mui/icons-material/Info";
 import FeedIcon from "@mui/icons-material/Feed";
 import userDataHandler from "../../sharedFunction/userDataHandler";
+import GoToSignup from "../../sharedComponents/GoToSignup";
+import RowStack from "../../sharedComponents/RowStack";
+import useToggleEle from "../../customHooks/useToggleEle";
 import axios from "axios";
 import { useAppDispatch } from "../../app/hooks";
+import { handleOpenGOToSignup } from "../../features/goToSignupSlice";
+
 //import { logout } from "../../features/UserAuthSlice";
 type drawerProps = {
   open: boolean;
   toggleDrawer: () => void;
   closeDrawer: () => void;
 };
-type stackProps = {
-  children: React.ReactElement;
-  onClick: () => void;
-  closeDrawer: () => void;
-};
-const RowStack = ({ children, onClick, closeDrawer }: stackProps) => {
-  return (
-    <Stack
-      sx={{
-        my: 1,
-        "&:hover": {
-          cursor: "pointer",
-        },
-      }}
-      direction={"row"}
-      alignItems="center"
-      spacing={2}
-      onClick={() => {
-        onClick();
-        closeDrawer();
-      }}
-    >
-      {children}
-    </Stack>
-  );
-};
+
 const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
   const userData = userDataHandler();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const logInOut = userData ? "تسجيل الخروج" : "إنشاء حساب";
   const navigateToHandler = (to: string) => navigate(to);
+  const goToFavorite = () => {
+    if (userData) navigate("/favorite");
+    else dispatch(handleOpenGOToSignup());
+  };
   const handleLog = () => {
     if (userData) {
       (async () => {
@@ -71,100 +55,103 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
     } else navigate("/signup");
   };
   return (
-    <Drawer
-      anchor="left"
-      open={open}
-      onClose={closeDrawer}
-      sx={{
-        "& .MuiPaper-root": {
-          py: 8,
-          px: 5,
-          backgroundColor: "#2A2E43",
-        },
-      }}
-    >
-      <Stack sx={{ mr: 12, mb: 3 }} alignItems="center" spacing={1}>
-        <Avatar src="" alt="" sx={{ width: 80, height: 80 }} />
-        <Typography variant="h6" sx={{ color: "var(--gray-color)" }}>
-          user name
-        </Typography>
-      </Stack>
-      <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
-      <RowStack
-        onClick={() => navigateToHandler("/home")}
-        closeDrawer={closeDrawer}
+    <>
+      <Drawer
+        anchor="left"
+        open={open}
+        onClose={closeDrawer}
+        sx={{
+          "& .MuiPaper-root": {
+            py: 8,
+            px: 5,
+            backgroundColor: "#2A2E43",
+          },
+        }}
       >
-        <>
-          <HomeIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>الرئيسية</Typography>
-        </>
-      </RowStack>
-      <RowStack
-        onClick={() => navigateToHandler("/governorates")}
-        closeDrawer={closeDrawer}
-      >
-        <>
-          <LocationCityIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>المدن</Typography>
-        </>
-      </RowStack>
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
-        <>
-          <AirplanemodeActiveIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>الرحلات</Typography>
-        </>
-      </RowStack>
-      <RowStack
-        onClick={() => navigateToHandler("/places")}
-        closeDrawer={closeDrawer}
-      >
-        <>
-          <LocationOnIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>الاماكن</Typography>
-        </>
-      </RowStack>
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
-        <>
-          <Inventory2Icon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>المنتجات</Typography>
-        </>
-      </RowStack>
-      <RowStack
-        onClick={() => navigateToHandler("/favorite")}
-        closeDrawer={closeDrawer}
-      >
-        <>
-          <FavoriteIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>المفضلة</Typography>
-        </>
-      </RowStack>
-      <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
-        <>
-          <FeedIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>
-            الشؤوط والاحكام
+        <Stack sx={{ mr: 12, mb: 3 }} alignItems="center" spacing={1}>
+          <Avatar src="" alt="" sx={{ width: 80, height: 80 }} />
+          <Typography variant="h6" sx={{ color: "var(--gray-color)" }}>
+            user name
           </Typography>
-        </>
-      </RowStack>
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
-        <>
-          <InfoIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>
-            عن التطبيق
-          </Typography>
-        </>
-      </RowStack>
-      <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
-      <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
-        <>
-          <LogoutIcon color="primary" />
-          <Typography sx={{ color: "var(--gray-color)" }}>
-            {logInOut}
-          </Typography>
-        </>
-      </RowStack>
-    </Drawer>
+        </Stack>
+        <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
+        <RowStack
+          onClick={() => navigateToHandler("/home")}
+          closeDrawer={closeDrawer}
+        >
+          <>
+            <HomeIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>
+              الرئيسية
+            </Typography>
+          </>
+        </RowStack>
+        <RowStack
+          onClick={() => navigateToHandler("/governorates")}
+          closeDrawer={closeDrawer}
+        >
+          <>
+            <LocationCityIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>المدن</Typography>
+          </>
+        </RowStack>
+        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+          <>
+            <AirplanemodeActiveIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>الرحلات</Typography>
+          </>
+        </RowStack>
+        <RowStack
+          onClick={() => navigateToHandler("/places")}
+          closeDrawer={closeDrawer}
+        >
+          <>
+            <LocationOnIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>الاماكن</Typography>
+          </>
+        </RowStack>
+        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+          <>
+            <Inventory2Icon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>
+              المنتجات
+            </Typography>
+          </>
+        </RowStack>
+        <RowStack onClick={goToFavorite} closeDrawer={closeDrawer}>
+          <>
+            <FavoriteIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>المفضلة</Typography>
+          </>
+        </RowStack>
+        <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
+        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+          <>
+            <FeedIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>
+              الشؤوط والاحكام
+            </Typography>
+          </>
+        </RowStack>
+        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+          <>
+            <InfoIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>
+              عن التطبيق
+            </Typography>
+          </>
+        </RowStack>
+        <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
+        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+          <>
+            <LogoutIcon color="primary" />
+            <Typography sx={{ color: "var(--gray-color)" }}>
+              {logInOut}
+            </Typography>
+          </>
+        </RowStack>
+      </Drawer>
+    </>
   );
 };
 

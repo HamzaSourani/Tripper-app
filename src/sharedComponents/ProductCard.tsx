@@ -2,10 +2,8 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
+import FavoriteIconContainer from "./FavoriteIconContainer";
 import AvatarGroup from "./AvatarGroup";
 const ProductCard = () => {
   return (
@@ -40,21 +38,7 @@ const ProductCard = () => {
           component={"img"}
           src="/images/aleppo.jpg"
         ></Box>
-        <Stack
-          sx={{
-            position: "absolute",
-            bottom: 20,
-            left: { xs: 10, md: 20 },
-            borderRadius: "50%",
-            backgroundColor: "white",
-            p: 1,
-            boxShadow: 3,
-          }}
-          justifyContent={"center"}
-          alignItems="center"
-        >
-          <FavoriteBorderIcon color="primary" />
-        </Stack>
+        <FavoriteIconContainer />
 
         <AvatarGroup
           right={{ xs: 10, md: 20 }}
