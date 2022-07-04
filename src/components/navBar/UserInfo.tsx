@@ -32,7 +32,7 @@ const UserInfo = () => {
   //   dispatch(logout);
   // };
   return (
-    <Box sx={{ flexGrow: 0 }}>
+    <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 0 }}>
       <Tooltip title="إعدادت المستخدم">
         <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
           <Avatar alt="" src="" />

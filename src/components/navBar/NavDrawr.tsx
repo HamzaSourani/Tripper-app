@@ -16,12 +16,10 @@ import Inventory2Icon from "@mui/icons-material/Inventory2";
 import InfoIcon from "@mui/icons-material/Info";
 import FeedIcon from "@mui/icons-material/Feed";
 import userDataHandler from "../../sharedFunction/userDataHandler";
-import GoToSignup from "../../sharedComponents/GoToSignup";
 import RowStack from "../../sharedComponents/RowStack";
+import NavigationIcon from "../../sharedComponents/NavigationIconLarg";
 import useToggleEle from "../../customHooks/useToggleEle";
 import axios from "axios";
-import { useAppDispatch } from "../../app/hooks";
-import { handleOpenGOToSignup } from "../../features/goToSignupSlice";
 
 //import { logout } from "../../features/UserAuthSlice";
 type drawerProps = {
@@ -33,13 +31,10 @@ type drawerProps = {
 const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
   const userData = userDataHandler();
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+
   const logInOut = userData ? "تسجيل الخروج" : "إنشاء حساب";
   const navigateToHandler = (to: string) => navigate(to);
-  const goToFavorite = () => {
-    if (userData) navigate("/favorite");
-    else dispatch(handleOpenGOToSignup());
-  };
+
   const handleLog = () => {
     if (userData) {
       (async () => {
@@ -64,7 +59,7 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
           "& .MuiPaper-root": {
             py: 8,
             px: 5,
-            backgroundColor: "#2A2E43",
+            backgroundColor: "var(--dark-gray-color)",
           },
         }}
       >
@@ -75,55 +70,7 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
           </Typography>
         </Stack>
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
-        <RowStack
-          onClick={() => navigateToHandler("/home")}
-          closeDrawer={closeDrawer}
-        >
-          <>
-            <HomeIcon color="primary" />
-            <Typography sx={{ color: "var(--gray-color)" }}>
-              الرئيسية
-            </Typography>
-          </>
-        </RowStack>
-        <RowStack
-          onClick={() => navigateToHandler("/governorates")}
-          closeDrawer={closeDrawer}
-        >
-          <>
-            <LocationCityIcon color="primary" />
-            <Typography sx={{ color: "var(--gray-color)" }}>المدن</Typography>
-          </>
-        </RowStack>
-        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
-          <>
-            <AirplanemodeActiveIcon color="primary" />
-            <Typography sx={{ color: "var(--gray-color)" }}>الرحلات</Typography>
-          </>
-        </RowStack>
-        <RowStack
-          onClick={() => navigateToHandler("/places")}
-          closeDrawer={closeDrawer}
-        >
-          <>
-            <LocationOnIcon color="primary" />
-            <Typography sx={{ color: "var(--gray-color)" }}>الاماكن</Typography>
-          </>
-        </RowStack>
-        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
-          <>
-            <Inventory2Icon color="primary" />
-            <Typography sx={{ color: "var(--gray-color)" }}>
-              المنتجات
-            </Typography>
-          </>
-        </RowStack>
-        <RowStack onClick={goToFavorite} closeDrawer={closeDrawer}>
-          <>
-            <FavoriteIcon color="primary" />
-            <Typography sx={{ color: "var(--gray-color)" }}>المفضلة</Typography>
-          </>
-        </RowStack>
+        <NavigationIcon closeDrawer={closeDrawer} />
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
         <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
           <>

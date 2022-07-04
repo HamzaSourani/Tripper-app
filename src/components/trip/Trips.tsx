@@ -24,7 +24,7 @@ const Trips = () => {
             <OutlineGoBack title="أشهر الرحلات" />
           </Grid>
           <Grid item xs={11} md={9}>
-            <InputFilter />
+            {/* <InputFilter /> */}
           </Grid>
 
           {[1, 2, 3, 4, 5].map((trip, index) => {

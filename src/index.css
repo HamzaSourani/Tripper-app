@@ -9,6 +9,8 @@ body {
   --gray-color: #fefefe;
   --golden-color: #ffd500;
   --primary-color: #1976d2;
+  --dark-gray-color: #2a2e43;
+  --white-color: #fff;
 }
 
 ::-webkit-scrollbar {

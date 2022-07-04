@@ -10,13 +10,16 @@ const RowStack = ({ children, onClick, closeDrawer }: rowStackProps) => {
     <Stack
       sx={{
         my: 1,
+        mx: 1,
+
         "&:hover": {
           cursor: "pointer",
         },
       }}
       direction={"row"}
       alignItems="center"
-      spacing={2}
+      justifyContent={"start"}
+      spacing={1}
       onClick={() => {
         onClick();
         closeDrawer();

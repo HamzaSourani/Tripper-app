@@ -3,7 +3,10 @@ import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterIcon from "../svgIcon/FilterIcon";
-const InputFilter = () => {
+type inputFilterProps = {
+  onClick: (e: React.MouseEvent<HTMLElement>) => void;
+};
+const InputFilter = ({ onClick }: inputFilterProps) => {
   return (
     <>
       <TextField
@@ -24,6 +27,7 @@ const InputFilter = () => {
                   cursor: "pointer",
                 },
               }}
+              onClick={onClick}
             >
               <FilterIcon color="primary" />
             </InputAdornment>

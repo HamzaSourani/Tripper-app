@@ -2,6 +2,7 @@ import React, { lazy, Suspense } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/navBar/NavBar";
+import Footer from "./components/Footer";
 import userDataHandler from "./sharedFunction/userDataHandler";
 import GoToSignup from "./sharedComponents/GoToSignup";
 const Home = lazy(() => import("./components/Home"));
@@ -97,6 +98,7 @@ function App() {
           )}
         </Routes>
       </Suspense>
+      <Footer />
     </div>
   );
 }

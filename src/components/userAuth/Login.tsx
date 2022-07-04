@@ -63,7 +63,10 @@ const Login = () => {
             sx={{ my: 2 }}
             spacing={2}
           >
-            <Brand />
+            <Brand
+              brandColor="var(--primary-color)"
+              circleColor="var(--golden-color)"
+            />
             <Typography color="primary">
               تعرف أكثر على سوريا،خلي ترتيب الرحلة علينا
             </Typography>

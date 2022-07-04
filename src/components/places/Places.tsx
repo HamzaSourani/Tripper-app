@@ -25,7 +25,7 @@ const Places = () => {
             <OutlineGoBack title="أشهر الأماكن" />
           </Grid>
           <Grid item xs={11} md={9}>
-            <InputFilter />
+            {/* <InputFilter /> */}
           </Grid>
 
           {places.map((place, index) => {

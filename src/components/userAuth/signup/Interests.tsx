@@ -48,7 +48,10 @@ const Interests = ({ open, handelClose }: interestsProps) => {
       aria-describedby="alert-dialog-description"
     >
       <Stack justifyContent="space-evenly" alignItems={"center"}>
-        <Brand />
+        <Brand
+          brandColor="var(--primary-color)"
+          circleColor="var(--golden-color)"
+        />
       </Stack>
       <DialogTitle id="alert-dialog-title">
         الرجاء اخيار اهماماتك الخاصة لتجربة أكثر راحة
