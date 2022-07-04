@@ -10,9 +10,10 @@ import AddToFavorite from "../sharedComponents/AddToFavorite";
 import useAddToFavorite from "../customHooks/useAddToFavorite";
 
 type tripCardProps = {
-  onClick: () => void;
+  onClick?: () => void;
+  canNotFavorite?: boolean;
 };
-const TripCard = ({ onClick }: tripCardProps) => {
+const TripCard = ({ onClick, canNotFavorite }: tripCardProps) => {
   const [addToFavorite, addToFavoriteHandler] = useAddToFavorite();
   return (
     <Stack
@@ -47,23 +48,26 @@ const TripCard = ({ onClick }: tripCardProps) => {
           component={"img"}
           src="/images/aleppo.jpg"
         ></Box>
-        <Stack
-          sx={{
-            position: "absolute",
-            bottom: 20,
-            left: { xs: 10, md: 20 },
-            borderRadius: "50%",
-            backgroundColor: "white",
-            p: 1,
-            boxShadow: 3,
-            zIndex: "tooltip",
-          }}
-          justifyContent={"center"}
-          alignItems="center"
-          onClick={addToFavoriteHandler}
-        >
-          <AddToFavorite addToFavorite={addToFavorite} />
-        </Stack>
+
+        {!canNotFavorite && (
+          <Stack
+            sx={{
+              position: "absolute",
+              bottom: 20,
+              left: { xs: 10, md: 20 },
+              borderRadius: "50%",
+              backgroundColor: "white",
+              p: 1,
+              boxShadow: 3,
+              zIndex: "tooltip",
+            }}
+            justifyContent={"center"}
+            alignItems="center"
+            onClick={addToFavoriteHandler}
+          >
+            <AddToFavorite addToFavorite={addToFavorite} />
+          </Stack>
+        )}
         <IconTextStack right={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
           <Typography color={"text.primary"} variant="body1">
             يوم1

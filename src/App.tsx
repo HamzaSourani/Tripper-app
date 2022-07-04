@@ -21,6 +21,7 @@ const Trips = lazy(() => import("./components/trip/Trips"));
 const TripDetails = lazy(() => import("./components/trip/TripDetails"));
 const Profile = lazy(() => import("./components/user/Profile"));
 const EditProfile = lazy(() => import("./components/user/EditProfile"));
+const LandingPage = lazy(() => import("./landingPage/Index"));
 function App() {
   const userData = userDataHandler();
   return (
@@ -28,6 +29,7 @@ function App() {
       <GoToSignup />
       <Suspense fallback={<></>}>
         <Routes>
+          <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />}>
             <Route index element={<NavBar />} />
           </Route>
