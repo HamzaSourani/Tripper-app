@@ -15,9 +15,6 @@ function LinkTab(props: LinkTabProps) {
         "&.Mui-selected": {},
       }}
       component="a"
-      onClick={(event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-        event.preventDefault();
-      }}
       {...props}
     />
   );

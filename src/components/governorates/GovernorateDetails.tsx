@@ -6,13 +6,14 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Carousel from "../../sharedComponents/Carousel";
+import Carousel from "../../sharedComponents/crarousel/Carousel";
 import Outline from "../../sharedComponents/Outline";
 import TripCard from "../../sharedComponents/TripCard";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import CoffeeIcon from "@mui/icons-material/Coffee";
 import CastleIcon from "@mui/icons-material/Castle";
 import HotelIcon from "@mui/icons-material/Hotel";
+import { multiItem } from "../../sharedData/carouselResponsive";
 type paramsType = {
   governorateId: string | undefined;
 };
@@ -74,7 +75,7 @@ const GovernorateDetails = () => {
               title={`الرحلات ضمن مدينة ${governorateDetails.name}`}
               navigateTo=""
             />
-            <Carousel>
+            <Carousel responsive={multiItem}>
               {[1, 2, 3, 4, 5].map(() => {
                 return <TripCard onClick={() => navigate(``)} />;
               })}

@@ -6,13 +6,14 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import Carousel from "../../sharedComponents/Carousel";
+import Carousel from "../../sharedComponents/crarousel/Carousel";
 import Outline from "../../sharedComponents/Outline";
 import { useAppSelector } from "../../app/hooks";
 import PlaceImg from "./PlaceImg";
 import TripCard from "../../sharedComponents/TripCard";
 import ProductCard from "../../sharedComponents/ProductCard";
 import Comments from "../../sharedComponents/Comments";
+import { multiItem } from "../../sharedData/carouselResponsive";
 type paramsType = {
   placeId: string | undefined;
 };
@@ -78,7 +79,7 @@ const PlaceDetails = () => {
             />
           </Grid>
           <Grid item xs={11}>
-            <Carousel>
+            <Carousel responsive={multiItem}>
               {[1, 2, 3, 4, 5].map((i) => {
                 return (
                   <TripCard
@@ -100,7 +101,7 @@ const PlaceDetails = () => {
             </Typography>
           </Grid>
           <Grid item xs={11}>
-            <Carousel>
+            <Carousel responsive={multiItem}>
               {[1, 2, 3, 4, 5].map((i) => {
                 return (
                   <Paper key={i} sx={{ p: 2 }}>
@@ -133,7 +134,7 @@ const PlaceDetails = () => {
             />
           </Grid>
           <Grid item xs={11}>
-            <Carousel>
+            <Carousel responsive={multiItem}>
               {[1, 2, 3, 4, 5].map((i) => {
                 return <ProductCard key={i} />;
               })}

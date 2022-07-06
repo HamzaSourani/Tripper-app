@@ -4,7 +4,7 @@ import { useAppSelector } from "../app/hooks";
 import Grid from "@mui/material/Grid";
 import GovernorateCard from "../sharedComponents/GovernorateCard";
 import TripCard from "../sharedComponents/TripCard";
-import Carousel from "../sharedComponents/Carousel";
+import Carousel from "../sharedComponents/crarousel/Carousel";
 import useFetchGovernorate from "../customHooks/useFetchGovernorate";
 import Outline from "../sharedComponents/Outline";
 import PlaceCard from "../sharedComponents/PlaceCard";
@@ -13,6 +13,7 @@ import useViewSize from "../customHooks/useViewSize";
 import useAnchorMenu from "../customHooks/useAnchorMenu";
 import InputFilter from "../sharedComponents/InputFilter";
 import FilterMenu from "../sharedComponents/FilterMenu";
+import { multiItem } from "../sharedData/carouselResponsive";
 const Home = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -38,7 +39,7 @@ const Home = () => {
           <Outline title="المحافظات السورية" navigateTo="/governorates" />
         </Grid>
         <Grid item xs={11}>
-          <Carousel>
+          <Carousel responsive={multiItem}>
             {governorates.map((governorate) => {
               return (
                 <GovernorateCard
@@ -58,7 +59,7 @@ const Home = () => {
           <Outline title="اشهر الرحلات" navigateTo={`${pathname}/trips`} />
         </Grid>
         <Grid item xs={11}>
-          <Carousel>
+          <Carousel responsive={multiItem}>
             {[1, 2, 3, 4, 5].map((i) => {
               return (
                 <TripCard
@@ -73,7 +74,7 @@ const Home = () => {
           <Outline title="اشهر الأماكن" navigateTo={`${pathname}/places`} />
         </Grid>
         <Grid item xs={11}>
-          <Carousel>
+          <Carousel responsive={multiItem}>
             {places.map((place, index) => {
               return (
                 <PlaceCard

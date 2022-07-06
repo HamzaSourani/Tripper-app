@@ -27,10 +27,10 @@ const TabsComponent = () => {
       onChange={handleChange}
       aria-label="nav tabs example"
     >
-      <LinkTab label="الرئيسية" href="" />
-      <LinkTab label="الرحلات" href="" />
-      <LinkTab label="المدن" href="" />
-      <LinkTab label="المنتجات" href="" />
+      <LinkTab label="الرئيسية" href="#main" />
+      <LinkTab label="الرحلات" href="#trip" />
+      <LinkTab label="المدن" href="#cities" />
+      <LinkTab label="المنتجات" href="#product" />
     </Tabs>
   );
 };

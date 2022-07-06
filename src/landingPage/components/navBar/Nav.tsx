@@ -16,17 +16,24 @@ const Nav = () => {
         position="static"
       >
         <Toolbar>
-          <Tabs />
-          <Button variant={"contained"} sx={{ Py: 2, mx: 1 }}>
-            حمل التطبيق
-          </Button>
-          <Button
-            variant={"contained"}
-            sx={{ Py: 2, mx: 1 }}
-            onClick={() => navigate("/home")}
-          >
-            الذهاب إلى الموقع
-          </Button>
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Tabs />
+            <Button
+              LinkComponent={"a"}
+              href="#downloadApp"
+              variant={"contained"}
+              sx={{ Py: 2, mx: 1 }}
+            >
+              حمل التطبيق
+            </Button>
+            <Button
+              variant={"contained"}
+              sx={{ Py: 2, mx: 1 }}
+              onClick={() => navigate("/home")}
+            >
+              الذهاب إلى الموقع
+            </Button>
+          </Box>
           <Stack alignItems={"flex-end"} sx={{ flexGrow: 1 }}>
             <Brand
               brandColor="var(--primary-color)"
