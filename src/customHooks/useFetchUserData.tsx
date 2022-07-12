@@ -5,8 +5,7 @@ import { useAppDispatch } from "../app/hooks";
 import { login, signup } from "../features/UserAuthSlice";
 type userInfoType = userLogin | userSignup;
 type methodType = "login" | "signup";
-//hso199899@gmail.com
-//123123123
+
 const useFetchUserData = (userInfo: userInfoType, method: methodType) => {
   const [authStatus, setAuthStatus] = React.useState<statusType>("idle");
   const [authError, setAuthError] = React.useState<string>("");

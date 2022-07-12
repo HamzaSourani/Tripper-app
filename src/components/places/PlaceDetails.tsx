@@ -22,7 +22,7 @@ const PlaceDetails = () => {
   const { placeId } = useParams<paramsType>();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const places = useAppSelector((state: RootState) => state.places);
+  const places = useAppSelector((state: RootState) => state.places.places);
   if (typeof placeId !== "undefined") {
     const place = places.find((place) => place.id === placeId);
 

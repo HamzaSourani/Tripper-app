@@ -41,3 +41,7 @@ code {
 .carousel-container {
   padding-bottom: 10px;
 }
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}

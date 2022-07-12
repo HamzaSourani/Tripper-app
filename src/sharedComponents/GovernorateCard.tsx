@@ -4,10 +4,10 @@ import Typography from "@mui/material/Typography";
 type governorateCardProps = {
   name: string;
   img: string | null;
-  id: number;
+
   onClick: () => void;
 };
-const GovernorateCard = ({ name, img, id, onClick }: governorateCardProps) => {
+const GovernorateCard = ({ name, img, onClick }: governorateCardProps) => {
   return (
     <Box
       onClick={onClick}

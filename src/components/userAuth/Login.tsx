@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import InputPassword from "../../sharedComponents/InputPassword";
 import InputText from "../../sharedComponents/InputText";
 import Brand from "../../sharedComponents/Brand";
+import LoadingButton from "../../sharedComponents/LoadingButton";
 import useFetchUserData from "../../customHooks/useFetchUserData";
 import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
@@ -90,14 +91,12 @@ const Login = () => {
             </Box>
           )}
           {canSendData && (
-            <Button
-              variant="contained"
+            <LoadingButton
+              onClick={handleUserAuth}
+              label="تسجيل الدخول"
+              loading={authStatus === "loading"}
               sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
-              onClick={() => handleUserAuth()}
-              disabled={authStatus === "loading"}
-            >
-              تسجيل الدخول
-            </Button>
+            />
           )}
           <Stack direction={"row"} justifyContent="center" spacing={1}>
             <Typography>ليس لديك حساب؟</Typography>

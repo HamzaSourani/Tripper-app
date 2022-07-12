@@ -10,7 +10,7 @@ import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
 const Places = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const places = useAppSelector((state) => state.places);
+  const places = useAppSelector((state) => state.places.places);
   return (
     <>
       <Outlet />

@@ -1,8 +1,9 @@
 import React, { lazy, Suspense } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/navBar/NavBar";
 import Footer from "./components/Footer";
+import Loading from "./sharedComponents/Loading";
 import userDataHandler from "./sharedFunction/userDataHandler";
 import GoToSignup from "./sharedComponents/GoToSignup";
 const Home = lazy(() => import("./components/Home"));
@@ -27,7 +28,7 @@ function App() {
   return (
     <div className="App">
       <GoToSignup />
-      <Suspense fallback={<></>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/home" element={<Home />}>
@@ -41,7 +42,7 @@ function App() {
           </Route>
 
           <Route
-            path={`home/governorate/:governorateId`}
+            path={`governorate/:governorateId`}
             element={<GovernorateDetails />}
           >
             <Route index element={<NavBar />} />
@@ -52,37 +53,34 @@ function App() {
           >
             <Route index element={<NavBar />} />
           </Route>
-          <Route path="home/places" element={<Places />}>
+          <Route path="places" element={<Places />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path={`home/place/:placeId`} element={<PlaceDetails />}>
+          <Route path={`place/:placeId`} element={<PlaceDetails />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path={`home/places/place/:placeId`} element={<PlaceDetails />}>
+          <Route path={`places/place/:placeId`} element={<PlaceDetails />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path="home/trips" element={<Trips />}>
+          <Route path="trips" element={<Trips />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path="home/place/:placeId/trips" element={<Trips />}>
+          <Route path="place/:placeId/trips" element={<Trips />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path={`home/trip/:tripId`} element={<TripDetails />}>
+          <Route path={`trip/:tripId`} element={<TripDetails />}>
             <Route index element={<NavBar />} />
           </Route>
-          <Route path={`home/trips/trip/:tripId`} element={<TripDetails />}>
+          <Route path={`trips/trip/:tripId`} element={<TripDetails />}>
             <Route index element={<NavBar />} />
           </Route>
           <Route
-            path={`home/place/:placeId/trips/trip/:tripId`}
+            path={`place/:placeId/trips/trip/:tripId`}
             element={<TripDetails />}
           >
             <Route index element={<NavBar />} />
           </Route>
-          <Route
-            path={`home/place/:placeId/trip/:tripId`}
-            element={<TripDetails />}
-          >
+          <Route path={`place/:placeId/trip/:tripId`} element={<TripDetails />}>
             <Route index element={<NavBar />} />
           </Route>
           {userData && (

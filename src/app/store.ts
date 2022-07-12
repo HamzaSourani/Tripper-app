@@ -1,6 +1,7 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import UserAuth from "../features/UserAuthSlice";
-import governorateReducer from "../features/governorateSlice";
+import governoratesReducer from "../features/governoratesSlice";
+import governorateDetailsReducer from "../features/governorateDetailsSlice";
 import placesReducer from "../features/placesSlice";
 import placeAddcommentReducer from "../features/PlaceAddCommentSlice";
 import transitionDirectionReducer from "../features/transitonDirectionSlice";
@@ -8,7 +9,8 @@ import goToSignupReducer from "../features/goToSignupSlice";
 export const store = configureStore({
   reducer: {
     userAuth: UserAuth,
-    governorate: governorateReducer,
+    governorates: governoratesReducer,
+    governorateDetails: governorateDetailsReducer,
     places: placesReducer,
     placeAddComment: placeAddcommentReducer,
     transtionDirection: transitionDirectionReducer,

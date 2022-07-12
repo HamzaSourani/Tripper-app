@@ -52,7 +52,13 @@ const NavigationIcon = () => {
         </IconButton>
       </Tooltip>
       <Tooltip title="الرحلات">
-        <IconButton color="primary">
+        <IconButton
+          color="primary"
+          sx={{
+            ...activeLinkHandler("/trips"),
+          }}
+          onClick={() => navigate("/trips")}
+        >
           <AirplanemodeActiveIcon />
         </IconButton>
       </Tooltip>

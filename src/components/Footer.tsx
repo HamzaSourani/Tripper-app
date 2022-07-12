@@ -9,13 +9,14 @@ import useViewSize from "../customHooks/useViewSize";
 import Link from "../sharedComponents/LinkComponent";
 
 const Footer = () => {
-  const viewSize = useViewSize();
+  const viewSize = useViewSize({});
   return (
     <Grid
       container
       sx={{
         backgroundColor: "var(--dark-gray-color)",
         color: "var(--white-color)",
+        mt: 5,
       }}
     >
       <Grid
@@ -28,7 +29,7 @@ const Footer = () => {
         }}
         xs={12}
       >
-        <Grid item container spacing={2} xs={12} sm={4} md={4} lg={4}>
+        <Grid item container spacing={2} xs={12} sm={4}>
           <Grid item>
             <Stack spacing={1} sx={{ ml: 1 }}>
               <Brand
@@ -53,13 +54,27 @@ const Footer = () => {
           sm={8}
           lg={6}
         >
-          <Grid item xs={12} sm={4} lg={10} order={{ xs: 2, sm: 1, lg: 2 }}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={11}
+            order={{ xs: 2, md: 1, lg: 2 }}
+          >
             <Link to="" text="حول المنصة" />
             <Link to={""} text="اتصل بنا" />
             <Link to={""} text="الاسئلة الشائعة" />
             <Link to={""} text="الشروط و الاحكام" />
           </Grid>
-          <Grid item xs={8.5} sm={5} lg={10} order={{ xs: 1, sm: 2, lg: 1 }}>
+          <Grid
+            item
+            xs={8.5}
+            sm={4}
+            md={5}
+            lg={10}
+            order={{ xs: 1, md: 2, lg: 1 }}
+          >
             {viewSize ? <NavigationIconLarg /> : <NavigationIcon />}
           </Grid>
         </Grid>

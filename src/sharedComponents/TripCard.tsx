@@ -59,7 +59,6 @@ const TripCard = ({ onClick, canNotFavorite }: tripCardProps) => {
               backgroundColor: "white",
               p: 1,
               boxShadow: 3,
-              zIndex: "tooltip",
             }}
             justifyContent={"center"}
             alignItems="center"

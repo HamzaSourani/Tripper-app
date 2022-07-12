@@ -17,7 +17,7 @@ export const multiItem = {
   mobile: {
     breakpoint: { max: 600, min: 0 },
     items: 1,
-    partialVisibilityGutter: 100,
+    partialVisibilityGutter: 75,
     arrows: false,
   },
 };
@@ -40,7 +40,7 @@ export const singleItem = {
   mobile: {
     breakpoint: { max: 600, min: 0 },
     items: 1,
-    partialVisibilityGutter: 100,
+    partialVisibilityGutter: 75,
     arrows: true,
   },
 };

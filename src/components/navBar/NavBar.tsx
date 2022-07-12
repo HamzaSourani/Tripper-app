@@ -11,6 +11,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Brand from "../../sharedComponents/Brand";
 import NavigationIcon from "../../sharedComponents/NavigationIcon";
 import useToggleEle from "../../customHooks/useToggleEle";
+import useViewSize from "../../customHooks/useViewSize";
 import UserInfo from "./UserInfo";
 import Drawer from "./NavDrawr";
 import userDataHandler from "../../sharedFunction/userDataHandler";
@@ -21,7 +22,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const [open, handelOpen, handelClose] = useToggleEle();
-
+  const viewSize = useViewSize({ _innerWidth: 900, _viewSize: false });
   return (
     <>
       <Box flexGrow={1} mb={5}>
@@ -37,11 +38,13 @@ const NavBar = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Drawer
-              open={open}
-              toggleDrawer={handelOpen}
-              closeDrawer={handelClose}
-            />
+            {!viewSize && (
+              <Drawer
+                open={open}
+                toggleDrawer={handelOpen}
+                closeDrawer={handelClose}
+              />
+            )}
             {!userData && (
               <Button
                 variant="contained"

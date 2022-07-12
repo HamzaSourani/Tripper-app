@@ -1,11 +1,10 @@
 import React from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useAppSelector } from "../app/hooks";
+import { Outlet, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import GovernorateCard from "../sharedComponents/GovernorateCard";
 import TripCard from "../sharedComponents/TripCard";
 import Carousel from "../sharedComponents/crarousel/Carousel";
-import useFetchGovernorate from "../customHooks/useFetchGovernorate";
+import useFetchGovernorate from "../customHooks/useFetchGovernorates";
 import Outline from "../sharedComponents/Outline";
 import PlaceCard from "../sharedComponents/PlaceCard";
 import useFetchPlaces from "../customHooks/useFetchPlaces";
@@ -14,15 +13,18 @@ import useAnchorMenu from "../customHooks/useAnchorMenu";
 import InputFilter from "../sharedComponents/InputFilter";
 import FilterMenu from "../sharedComponents/FilterMenu";
 import { multiItem } from "../sharedData/carouselResponsive";
+import Loading from "../sharedComponents/Loading";
+import isLoading from "../sharedFunction/isLoading";
+
 const Home = () => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const [responseStatus] = useFetchGovernorate();
-  const [palceStatus] = useFetchPlaces();
-  const viewSize = useViewSize();
+
+  const [fetchGovernoratesStatus, governorates] = useFetchGovernorate();
+
+  const [fetchPalceStatus, places] = useFetchPlaces();
+  const viewSize = useViewSize({});
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
-  const governorates = useAppSelector((state) => state.governorate);
-  const places = useAppSelector((state) => state.places);
+
   const openFilterHandler = (e: React.MouseEvent<HTMLElement>) => {
     if (viewSize) handleOpenMenu(e);
     else navigate("/filter");
@@ -30,7 +32,11 @@ const Home = () => {
 
   return (
     <div>
+      {(isLoading(fetchGovernoratesStatus) || isLoading(fetchPalceStatus)) && (
+        <Loading />
+      )}
       <Outlet />
+
       <Grid container justifyContent={"center"}>
         <Grid item xs={11} md={9}>
           <InputFilter onClick={openFilterHandler} />
@@ -46,32 +52,26 @@ const Home = () => {
                   key={governorate.id}
                   name={governorate.name}
                   img={governorate.img}
-                  id={governorate.id}
-                  onClick={() =>
-                    navigate(`${pathname}/governorate/${governorate.id}`)
-                  }
+                  onClick={() => navigate(`/governorate/${governorate.id}`)}
                 />
               );
             })}
           </Carousel>
         </Grid>
         <Grid item xs={11} lg={11.5}>
-          <Outline title="اشهر الرحلات" navigateTo={`${pathname}/trips`} />
+          <Outline title="اشهر الرحلات" navigateTo={`/trips`} />
         </Grid>
         <Grid item xs={11}>
           <Carousel responsive={multiItem}>
             {[1, 2, 3, 4, 5].map((i) => {
               return (
-                <TripCard
-                  key={i}
-                  onClick={() => navigate(`${pathname}/trip/${i}`)}
-                />
+                <TripCard key={i} onClick={() => navigate(`/trip/${i}`)} />
               );
             })}
           </Carousel>
         </Grid>
         <Grid item xs={11} lg={11.5}>
-          <Outline title="اشهر الأماكن" navigateTo={`${pathname}/places`} />
+          <Outline title="اشهر الأماكن" navigateTo={`/places`} />
         </Grid>
         <Grid item xs={11}>
           <Carousel responsive={multiItem}>
@@ -80,7 +80,7 @@ const Home = () => {
                 <PlaceCard
                   key={index}
                   props={place}
-                  onClick={() => navigate(`${pathname}/place/${place.id}`)}
+                  onClick={() => navigate(`/place/${place.id}`)}
                 />
               );
             })}

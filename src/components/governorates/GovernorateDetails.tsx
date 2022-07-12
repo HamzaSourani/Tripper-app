@@ -44,8 +44,8 @@ const GovernorateDetails = () => {
   const { governorateId } = useParams<paramsType>();
   const navigate = useNavigate();
   const isthereGover =
-    typeof governorateId !== "undefined" ? governorateId : "1";
-  const [governorateDetails, responseStatus] =
+    typeof governorateId !== "undefined" ? Number(governorateId) : 1;
+  const [fetchGovernorateDetailsStatus, governorateDetails] =
     useFetchGovernorateDetails(isthereGover);
   const [section, setSection] = React.useState<sectionType>("مطاعم");
   if (

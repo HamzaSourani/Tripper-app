@@ -11,6 +11,7 @@ import UserImg from "../../../sharedComponents/UserImg";
 import InputPassword from "../../../sharedComponents/InputPassword";
 import InputText from "../../../sharedComponents/InputText";
 import InputSelect from "../../../sharedComponents/InputSelect";
+import LoadingButton from "../../../sharedComponents/LoadingButton";
 import useToggleEle from "../../../customHooks/useToggleEle";
 import useFetchUserData from "../../../customHooks/useFetchUserData";
 import Interests from "./Interests";
@@ -144,14 +145,12 @@ const Signup = () => {
             </Box>
           )}
           {canSendData && (
-            <Button
-              variant="contained"
-              sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
+            <LoadingButton
               onClick={handleUserAuth}
-              disabled={authStatus === "loading"}
-            >
-              إنشاء حساب
-            </Button>
+              label="إنشاء حساب"
+              loading={authStatus === "loading"}
+              sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
+            />
           )}
           <Interests open={open} handelClose={handelClose} />
           <Stack direction={"row"} justifyContent="center" spacing={1}>

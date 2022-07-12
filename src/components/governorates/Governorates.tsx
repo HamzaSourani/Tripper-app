@@ -1,18 +1,20 @@
 import React from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
+import useFetchGovernorates from "../../customHooks/useFetchGovernorates";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import SearchInput from "../../sharedComponents/SearchInput";
 import GovernorateCard from "../../sharedComponents/GovernorateCard";
 import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
-const array = [1, 2, 3, 4, 5, 6];
+import Loading from "../../sharedComponents/Loading";
+import isLoading from "../../sharedFunction/isLoading";
 const Governorates = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const governorates = useAppSelector((state) => state.governorate);
+  const [fetchGovernoratesStatus, governorates] = useFetchGovernorates();
   return (
     <>
+      {isLoading(fetchGovernoratesStatus) && <Loading />}
       <Outlet />
       <Container>
         <Grid
@@ -28,13 +30,12 @@ const Governorates = () => {
             <SearchInput />
           </Grid>
 
-          {governorates.map((governorate, index) => {
+          {governorates.map((governorate) => {
             return (
               <Grid key={governorate.id} item xs={11} sm={6} md={4}>
                 <GovernorateCard
                   name={governorate.name}
                   img={governorate.img}
-                  id={governorate.id}
                   onClick={() =>
                     navigate(`${pathname}/governorate/${governorate.id}`)
                   }
