@@ -9,13 +9,24 @@ import Nav from "./components/navBar/Nav";
 import Carousel from "../sharedComponents/crarousel/Carousel";
 import TripCard from "../sharedComponents/TripCard";
 import ProductCard from "../sharedComponents/ProductCard";
+import Loading from "../sharedComponents/Loading";
+import isLoading from "../sharedFunction/isLoading";
 import { singleItem, multiItem } from "../sharedData/carouselResponsive";
-const index = () => {
+import useFetchTrips from "../customHooks/useFetchTrips";
+
+const Index = () => {
+  const [fetchTripsStatus, trips] = useFetchTrips();
   return (
     <>
+      {isLoading(fetchTripsStatus) && <Loading />}
       <Nav />
 
-      <Grid container justifyContent={"center"} spacing={2}>
+      <Grid
+        container
+        justifyContent={"center"}
+        spacing={2}
+        sx={{ minHeight: "80vh" }}
+      >
         <Grid id="main" item xs={11} md={10}>
           <Box
             sx={{
@@ -73,8 +84,15 @@ const index = () => {
             الرحلات الأكثر بحثاً
           </Typography>
           <Carousel responsive={singleItem}>
-            {[1, 2, 3, 4, 5].map((i) => {
-              return <TripCard key={i} canNotFavorite={true} />;
+            {trips.map((trip) => {
+              return (
+                <TripCard
+                  key={trip.id}
+                  description={trip.description}
+                  numberOfDays={trip.number_of_days}
+                  canNotFavorite={true}
+                />
+              );
             })}
           </Carousel>
         </Grid>
@@ -248,4 +266,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

@@ -6,13 +6,17 @@ import Container from "@mui/material/Container";
 import InputFilter from "../../sharedComponents/InputFilter";
 import TripCard from "../../sharedComponents/TripCard";
 import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
+import useFetchTrips from "../../customHooks/useFetchTrips";
+import Loading from "../../sharedComponents/Loading";
+import isLoading from "../../sharedFunction/isLoading";
 const Trips = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+  const [fetchTripsStatus, trips] = useFetchTrips();
   return (
     <>
       <Outlet />
+      {isLoading(fetchTripsStatus) && <Loading />}
       <Container>
         <Grid
           container
@@ -26,13 +30,15 @@ const Trips = () => {
           <Grid item xs={11} md={9}>
             {/* <InputFilter /> */}
           </Grid>
-
-          {[1, 2, 3, 4, 5].map((trip, index) => {
+          {trips.map((trip) => {
             return (
               <Grid item xs={11} sm={6} md={4}>
                 <TripCard
-                  onClick={() => navigate(`${pathname}/trip/${trip}`)}
-                />
+                  key={trip.id}
+                  description={trip.description}
+                  numberOfDays={trip.number_of_days}
+                  canNotFavorite={true}
+                />{" "}
               </Grid>
             );
           })}

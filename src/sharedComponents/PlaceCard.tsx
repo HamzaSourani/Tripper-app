@@ -127,7 +127,7 @@ const PlaceCard = ({ onClick, props }: placeType) => {
           </Stack>
         </Grid>
         <Grid container item xs={6} justifyContent="flex-end">
-          <Grid item xs={5}>
+          <Grid item xs={6} sm={5}>
             <Stack direction={"row"} alignItems="center" spacing={1}>
               <StarIcon sx={{ color: "var(--golden-color)" }} />
               <Typography>4.5</Typography>

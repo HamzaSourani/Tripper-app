@@ -24,8 +24,13 @@ export type userSignup = {
   city_id: string;
 };
 export type editUserProfile = {
+  id: string;
+  userName: string;
+  img: null;
+  userScop: "admin" | "user";
   first_name: string;
   last_name: string;
+  name: string;
   email: string;
   gender: string;
   city_id: string;

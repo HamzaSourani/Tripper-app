@@ -4,16 +4,22 @@ import useFetchGovernorateDetails from "../../customHooks/useFetchGoveronrateDet
 import GovernorateImg from "./GovernorateImg";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Carousel from "../../sharedComponents/crarousel/Carousel";
 import Outline from "../../sharedComponents/Outline";
 import TripCard from "../../sharedComponents/TripCard";
+import PlaceCard from "../../sharedComponents/PlaceCard";
+import useFetchTrips from "../../customHooks/useFetchTrips";
+import useFetchPlaces from "../../customHooks/useFetchPlaces";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
 import CoffeeIcon from "@mui/icons-material/Coffee";
 import CastleIcon from "@mui/icons-material/Castle";
 import HotelIcon from "@mui/icons-material/Hotel";
 import { multiItem } from "../../sharedData/carouselResponsive";
+import Loading from "../../sharedComponents/Loading";
+import isLoading from "../../sharedFunction/isLoading";
 type paramsType = {
   governorateId: string | undefined;
 };
@@ -41,13 +47,18 @@ const citySections = [
 ];
 type sectionType = "مطاعم" | "مقاهي" | "أثري" | "فنادق";
 const GovernorateDetails = () => {
+  const [section, setSection] = React.useState<sectionType>("مطاعم");
   const { governorateId } = useParams<paramsType>();
   const navigate = useNavigate();
   const isthereGover =
     typeof governorateId !== "undefined" ? Number(governorateId) : 1;
   const [fetchGovernorateDetailsStatus, governorateDetails] =
     useFetchGovernorateDetails(isthereGover);
-  const [section, setSection] = React.useState<sectionType>("مطاعم");
+  const [fetchTripsStatus, trips] = useFetchTrips();
+  const [fetchPlacesStatus, places] = useFetchPlaces(
+    `?filter[place_type]=${section}&filter[city_id]=${governorateId}`
+  );
+
   if (
     typeof governorateId !== "undefined" &&
     typeof governorateDetails !== "undefined"
@@ -55,6 +66,8 @@ const GovernorateDetails = () => {
     return (
       <>
         <Outlet />
+        {(isLoading(fetchTripsStatus) ||
+          isLoading(fetchGovernorateDetailsStatus)) && <Loading />}
         <Grid container justifyContent={"center"} spacing={3}>
           <Grid item xs={11} md={9} lg={5.5}>
             <GovernorateImg
@@ -76,8 +89,15 @@ const GovernorateDetails = () => {
               navigateTo=""
             />
             <Carousel responsive={multiItem}>
-              {[1, 2, 3, 4, 5].map(() => {
-                return <TripCard onClick={() => navigate(``)} />;
+              {trips.map((trip) => {
+                return (
+                  <TripCard
+                    key={trip.id}
+                    description={trip.description}
+                    numberOfDays={trip.number_of_days}
+                    canNotFavorite={true}
+                  />
+                );
               })}
             </Carousel>
           </Grid>
@@ -109,6 +129,24 @@ const GovernorateDetails = () => {
                 );
               })}
             </Stack>
+            <Grid
+              container
+              justifyContent={{ xs: "center", sm: "flex-start" }}
+              alignItems="center"
+              spacing={2}
+            >
+              {places.map((place, index) => {
+                return (
+                  <Grid item xs={11} sm={6} md={4}>
+                    <PlaceCard
+                      key={index}
+                      props={place}
+                      onClick={() => navigate(`/place/${place.id}`)}
+                    />
+                  </Grid>
+                );
+              })}
+            </Grid>
           </Grid>
         </Grid>
       </>

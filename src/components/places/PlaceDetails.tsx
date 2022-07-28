@@ -13,28 +13,37 @@ import PlaceImg from "./PlaceImg";
 import TripCard from "../../sharedComponents/TripCard";
 import ProductCard from "../../sharedComponents/ProductCard";
 import Comments from "../../sharedComponents/Comments";
+import useFetchTrips from "../../customHooks/useFetchTrips";
 import { multiItem } from "../../sharedData/carouselResponsive";
+import Loading from "../../sharedComponents/Loading";
+import isLoading from "../../sharedFunction/isLoading";
+import useFetchPlace from "../../customHooks/useFetchPlace";
 type paramsType = {
   placeId: string | undefined;
 };
 
 const PlaceDetails = () => {
   const { placeId } = useParams<paramsType>();
+  const [fetchPalceStatus, place] = useFetchPlace(placeId!);
+  const [fetchTripsStatus, trips] = useFetchTrips(
+    `?filter[place_id]=${placeId}`
+  );
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const places = useAppSelector((state: RootState) => state.places.places);
-  if (typeof placeId !== "undefined") {
-    const place = places.find((place) => place.id === placeId);
 
+  if (typeof placeId !== "undefined") {
     return (
       <>
         <Outlet />
+        {(isLoading(fetchTripsStatus) || isLoading(fetchPalceStatus)) && (
+          <Loading />
+        )}
         <Grid container justifyContent={"center"} spacing={3}>
           <Grid item xs={11} md={9} lg={5.5}>
             <PlaceImg
               img={"/images/aleppo.jpg"}
-              governorateName={place?.city}
-              isFavorite={false}
+              governorateName={""}
+              isFavorite={true}
               rate={4.2}
             />
           </Grid>
@@ -42,23 +51,17 @@ const PlaceDetails = () => {
             <Stack spacing={2}>
               <Stack direction={"row"} spacing={1} alignItems="center">
                 <Typography variant="h4">{place?.name}</Typography>
-                <Typography
-                  variant="h5"
-                  color={"GrayText"}
-                >{`(${place?.place_type})`}</Typography>
+                <Typography variant="h5" color={"GrayText"}>{``}</Typography>
               </Stack>
-              <Typography color={"GrayText"}>
-                {
-                  "lafa ldfal lfawf flaaaaaaaaaaaaaafa gflggggggggggggga  lagggggggggggggggg aglg lal gtlg agl lalgalg la llgal g"
-                }
-              </Typography>
+              <Typography color={"GrayText"}>{place?.description}</Typography>
               <Stack direction={"row"} justifyContent={"center"} spacing={3}>
-                {["rlgds", "gsavds", "grrga"].map((hashTag) => {
+                {place?.place_type_tag.map((hashTag) => {
+                  console.log(hashTag.tag.name);
                   return (
                     <Typography
                       color={"GrayText"}
                       sx={{ px: 1, py: 0.5, boxShadow: 3 }}
-                    >{`${hashTag}#`}</Typography>
+                    >{`${hashTag.tag.name}#`}</Typography>
                   );
                 })}
               </Stack>
@@ -80,11 +83,13 @@ const PlaceDetails = () => {
           </Grid>
           <Grid item xs={11}>
             <Carousel responsive={multiItem}>
-              {[1, 2, 3, 4, 5].map((i) => {
+              {trips.map((trip) => {
                 return (
                   <TripCard
-                    key={i}
-                    onClick={() => navigate(`${pathname}/trip/${i}`)}
+                    key={trip.id}
+                    description={trip.description}
+                    numberOfDays={trip.number_of_days}
+                    canNotFavorite={false}
                   />
                 );
               })}

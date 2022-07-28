@@ -6,15 +6,21 @@ import placesReducer from "../features/placesSlice";
 import placeAddcommentReducer from "../features/PlaceAddCommentSlice";
 import transitionDirectionReducer from "../features/transitonDirectionSlice";
 import goToSignupReducer from "../features/goToSignupSlice";
+import tripsReducer from "../features/tripsSlice";
+import placeReducer from "../features/placeSilce";
+import isUserAuthorizedReducer from "../features/isUserAuthorizedSlice";
 export const store = configureStore({
   reducer: {
     userAuth: UserAuth,
     governorates: governoratesReducer,
     governorateDetails: governorateDetailsReducer,
     places: placesReducer,
+    place: placeReducer,
     placeAddComment: placeAddcommentReducer,
     transtionDirection: transitionDirectionReducer,
     goToSignup: goToSignupReducer,
+    trips: tripsReducer,
+    isUserAuthorized: isUserAuthorizedReducer,
   },
 });
 

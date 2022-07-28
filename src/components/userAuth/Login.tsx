@@ -9,35 +9,29 @@ import InputPassword from "../../sharedComponents/InputPassword";
 import InputText from "../../sharedComponents/InputText";
 import Brand from "../../sharedComponents/Brand";
 import LoadingButton from "../../sharedComponents/LoadingButton";
-import useFetchUserData from "../../customHooks/useFetchUserData";
-import { useAppSelector } from "../../app/hooks";
-import { RootState } from "../../app/store";
+import useUserLogin from "../../customHooks/useUserLogin";
+import { useAppDispatch } from "../../app/hooks";
+import { checkUserStatus } from "../../features/isUserAuthorizedSlice";
 const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
-
+  const dispatch = useAppDispatch();
   const userInfo = {
     email,
     password,
   };
-  const [authError, authStatus, handleUserAuth] = useFetchUserData(
-    userInfo,
-    "login"
-  );
-  console.log(authError);
+  const [authError, authStatus, handleUserAuth] = useUserLogin(userInfo);
   const navigate = useNavigate();
   const canSendData = [email, password].every(Boolean);
-  const userData = useAppSelector((state: RootState) => state.userAuth);
 
   React.useEffect(() => {
     if (authStatus === "succeeded") {
-      localStorage.clear();
-      localStorage.setItem("userData", JSON.stringify(userData));
+      dispatch(checkUserStatus());
       setEmail("");
       setPassword("");
       navigate("/home");
     }
-  }, [authStatus, navigate, userData]);
+  }, [authStatus, navigate, dispatch]);
 
   return (
     <Grid

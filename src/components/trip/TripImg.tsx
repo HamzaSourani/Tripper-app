@@ -10,7 +10,11 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import AvatarGroup from "../../sharedComponents/AvatarGroup";
 import FavoriteIconContainer from "../../sharedComponents/FavoriteIconContainer";
-const TripImg = () => {
+type tripImgProps = {
+  numberOfDays: number;
+};
+
+const TripImg = ({ numberOfDays }: tripImgProps) => {
   const navigate = useNavigate();
 
   return (
@@ -78,7 +82,7 @@ const TripImg = () => {
 
         <IconTextStack sx={{ position: "relative" }}>
           <Typography color={"text.primary"} variant="body1">
-            يوم1
+            يوم{numberOfDays}
           </Typography>
           <AccessTimeIcon color="primary" />
         </IconTextStack>

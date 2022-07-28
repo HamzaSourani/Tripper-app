@@ -1,5 +1,7 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { RootState } from "../app/store";
 import RowStack from "./RowStack";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -8,17 +10,18 @@ import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import HomeIcon from "@mui/icons-material/Home";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import { useAppDispatch } from "../app/hooks";
 import { handleOpenGOToSignup } from "../features/goToSignupSlice";
-import userDataHandler from "../sharedFunction/userDataHandler";
+
 type navigationIconLargProps = {
   closeDrawer?: () => void;
 };
 const NavigationIconLarg = ({ closeDrawer }: navigationIconLargProps) => {
   const dispatch = useAppDispatch();
-  const userData = userDataHandler();
+  const isUserAuthorized = useAppSelector(
+    (state: RootState) => state.isUserAuthorized.state
+  );
   const goToFavorite = () => {
-    if (userData) navigate("/favorite");
+    if (isUserAuthorized) navigate("/favorite");
     else dispatch(handleOpenGOToSignup());
   };
   const closeDrawerHandler = closeDrawer ? closeDrawer : () => {};

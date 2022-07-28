@@ -1,53 +1,44 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
 import Drawer from "@mui/material/Drawer";
 import Divider from "@mui/material/Divider";
 import Stack from "@mui/material/Stack";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
-import LocationCityIcon from "@mui/icons-material/LocationCity";
-import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import HomeIcon from "@mui/icons-material/Home";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import Inventory2Icon from "@mui/icons-material/Inventory2";
 import InfoIcon from "@mui/icons-material/Info";
 import FeedIcon from "@mui/icons-material/Feed";
-import userDataHandler from "../../sharedFunction/userDataHandler";
 import RowStack from "../../sharedComponents/RowStack";
 import NavigationIcon from "../../sharedComponents/NavigationIconLarg";
-import useToggleEle from "../../customHooks/useToggleEle";
-import axios from "axios";
-
-//import { logout } from "../../features/UserAuthSlice";
+import useUserLogout from "../../customHooks/useUserLogout";
+import { Login } from "@mui/icons-material";
 type drawerProps = {
   open: boolean;
-  toggleDrawer: () => void;
   closeDrawer: () => void;
 };
 
-const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
-  const userData = userDataHandler();
+const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
   const navigate = useNavigate();
-
-  const logInOut = userData ? "تسجيل الخروج" : "إنشاء حساب";
+  const isUserAuthorized = useAppSelector(
+    (state: RootState) => state.isUserAuthorized.state
+  );
+  const [logoutStatus, handleUserLogout] = useUserLogout();
+  const logInOut = isUserAuthorized ? "تسجيل الخروج" : "إنشاء حساب";
   const navigateToHandler = (to: string) => navigate(to);
-
+  const userNameHandler = () => {
+    if (localStorage.getItem("userInfo") !== null) {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
+      return userInfo.name;
+    } else return "user name";
+  };
+  const handleLogout = () => {
+    if (isUserAuthorized) handleUserLogout();
+    else navigate("/login");
+  };
   const handleLog = () => {
-    if (userData) {
-      (async () => {
-        // const res = await axios({
-        //   method: "get",
-        //   url: "http://tripper.dentatic.com/api/client/auth/logout",
-        //   headers: {
-        //     Accept: "application/json",
-        //   },
-        // });
-        // dispatch(logout);
-      })();
-    } else navigate("/signup");
+    if (!isUserAuthorized) navigate("/signup");
   };
   return (
     <>
@@ -66,7 +57,7 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
         <Stack sx={{ mr: 12, mb: 3 }} alignItems="center" spacing={1}>
           <Avatar src="" alt="" sx={{ width: 80, height: 80 }} />
           <Typography variant="h6" sx={{ color: "var(--gray-color)" }}>
-            user name
+            {userNameHandler()}
           </Typography>
         </Stack>
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
@@ -91,10 +82,19 @@ const NavDrawr = ({ open, toggleDrawer, closeDrawer }: drawerProps) => {
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
         <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
           <>
-            <LogoutIcon color="primary" />
-            <Typography sx={{ color: "var(--gray-color)" }}>
-              {logInOut}
-            </Typography>
+            {isUserAuthorized ? (
+              <LogoutIcon color="primary" />
+            ) : (
+              <Login color="primary" />
+            )}
+            {logoutStatus !== "loading" && (
+              <Typography
+                onClick={handleLogout}
+                sx={{ color: "var(--gray-color)" }}
+              >
+                {logInOut}
+              </Typography>
+            )}
           </>
         </RowStack>
       </Drawer>

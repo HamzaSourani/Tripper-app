@@ -9,28 +9,18 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import useAnchorMenu from "../../customHooks/useAnchorMenu";
-import userDataHandler from "../../sharedFunction/userDataHandler";
-import axios from "axios";
-import { useAppDispatch } from "../../app/hooks";
-//import { logout } from "../features/UserAuthSlice";
+import useUserLogout from "../../customHooks/useUserLogout";
+
 const UserInfo = () => {
   const navigate = useNavigate();
-  const userData = userDataHandler();
-  const username = userData
-    ? ` ${userData.first_name} ${userData.last_name}`
-    : "";
+  const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
+  const userName = userInfo.name;
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
-  const dispatch = useAppDispatch();
-  // const handleLogout = async () => {
-  //   const res = await axios({
-  //     method: "get",
-  //     url: "http://tripper.dentatic.com/api/client/auth/logout",
-  //     headers: {
-  //       Accept: "application/json",
-  //     },
-  //   });
-  //   dispatch(logout);
-  // };
+  const [logoutStatus, handleUserLogout] = useUserLogout();
+  const handleLogout = () => {
+    handleUserLogout();
+    if (logoutStatus === "succeeded") handleCloseMenu();
+  };
   return (
     <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 0 }}>
       <Tooltip title="إعدادت المستخدم">
@@ -55,7 +45,7 @@ const UserInfo = () => {
         onClose={handleCloseMenu}
       >
         <MenuItem onClick={handleCloseMenu}>
-          <Typography textAlign="center">{username}</Typography>
+          <Typography textAlign="center">{userName}</Typography>
         </MenuItem>
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
         <MenuItem onClick={handleCloseMenu}>
@@ -63,7 +53,7 @@ const UserInfo = () => {
             ملف المستخدم
           </Typography>
         </MenuItem>
-        <MenuItem onClick={handleCloseMenu}>
+        <MenuItem onClick={handleLogout}>
           <Typography textAlign="center">تسجيل الخروج</Typography>
         </MenuItem>
       </Menu>

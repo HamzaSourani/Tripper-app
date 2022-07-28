@@ -12,9 +12,20 @@ import useAddToFavorite from "../customHooks/useAddToFavorite";
 type tripCardProps = {
   onClick?: () => void;
   canNotFavorite?: boolean;
+  description: string;
+  numberOfDays: number;
 };
-const TripCard = ({ onClick, canNotFavorite }: tripCardProps) => {
+const TripCard = ({
+  onClick,
+  canNotFavorite,
+  description,
+  numberOfDays,
+}: tripCardProps) => {
   const [addToFavorite, addToFavoriteHandler] = useAddToFavorite();
+  const descriptionEllipses =
+    description.length > description.slice(0, 110).length
+      ? `${description.slice(0, 110)}...`
+      : description;
   return (
     <Stack
       sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
@@ -69,7 +80,7 @@ const TripCard = ({ onClick, canNotFavorite }: tripCardProps) => {
         )}
         <IconTextStack right={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
           <Typography color={"text.primary"} variant="body1">
-            يوم1
+            يوم{numberOfDays}
           </Typography>
           <AccessTimeIcon color="primary" />
         </IconTextStack>
@@ -88,11 +99,21 @@ const TripCard = ({ onClick, canNotFavorite }: tripCardProps) => {
         </AvatarGroup>
       </Box>
       <Typography
-        style={{ marginRight: "12px" }}
+        sx={{
+          px: 1,
+          display: "-webkit-box",
+          WebkitBoxOrient: "vertical",
+
+          marginRight: "12px",
+          height: 48,
+          overflow: "hidden",
+
+          WebkitLineClamp: 2,
+        }}
         variant="body1"
         color={"GrayText"}
       >
-        ghgrheh hearh h erharhrf{" "}
+        {descriptionEllipses}
       </Typography>
     </Stack>
   );

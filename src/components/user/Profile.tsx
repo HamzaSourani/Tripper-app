@@ -4,13 +4,13 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import UserImg from "../../sharedComponents/UserImg";
-import userDataHandler from "../../sharedFunction/userDataHandler";
 import Tabs from "../../sharedComponents/tabs/Tabscomponent";
-import extracingtUserData from "../../sharedFunction/extracingtUserData";
+import { editUserProfile } from "../../sharedType/userType";
 const Profile = () => {
-  const userData = userDataHandler();
-
-  const { _userName, _userEmail } = extracingtUserData();
+  const userData: editUserProfile = JSON.parse(
+    localStorage.getItem("userInfo")!
+  );
+  const { userName, email } = userData;
 
   return (
     <>
@@ -40,8 +40,8 @@ const Profile = () => {
             alignItems={"center"}
           >
             <UserImg edit={true} />
-            <Typography variant="h5">{_userName}</Typography>
-            <Typography color={"GrayText"}>{_userEmail}</Typography>
+            <Typography variant="h5">{userName}</Typography>
+            <Typography color={"GrayText"}>{email}</Typography>
           </Stack>
           <Tabs tabsArray={["رحلاتي", "الأماكن", "المدن"]} />
         </Grid>

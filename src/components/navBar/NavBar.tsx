@@ -1,5 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -14,15 +16,14 @@ import useToggleEle from "../../customHooks/useToggleEle";
 import useViewSize from "../../customHooks/useViewSize";
 import UserInfo from "./UserInfo";
 import Drawer from "./NavDrawr";
-import userDataHandler from "../../sharedFunction/userDataHandler";
 
 const NavBar = () => {
-  const userData = userDataHandler();
-
   const navigate = useNavigate();
-
   const [open, handelOpen, handelClose] = useToggleEle();
   const viewSize = useViewSize({ _innerWidth: 900, _viewSize: false });
+  const isUserAuthorized = useAppSelector(
+    (state: RootState) => state.isUserAuthorized.state
+  );
   return (
     <>
       <Box flexGrow={1} mb={5}>
@@ -38,24 +39,18 @@ const NavBar = () => {
             >
               <MenuIcon />
             </IconButton>
-            {!viewSize && (
-              <Drawer
-                open={open}
-                toggleDrawer={handelOpen}
-                closeDrawer={handelClose}
-              />
-            )}
-            {!userData && (
+            {!viewSize && <Drawer open={open} closeDrawer={handelClose} />}
+            {!isUserAuthorized && (
               <Button
                 variant="contained"
                 sx={{ display: { xs: "none", md: "flex" } }}
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/login")}
                 endIcon={<LoginIcon />}
               >
-                إنشاء حساب
+                تسجيل الدخول
               </Button>
             )}
-            {userData && <UserInfo />}{" "}
+            {isUserAuthorized && <UserInfo />}{" "}
             <Stack
               direction={"row"}
               justifyContent="center"

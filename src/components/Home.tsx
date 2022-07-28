@@ -10,6 +10,7 @@ import PlaceCard from "../sharedComponents/PlaceCard";
 import useFetchPlaces from "../customHooks/useFetchPlaces";
 import useViewSize from "../customHooks/useViewSize";
 import useAnchorMenu from "../customHooks/useAnchorMenu";
+import useFetchTrips from "../customHooks/useFetchTrips";
 import InputFilter from "../sharedComponents/InputFilter";
 import FilterMenu from "../sharedComponents/FilterMenu";
 import { multiItem } from "../sharedData/carouselResponsive";
@@ -18,13 +19,12 @@ import isLoading from "../sharedFunction/isLoading";
 
 const Home = () => {
   const navigate = useNavigate();
-
   const [fetchGovernoratesStatus, governorates] = useFetchGovernorate();
-
+  const [fetchTripsStatus, trips] = useFetchTrips();
   const [fetchPalceStatus, places] = useFetchPlaces();
   const viewSize = useViewSize({});
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
-
+  console.log(fetchGovernoratesStatus);
   const openFilterHandler = (e: React.MouseEvent<HTMLElement>) => {
     if (viewSize) handleOpenMenu(e);
     else navigate("/filter");
@@ -32,9 +32,9 @@ const Home = () => {
 
   return (
     <div>
-      {(isLoading(fetchGovernoratesStatus) || isLoading(fetchPalceStatus)) && (
-        <Loading />
-      )}
+      {(isLoading(fetchGovernoratesStatus) ||
+        isLoading(fetchPalceStatus) ||
+        isLoading(fetchTripsStatus)) && <Loading />}
       <Outlet />
 
       <Grid container justifyContent={"center"}>
@@ -63,9 +63,14 @@ const Home = () => {
         </Grid>
         <Grid item xs={11}>
           <Carousel responsive={multiItem}>
-            {[1, 2, 3, 4, 5].map((i) => {
+            {trips.map((trip) => {
               return (
-                <TripCard key={i} onClick={() => navigate(`/trip/${i}`)} />
+                <TripCard
+                  key={trip.id}
+                  description={trip.description}
+                  numberOfDays={trip.number_of_days}
+                  canNotFavorite={true}
+                />
               );
             })}
           </Carousel>

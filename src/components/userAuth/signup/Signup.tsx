@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../../app/hooks";
-import { RootState } from "../../../app/store";
+import { useAppDispatch } from "../../../app/hooks";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -13,12 +11,12 @@ import InputText from "../../../sharedComponents/InputText";
 import InputSelect from "../../../sharedComponents/InputSelect";
 import LoadingButton from "../../../sharedComponents/LoadingButton";
 import useToggleEle from "../../../customHooks/useToggleEle";
-import useFetchUserData from "../../../customHooks/useFetchUserData";
+import useUserSignup from "../../../customHooks/useUserSignup";
 import Interests from "./Interests";
 import { userSignup } from "../../../sharedType/userType";
 import genderTypes from "../../../sharedData/genderTypes";
 import governorates from "../../../sharedData/governorates";
-
+import { checkUserStatus } from "../../../features/isUserAuthorizedSlice";
 const Signup = () => {
   const [open, handelOpen, handelClose] = useToggleEle();
   const [firstName, setFirstName] = useState<string>("");
@@ -28,7 +26,7 @@ const Signup = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [cityId, setCityId] = useState<string>("");
   const [gender, setGender] = useState<string>("");
-  const userData = useAppSelector((state: RootState) => state.userAuth);
+  const dispatch = useAppDispatch();
 
   const userInfo = {
     first_name: firstName,
@@ -40,10 +38,7 @@ const Signup = () => {
     city_id: cityId,
   } as userSignup;
 
-  const [authError, authStatus, handleUserAuth] = useFetchUserData(
-    userInfo,
-    "signup"
-  );
+  const [authError, authStatus, handleUserAuth] = useUserSignup(userInfo);
   const canSendData = [
     firstName,
     lastName,
@@ -56,9 +51,7 @@ const Signup = () => {
 
   useEffect(() => {
     if (authStatus === "succeeded") {
-      localStorage.clear();
-      localStorage.setItem("userData", JSON.stringify(userData));
-      console.log(JSON.parse(localStorage.getItem("userData")!));
+      dispatch(checkUserStatus());
       setCityId("");
       setEmail("");
       setFirstName("");
@@ -68,8 +61,7 @@ const Signup = () => {
       setPasswordConfirmation("");
       handelOpen();
     }
-  }, [authStatus, handelOpen, userData]);
-  // console.log(JSON.parse(localStorage.getItem("userData")!));
+  }, [authStatus, handelOpen, dispatch]);
 
   return (
     <Grid

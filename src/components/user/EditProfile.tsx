@@ -10,45 +10,52 @@ import InputPassword from "../../sharedComponents/InputPassword";
 import InputText from "../../sharedComponents/InputText";
 import InputSelect from "../../sharedComponents/InputSelect";
 import useToggleEle from "../../customHooks/useToggleEle";
+import useUpdataUserInfo from "../../customHooks/useUpdataUserInfo";
 import { editUserProfile } from "../../sharedType/userType";
+import alertType from "../../sharedType/alertType";
 import genderTypes from "../../sharedData/genderTypes";
 import governorates from "../../sharedData/governorates";
-import extracingtUserData from "../../sharedFunction/extracingtUserData";
 import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
+import LoadingButton from "../../sharedComponents/LoadingButton";
+import Snackbar from "../../sharedComponents/SnackbarComponent";
 import EditPassoword from "./EditPassoword";
 
 const EditProfile = () => {
-  const { _firstName, _lastName, _userEmail, _gender, _cityId } =
-    extracingtUserData();
-
-  const [open, handelOpen, handelClose] = useToggleEle();
-
-  const [firstName, setFirstName] = useState<string>(_firstName);
-  const [lastName, setLastName] = useState<string>(_lastName);
-  const [email, setEmail] = useState<string>(_userEmail);
+  const userData: editUserProfile = JSON.parse(
+    localStorage.getItem("userInfo")!
+  );
+  const [firstName, setFirstName] = useState<string>(userData.first_name);
+  const [lastName, setLastName] = useState<string>(userData.last_name);
+  const [name, setName] = useState<string>(userData.name);
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
-  const [cityId, setCityId] = useState<string>(_cityId);
-  const [gender, setGender] = useState<string>(_gender);
-
+  const [cityId, setCityId] = useState<string>(userData.city_id);
+  const [gender, setGender] = useState<string>(userData.gender);
+  const [alert, setAlert] = useState<alertType>("success");
+  const [responseMessage, setResponseMessage] = React.useState<string>("");
+  const [open, handelOpen, handelClose] = useToggleEle();
+  const [openSnackbar, handelOpenSnackbar, handelCloseSnackbar] =
+    useToggleEle();
   const userInfo = {
     first_name: firstName,
     last_name: lastName,
-    email,
-    password,
-    password_confirmation: passwordConfirmation,
+    name: name,
     gender,
     city_id: cityId,
   } as editUserProfile;
-  const canSendData = [
-    firstName,
-    lastName,
-    email,
-    password,
-    passwordConfirmation,
-    gender,
-    cityId,
-  ].every(Boolean);
+  const [updateUserInfoStatus, update] = useUpdataUserInfo(
+    userInfo,
+    setResponseMessage
+  );
+
+  React.useEffect(() => {
+    if (responseMessage === "Operation succeeded.") {
+      setAlert("success");
+      handelOpenSnackbar();
+      setResponseMessage("");
+    }
+  }, [responseMessage, handelOpenSnackbar]);
+
   return (
     <>
       <Grid
@@ -90,12 +97,6 @@ const EditProfile = () => {
                 value={lastName}
                 setValue={setLastName}
               />
-              <InputText
-                label="البريدالالكتروني"
-                type="email"
-                value={email}
-                setValue={setEmail}
-              />
 
               <InputSelect
                 label="المدينة"
@@ -119,21 +120,12 @@ const EditProfile = () => {
               </Typography>
             </Stack>
 
-            {/* {authStatus === "failed" && (
-        <Box sx={{ color: "red", textAlign: "center", my: 3 }}>
-          {authError}
-        </Box>
-      )}
-      {canSendData && (
-        <Button
-          variant="contained"
-          sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
-          onClick={handleUserAuth}
-          disabled={authStatus === "loading"}
-        >
-         حفظ التغيرات
-        </Button>
-      )} */}
+            <LoadingButton
+              onClick={update}
+              label="تعديل "
+              loading={updateUserInfoStatus === "loading"}
+              sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
+            />
           </Box>
         </Grid>
       </Grid>
@@ -159,6 +151,12 @@ const EditProfile = () => {
           />
         </Stack>
       </EditPassoword>
+      <Snackbar
+        alertType={alert}
+        open={openSnackbar}
+        handleClose={handelCloseSnackbar}
+        succeededMessage={"تم تعديل البيانات بنجاح"}
+      />
     </>
   );
 };

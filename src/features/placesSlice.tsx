@@ -3,16 +3,22 @@ import axios from "axios";
 import placesType from "../sharedType/placesType";
 import statusType from "../sharedType/fetchDataStatusType";
 
-export const fetchPlaces = createAsyncThunk("places/fetchPlaces", async () => {
-  const res = await axios({
-    method: "get",
-    url: `http://tripper.dentatic.com/api/places`,
-    headers: {
-      Accept: "application/json",
-    },
-  });
-  return res.data.data.data;
-});
+export const fetchPlaces = createAsyncThunk(
+  "places/fetchPlaces",
+  async (filter?: string) => {
+    const url = filter
+      ? `http://tripper.dentatic.com/api/places${filter}`
+      : "http://tripper.dentatic.com/api/places";
+    const res = await axios({
+      method: "get",
+      url: url,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return res.data.data.data;
+  }
+);
 type stateType = {
   places: placesType;
   status: statusType;

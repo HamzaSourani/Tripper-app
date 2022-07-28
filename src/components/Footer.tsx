@@ -14,6 +14,8 @@ const Footer = () => {
     <Grid
       container
       sx={{
+        position: "absolute",
+        bottom: 0,
         backgroundColor: "var(--dark-gray-color)",
         color: "var(--white-color)",
         mt: 5,
