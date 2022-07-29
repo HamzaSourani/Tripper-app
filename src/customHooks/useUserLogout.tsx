@@ -1,10 +1,12 @@
 import React from "react";
 import axios from "axios";
 import statusType from "../sharedType/fetchDataStatusType";
+import { useAppDispatch } from "../app/hooks";
+import { checkUserStatus } from "../features/isUserAuthorizedSlice";
 const useUserLogout = () => {
+  const dispatch = useAppDispatch();
   const [authStatus, setAuthStatus] = React.useState<statusType>("idle");
   const bearerToken = JSON.parse(localStorage.getItem("bearerToken")!);
-  console.log(bearerToken);
   const handleUserLogout = async () => {
     try {
       setAuthStatus("loading");
@@ -16,8 +18,11 @@ const useUserLogout = () => {
           Accept: "application/json",
         },
       });
-      localStorage.clear();
-      setAuthStatus("succeeded");
+      if (response.data.message === "Operation succeeded.") {
+        localStorage.clear();
+        dispatch(checkUserStatus());
+        setAuthStatus("succeeded");
+      }
     } catch (error) {
       setAuthStatus("failed");
     }

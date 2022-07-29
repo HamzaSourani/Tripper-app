@@ -1,5 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+
+import { RootState } from "../../app/store";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
@@ -13,8 +16,18 @@ import useUserLogout from "../../customHooks/useUserLogout";
 
 const UserInfo = () => {
   const navigate = useNavigate();
-  const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
-  const userName = userInfo.name;
+
+  const isUserAuthorized = useAppSelector(
+    (state: RootState) => state.isUserAuthorized.state
+  );
+
+  const userNameParagraph = React.useRef<HTMLParagraphElement>(null!);
+
+  if (isUserAuthorized && userNameParagraph.current !== null)
+    userNameParagraph.current.innerHTML = JSON.parse(
+      localStorage.getItem("userInfo")!
+    ).name;
+
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
   const [logoutStatus, handleUserLogout] = useUserLogout();
   const handleLogout = () => {
@@ -22,7 +35,12 @@ const UserInfo = () => {
     if (logoutStatus === "succeeded") handleCloseMenu();
   };
   return (
-    <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 0 }}>
+    <Box
+      sx={{
+        display: { xs: "none", md: "flex" },
+        flexGrow: 0,
+      }}
+    >
       <Tooltip title="إعدادت المستخدم">
         <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
           <Avatar alt="" src="" />
@@ -45,7 +63,7 @@ const UserInfo = () => {
         onClose={handleCloseMenu}
       >
         <MenuItem onClick={handleCloseMenu}>
-          <Typography textAlign="center">{userName}</Typography>
+          <Typography ref={userNameParagraph} textAlign="center"></Typography>
         </MenuItem>
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
         <MenuItem onClick={handleCloseMenu}>

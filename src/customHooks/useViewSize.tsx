@@ -9,7 +9,7 @@ const useViewSize = ({ _viewSize, _innerWidth }: viewSizeProps) => {
     _viewSize ? _viewSize : isLargeScreen
   );
   const inner = _innerWidth ? _innerWidth : 600;
-  console.log(inner);
+
   React.useEffect(() => {
     const isMideumOrlarger = () => {
       if (window.innerWidth >= inner) setViewSize(true);

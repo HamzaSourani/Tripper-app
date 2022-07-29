@@ -11,10 +11,11 @@ const isUserAuthorized = createSlice({
   initialState,
   reducers: {
     checkUserStatus(state) {
-      if (localStorage.getItem("bearerToken") !== null)
-        if (localStorage.getItem("bearerToken")?.length !== 0)
-          state.state = true;
-        else state.state = false;
+      if (
+        localStorage.getItem("bearerToken") !== null &&
+        localStorage.getItem("userInfo") !== null
+      )
+        state.state = true;
       else state.state = false;
     },
   },

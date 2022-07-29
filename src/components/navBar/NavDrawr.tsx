@@ -14,6 +14,7 @@ import RowStack from "../../sharedComponents/RowStack";
 import NavigationIcon from "../../sharedComponents/NavigationIconLarg";
 import useUserLogout from "../../customHooks/useUserLogout";
 import { Login } from "@mui/icons-material";
+import useViewSize from "../../customHooks/useViewSize";
 type drawerProps = {
   open: boolean;
   closeDrawer: () => void;
@@ -21,18 +22,14 @@ type drawerProps = {
 
 const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
   const navigate = useNavigate();
+
   const isUserAuthorized = useAppSelector(
     (state: RootState) => state.isUserAuthorized.state
   );
   const [logoutStatus, handleUserLogout] = useUserLogout();
-  const logInOut = isUserAuthorized ? "تسجيل الخروج" : "إنشاء حساب";
-  const navigateToHandler = (to: string) => navigate(to);
-  const userNameHandler = () => {
-    if (localStorage.getItem("userInfo") !== null) {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo")!);
-      return userInfo.name;
-    } else return "user name";
-  };
+
+  const logInOut = isUserAuthorized ? "تسجيل الخروج" : "تسجيل الدخول";
+
   const handleLogout = () => {
     if (isUserAuthorized) handleUserLogout();
     else navigate("/login");
@@ -40,6 +37,7 @@ const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
   const handleLog = () => {
     if (!isUserAuthorized) navigate("/signup");
   };
+
   return (
     <>
       <Drawer
@@ -47,6 +45,7 @@ const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
         open={open}
         onClose={closeDrawer}
         sx={{
+          display: { xs: "flex", md: "none" },
           "& .MuiPaper-root": {
             py: 8,
             px: 5,
@@ -54,13 +53,17 @@ const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
           },
         }}
       >
-        <Stack sx={{ mr: 12, mb: 3 }} alignItems="center" spacing={1}>
-          <Avatar src="" alt="" sx={{ width: 80, height: 80 }} />
-          <Typography variant="h6" sx={{ color: "var(--gray-color)" }}>
-            {userNameHandler()}
-          </Typography>
-        </Stack>
-        <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
+        {isUserAuthorized && (
+          <>
+            <Stack sx={{ mr: 12, mb: 3 }} alignItems="center" spacing={1}>
+              <Avatar src="" alt="" sx={{ width: 80, height: 80 }} />
+              <Typography variant="h6" sx={{ color: "var(--gray-color)" }}>
+                {JSON.parse(localStorage.getItem("userInfo")!).name}
+              </Typography>
+            </Stack>
+            <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
+          </>
+        )}
         <NavigationIcon closeDrawer={closeDrawer} />
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
         <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
@@ -80,7 +83,7 @@ const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
           </>
         </RowStack>
         <Divider sx={{ backgroundColor: "var(--golden-color)" }} />
-        <RowStack onClick={handleLog} closeDrawer={closeDrawer}>
+        <RowStack onClick={handleLogout} closeDrawer={closeDrawer}>
           <>
             {isUserAuthorized ? (
               <LogoutIcon color="primary" />
@@ -88,10 +91,7 @@ const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
               <Login color="primary" />
             )}
             {logoutStatus !== "loading" && (
-              <Typography
-                onClick={handleLogout}
-                sx={{ color: "var(--gray-color)" }}
-              >
+              <Typography sx={{ color: "var(--gray-color)" }}>
                 {logInOut}
               </Typography>
             )}

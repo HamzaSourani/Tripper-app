@@ -24,7 +24,7 @@ const Home = () => {
   const [fetchPalceStatus, places] = useFetchPlaces();
   const viewSize = useViewSize({});
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
-  console.log(fetchGovernoratesStatus);
+
   const openFilterHandler = (e: React.MouseEvent<HTMLElement>) => {
     if (viewSize) handleOpenMenu(e);
     else navigate("/filter");

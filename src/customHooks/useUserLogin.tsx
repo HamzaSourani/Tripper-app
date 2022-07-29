@@ -2,10 +2,12 @@ import React from "react";
 import axios from "axios";
 import { userLogin } from "../sharedType/userType";
 import statusType from "../sharedType/fetchDataStatusType";
-import fetchProfile from "../sharedFunction/fetchProfile";
+import useFetchProfile from "./useFetchProfile";
+
 const useUserLogin = (userInfo: userLogin) => {
   const [authStatus, setAuthStatus] = React.useState<statusType>("idle");
   const [authError, setAuthError] = React.useState<string>("");
+  const fetchProfile = useFetchProfile();
   const handleUserAuth = async () => {
     try {
       setAuthStatus("loading");
@@ -18,13 +20,15 @@ const useUserLogin = (userInfo: userLogin) => {
           Accept: "application/json",
         },
       });
-      localStorage.removeItem("bearerToken");
-      localStorage.setItem(
-        "bearerToken",
-        JSON.stringify(response.data.data.bearer_token)
-      );
-      fetchProfile();
-      setAuthStatus("succeeded");
+      if (response.data.data.bearer_token) {
+        localStorage.removeItem("bearerToken");
+        localStorage.setItem(
+          "bearerToken",
+          JSON.stringify(response.data.data.bearer_token)
+        );
+        fetchProfile(response.data.data.bearer_token);
+        setAuthStatus("succeeded");
+      }
     } catch (error) {
       setAuthStatus("failed");
       console.log(error);

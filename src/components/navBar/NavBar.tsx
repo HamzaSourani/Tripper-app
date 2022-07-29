@@ -13,17 +13,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Brand from "../../sharedComponents/Brand";
 import NavigationIcon from "../../sharedComponents/NavigationIcon";
 import useToggleEle from "../../customHooks/useToggleEle";
-import useViewSize from "../../customHooks/useViewSize";
 import UserInfo from "./UserInfo";
 import Drawer from "./NavDrawr";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [open, handelOpen, handelClose] = useToggleEle();
-  const viewSize = useViewSize({ _innerWidth: 900, _viewSize: false });
+
   const isUserAuthorized = useAppSelector(
     (state: RootState) => state.isUserAuthorized.state
   );
+
   return (
     <>
       <Box flexGrow={1} mb={5}>
@@ -39,17 +39,17 @@ const NavBar = () => {
             >
               <MenuIcon />
             </IconButton>
-            {!viewSize && <Drawer open={open} closeDrawer={handelClose} />}
-            {!isUserAuthorized && (
-              <Button
-                variant="contained"
-                sx={{ display: { xs: "none", md: "flex" } }}
-                onClick={() => navigate("/login")}
-                endIcon={<LoginIcon />}
-              >
-                تسجيل الدخول
-              </Button>
-            )}
+            {<Drawer open={open} closeDrawer={handelClose} />}
+            <Button
+              variant="contained"
+              sx={{
+                display: isUserAuthorized ? "none" : { xs: "none", md: "flex" },
+              }}
+              onClick={() => navigate("/login")}
+              endIcon={<LoginIcon />}
+            >
+              تسجيل الدخول
+            </Button>
             {isUserAuthorized && <UserInfo />}{" "}
             <Stack
               direction={"row"}
