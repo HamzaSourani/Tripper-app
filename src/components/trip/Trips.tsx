@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Outlet, useNavigate, useLocation, useParams } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
@@ -9,10 +9,21 @@ import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
 import useFetchTrips from "../../customHooks/useFetchTrips";
 import Loading from "../../sharedComponents/Loading";
 import isLoading from "../../sharedFunction/isLoading";
+type paramsType = Partial<{
+  governorateId: string;
+  placeId: string;
+}>;
 const Trips = () => {
+  const { governorateId, placeId } = useParams<paramsType>();
+
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [fetchTripsStatus, trips] = useFetchTrips();
+  const [fetchTripsStatus, trips] = useFetchTrips(
+    governorateId
+      ? `filter[city_id]=${governorateId}`
+      : `filter[place_id]=${placeId}`
+  );
+  console.log(placeId);
   return (
     <>
       <Outlet />
@@ -32,13 +43,8 @@ const Trips = () => {
           </Grid>
           {trips.map((trip) => {
             return (
-              <Grid item xs={11} sm={6} md={4}>
-                <TripCard
-                  key={trip.id}
-                  description={trip.description}
-                  numberOfDays={trip.number_of_days}
-                  canNotFavorite={true}
-                />{" "}
+              <Grid key={trip.id} item xs={11} sm={6} md={4}>
+                <TripCard key={trip.id} props={trip} canNotFavorite={true} />{" "}
               </Grid>
             );
           })}

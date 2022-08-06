@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../../app/hooks";
+import { checkUserStatus } from "../../../features/isUserAuthorizedSlice";
+import { setSnackbarParam } from "../../../features/snackbarSlice";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -10,15 +12,15 @@ import InputPassword from "../../../sharedComponents/InputPassword";
 import InputText from "../../../sharedComponents/InputText";
 import InputSelect from "../../../sharedComponents/InputSelect";
 import LoadingButton from "../../../sharedComponents/LoadingButton";
+import Snackbar from "../../../sharedComponents/SnackbarComponent";
 import useToggleEle from "../../../customHooks/useToggleEle";
 import useUserSignup from "../../../customHooks/useUserSignup";
 import Interests from "./Interests";
 import { userSignup } from "../../../sharedType/userType";
 import genderTypes from "../../../sharedData/genderTypes";
 import governorates from "../../../sharedData/governorates";
-import { checkUserStatus } from "../../../features/isUserAuthorizedSlice";
+
 const Signup = () => {
-  const [open, handelOpen, handelClose] = useToggleEle();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -26,6 +28,9 @@ const Signup = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [cityId, setCityId] = useState<string>("");
   const [gender, setGender] = useState<string>("");
+
+  const [open, handelOpen, handelClose] = useToggleEle();
+
   const dispatch = useAppDispatch();
 
   const userInfo = {
@@ -52,6 +57,12 @@ const Signup = () => {
   useEffect(() => {
     if (authStatus === "succeeded") {
       dispatch(checkUserStatus());
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "تم إنشاء الحساب بنجاح",
+          alertType: "success",
+        })
+      );
       setCityId("");
       setEmail("");
       setFirstName("");
@@ -60,6 +71,13 @@ const Signup = () => {
       setPassword("");
       setPasswordConfirmation("");
       handelOpen();
+    } else if (authStatus === "failed") {
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "حدث خطاء ما عند عملية إنشاء الحساب",
+          alertType: "error",
+        })
+      );
     }
   }, [authStatus, handelOpen, dispatch]);
 

@@ -20,12 +20,12 @@ const useUserSignup = (userInfo: userSignup) => {
         },
       });
       if (response.data.data.bearer_token) {
-        localStorage.removeItem("bearerToken");
+        localStorage.clear();
         localStorage.setItem(
           "brearToken",
           JSON.stringify(response.data.data.bearer_token)
         );
-        fetchProfile(response.data.data.bearer_token);
+        localStorage.setItem("userInfo", JSON.stringify(response.data.data));
         setAuthStatus("succeeded");
       }
     } catch (error) {

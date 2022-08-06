@@ -1,10 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import statusType from "../sharedType/fetchDataStatusType";
 import { useAppDispatch } from "../app/hooks";
 import { checkUserStatus } from "../features/isUserAuthorizedSlice";
 const useUserLogout = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [authStatus, setAuthStatus] = React.useState<statusType>("idle");
   const bearerToken = JSON.parse(localStorage.getItem("bearerToken")!);
   const handleUserLogout = async () => {
@@ -22,6 +24,7 @@ const useUserLogout = () => {
         localStorage.clear();
         dispatch(checkUserStatus());
         setAuthStatus("succeeded");
+        window.location.href = "/home";
       }
     } catch (error) {
       setAuthStatus("failed");

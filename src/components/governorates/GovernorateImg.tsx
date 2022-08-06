@@ -42,7 +42,7 @@ const GovernorateImg = ({ img, governorateName }: governorateImgProps) => {
           right: 0,
           width: "100%",
           height: "100%",
-          background: "linear-gradient(0deg,rgba(0,0,150,.5), transparent)",
+          background: "linear-gradient(0deg,rgb(9 0 150 / 28%), transparent)",
           borderRadius: "inherit",
         }}
       ></Box>

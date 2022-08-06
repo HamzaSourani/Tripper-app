@@ -105,7 +105,7 @@ const Interests = ({ open, handelClose }: interestsProps) => {
       <Button
         variant="contained"
         sx={{ mx: "5%" }}
-        onClick={() => navigate("/home")}
+        onClick={() => (window.location.href = "/home")}
       >
         متابعة
       </Button>

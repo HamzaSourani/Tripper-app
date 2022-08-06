@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import { product } from "../sharedType/placeType";
+import product from "../../sharedType/productsType";
 const ProductCard = (props: product) => {
   return (
     <Stack

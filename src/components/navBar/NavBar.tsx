@@ -23,7 +23,7 @@ const NavBar = () => {
   const isUserAuthorized = useAppSelector(
     (state: RootState) => state.isUserAuthorized.state
   );
-
+  console.log(isUserAuthorized);
   return (
     <>
       <Box flexGrow={1} mb={5}>

@@ -9,6 +9,9 @@ import goToSignupReducer from "../features/goToSignupSlice";
 import tripsReducer from "../features/tripsSlice";
 import placeReducer from "../features/placeSilce";
 import isUserAuthorizedReducer from "../features/isUserAuthorizedSlice";
+import snackbarReducer from "../features/snackbarSlice";
+import userFavoriteReducer from "../features/userFavoritesSlice";
+import placeTypeReducer from "../features/fetchPlaceTypeSlice";
 export const store = configureStore({
   reducer: {
     userAuth: UserAuth,
@@ -21,6 +24,9 @@ export const store = configureStore({
     goToSignup: goToSignupReducer,
     trips: tripsReducer,
     isUserAuthorized: isUserAuthorizedReducer,
+    snackbar: snackbarReducer,
+    userFavorite: userFavoriteReducer,
+    placeType: placeTypeReducer,
   },
 });
 

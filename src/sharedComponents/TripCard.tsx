@@ -8,24 +8,26 @@ import IconTextStack from "./IconTextStack";
 import AvatarGroup from "./AvatarGroup";
 import AddToFavorite from "../sharedComponents/AddToFavorite";
 import useAddToFavorite from "../customHooks/useAddToFavorite";
-
+import useShowIfItFavorite from "../customHooks/useShowIfItFavorite";
+import formatDate from "../sharedFunction/formatDate";
+import tripsType from "../sharedType/tripsType";
 type tripCardProps = {
   onClick?: () => void;
   canNotFavorite?: boolean;
-  description: string;
-  numberOfDays: number;
+  props: tripsType;
 };
-const TripCard = ({
-  onClick,
-  canNotFavorite,
-  description,
-  numberOfDays,
-}: tripCardProps) => {
-  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite();
+const TripCard = ({ onClick, canNotFavorite, props }: tripCardProps) => {
+  const [favorites, setFavorites] = React.useState<number>(0);
+  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite({
+    data: { favorable_type: "journey", favorable_id: props.id },
+    setFavorites,
+    favorites: favorites,
+  });
+  const { mounth, day } = formatDate(props.started_at);
   const descriptionEllipses =
-    description.length > description.slice(0, 110).length
-      ? `${description.slice(0, 110)}...`
-      : description;
+    props.description.length > props.description.slice(0, 110).length
+      ? `${props.description.slice(0, 110)}...`
+      : props.description;
   return (
     <Stack
       sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
@@ -75,18 +77,21 @@ const TripCard = ({
             alignItems="center"
             onClick={addToFavoriteHandler}
           >
-            <AddToFavorite addToFavorite={addToFavorite} />
+            <AddToFavorite
+              addToFavorite={addToFavorite}
+              itIsFavorite={Boolean(props.is_favorite)}
+            />
           </Stack>
         )}
         <IconTextStack right={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
           <Typography color={"text.primary"} variant="body1">
-            يوم{numberOfDays}
+            يوم{props.number_of_days}
           </Typography>
           <AccessTimeIcon color="primary" />
         </IconTextStack>
         <IconTextStack left={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
           <Typography color={"text.primary"} variant="body1">
-            15 نيسان
+            {mounth + " " + day}
           </Typography>
           <DateRangeIcon color="primary" />
         </IconTextStack>

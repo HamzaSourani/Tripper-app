@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext } from "react";
 import { useParams, Outlet } from "react-router-dom";
 import TripImg from "./TripImg";
 import Grid from "@mui/material/Grid";
@@ -8,6 +8,7 @@ import Comments from "../../sharedComponents/Comments";
 import useFetchTrips from "../../customHooks/useFetchTrips";
 import Loading from "../../sharedComponents/Loading";
 import isLoading from "../../sharedFunction/isLoading";
+
 type paramsType = {
   tripId: string | undefined;
 };
@@ -21,11 +22,15 @@ const TripDetails = () => {
     if (typeof trip !== "undefined") {
       return (
         <>
+          {}
           {isLoading(fetchTripsStatus) && <Loading />}
           <Outlet />
           <Grid container justifyContent={"center"} spacing={3}>
             <Grid item xs={11} md={9} lg={5.5}>
-              <TripImg numberOfDays={trip.number_of_days} />
+              <TripImg
+                numberOfDays={trip.number_of_days}
+                favorable_id={trip.id}
+              />
             </Grid>
             <Grid item xs={11} md={9} lg={5.5}>
               <Stack spacing={2}>

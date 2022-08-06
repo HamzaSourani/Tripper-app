@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../app/hooks";
 import { mountComment } from "../features/PlaceAddCommentSlice";
 import Typography from "@mui/material/Typography";
@@ -13,32 +13,29 @@ import StarIcon from "@mui/icons-material/Star";
 import Grid from "@mui/material/Grid";
 import AddToFavorite from "../sharedComponents/AddToFavorite";
 import useAddToFavorite from "../customHooks/useAddToFavorite";
-
+import useShowIfItFavorite from "../customHooks/useShowIfItFavorite";
+import placeCardsType from "../sharedType/placeCardsType";
 type placeType = {
-  props: {
-    id: string;
-    name: string;
-    img: null;
-    place_type: string;
-    address: string;
-    street_address: string;
-    city: string;
-    country: "الجمهورية العربية السورية";
-    comment: number;
-    review: null;
-    favorites: number;
-  };
+  props: placeCardsType;
   onClick: () => void;
 };
 const PlaceCard = ({ onClick, props }: placeType) => {
   const navigate = useNavigate();
-  const { pathname } = useLocation();
   const dispatch = useAppDispatch();
+  const [favorites, setFavorites] = React.useState<number>(props.favorites);
   const addCommentHandler = () => {
     dispatch(mountComment());
-    navigate(`${pathname}/place/${props.id}`);
+    navigate(`/place/${props.id}`);
   };
-  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite();
+  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite({
+    data: { favorable_type: "place", favorable_id: props.id },
+    setFavorites: setFavorites,
+    favorites: favorites,
+  });
+
+  const handlerAddToFavorite = () => {
+    addToFavoriteHandler();
+  };
   return (
     <Stack
       sx={{ boxShadow: 3, pb: 1, borderRadius: ".5rem" }}
@@ -70,7 +67,7 @@ const PlaceCard = ({ onClick, props }: placeType) => {
             borderRadius: "inherit",
           }}
           component={"img"}
-          src="/images/aleppo.jpg"
+          src={props.media[0].original_url}
         ></Box>
 
         <IconTextStack left={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
@@ -102,10 +99,13 @@ const PlaceCard = ({ onClick, props }: placeType) => {
             direction={"row"}
             alignItems="center"
             spacing={1}
-            onClick={addToFavoriteHandler}
+            onClick={handlerAddToFavorite}
           >
-            <AddToFavorite addToFavorite={addToFavorite} />
-            <Typography>{props.favorites}</Typography>
+            <AddToFavorite
+              addToFavorite={addToFavorite}
+              itIsFavorite={Boolean(props.is_favorite)}
+            />
+            <Typography>{favorites}</Typography>
           </Stack>
         </Grid>
         <Grid item xs={3}>
@@ -130,7 +130,7 @@ const PlaceCard = ({ onClick, props }: placeType) => {
           <Grid item xs={6} sm={5}>
             <Stack direction={"row"} alignItems="center" spacing={1}>
               <StarIcon sx={{ color: "var(--golden-color)" }} />
-              <Typography>4.5</Typography>
+              <Typography>{props.review}</Typography>
             </Stack>
           </Grid>
         </Grid>

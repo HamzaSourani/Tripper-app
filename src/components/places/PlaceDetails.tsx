@@ -24,13 +24,15 @@ type paramsType = {
 
 const PlaceDetails = () => {
   const { placeId } = useParams<paramsType>();
-  const [fetchPalceStatus, place] = useFetchPlace(placeId!);
+
+  const istherePlace = typeof placeId !== "undefined" ? placeId : "";
+  const [fetchPalceStatus, place] = useFetchPlace(istherePlace);
+
   const [fetchTripsStatus, trips] = useFetchTrips(
     `?filter[place_id]=${placeId}`
   );
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
   if (typeof placeId !== "undefined") {
     return (
       <>
@@ -41,10 +43,11 @@ const PlaceDetails = () => {
         <Grid container justifyContent={"center"} spacing={3}>
           <Grid item xs={11} md={9} lg={5.5}>
             <PlaceImg
-              img={"/images/aleppo.jpg"}
-              governorateName={""}
-              isFavorite={true}
-              rate={4.2}
+              media={place?.media}
+              governorateName={place?.city}
+              rate={place?.review}
+              favorable_id={placeId}
+              itIsFavorite={place?.is_favorite}
             />
           </Grid>
           <Grid item xs={11} md={9} lg={5.5}>
@@ -56,9 +59,9 @@ const PlaceDetails = () => {
               <Typography color={"GrayText"}>{place?.description}</Typography>
               <Stack direction={"row"} justifyContent={"center"} spacing={3}>
                 {place?.place_type_tag.map((hashTag) => {
-                  console.log(hashTag.tag.name);
                   return (
                     <Typography
+                      key={hashTag.tag.id}
                       color={"GrayText"}
                       sx={{ px: 1, py: 0.5, boxShadow: 3 }}
                     >{`${hashTag.tag.name}#`}</Typography>
@@ -85,12 +88,7 @@ const PlaceDetails = () => {
             <Carousel responsive={multiItem}>
               {trips.map((trip) => {
                 return (
-                  <TripCard
-                    key={trip.id}
-                    description={trip.description}
-                    numberOfDays={trip.number_of_days}
-                    canNotFavorite={false}
-                  />
+                  <TripCard key={trip.id} props={trip} canNotFavorite={false} />
                 );
               })}
             </Carousel>
@@ -140,8 +138,8 @@ const PlaceDetails = () => {
           </Grid>
           <Grid item xs={11}>
             <Carousel responsive={multiItem}>
-              {[1, 2, 3, 4, 5].map((i) => {
-                return <ProductCard key={i} />;
+              {place?.products.map((product) => {
+                return <ProductCard key={product.id} {...product} />;
               })}
             </Carousel>
           </Grid>

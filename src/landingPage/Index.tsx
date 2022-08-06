@@ -13,9 +13,10 @@ import Loading from "../sharedComponents/Loading";
 import isLoading from "../sharedFunction/isLoading";
 import { singleItem, multiItem } from "../sharedData/carouselResponsive";
 import useFetchTrips from "../customHooks/useFetchTrips";
-
+import useFetchProducts from "../customHooks/useFetchProducts";
 const Index = () => {
   const [fetchTripsStatus, trips] = useFetchTrips();
+  const products = useFetchProducts();
   return (
     <>
       {isLoading(fetchTripsStatus) && <Loading />}
@@ -86,12 +87,7 @@ const Index = () => {
           <Carousel responsive={singleItem}>
             {trips.map((trip) => {
               return (
-                <TripCard
-                  key={trip.id}
-                  description={trip.description}
-                  numberOfDays={trip.number_of_days}
-                  canNotFavorite={true}
-                />
+                <TripCard key={trip.id} props={trip} canNotFavorite={true} />
               );
             })}
           </Carousel>
@@ -167,8 +163,8 @@ const Index = () => {
             المنتجات الأكثر طلباً
           </Typography>
           <Carousel responsive={multiItem}>
-            {[1, 2, 3, 4, 5].map((i) => {
-              return <ProductCard key={i} />;
+            {products.map((product) => {
+              return <ProductCard key={product.id} {...product} />;
             })}
           </Carousel>
         </Grid>

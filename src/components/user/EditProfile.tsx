@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { setSnackbarParam } from "../../features/snackbarSlice";
+import { useAppDispatch } from "../../app/hooks";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -12,12 +12,10 @@ import InputSelect from "../../sharedComponents/InputSelect";
 import useToggleEle from "../../customHooks/useToggleEle";
 import useUpdataUserInfo from "../../customHooks/useUpdataUserInfo";
 import { editUserProfile } from "../../sharedType/userType";
-import alertType from "../../sharedType/alertType";
 import genderTypes from "../../sharedData/genderTypes";
 import governorates from "../../sharedData/governorates";
 import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
 import LoadingButton from "../../sharedComponents/LoadingButton";
-import Snackbar from "../../sharedComponents/SnackbarComponent";
 import EditPassoword from "./EditPassoword";
 
 const EditProfile = () => {
@@ -31,11 +29,9 @@ const EditProfile = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [cityId, setCityId] = useState<string>(userData.city_id);
   const [gender, setGender] = useState<string>(userData.gender);
-  const [alert, setAlert] = useState<alertType>("success");
   const [responseMessage, setResponseMessage] = React.useState<string>("");
   const [open, handelOpen, handelClose] = useToggleEle();
-  const [openSnackbar, handelOpenSnackbar, handelCloseSnackbar] =
-    useToggleEle();
+  const dispatch = useAppDispatch();
   const userInfo = {
     first_name: firstName,
     last_name: lastName,
@@ -50,11 +46,22 @@ const EditProfile = () => {
 
   React.useEffect(() => {
     if (responseMessage === "Operation succeeded.") {
-      setAlert("success");
-      handelOpenSnackbar();
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "تم إنشاء الحساب بنجاح",
+          alertType: "success",
+        })
+      );
       setResponseMessage("");
+    } else if (updateUserInfoStatus === "failed") {
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "حدث خطاء ما عند عملية إنشاء الحساب",
+          alertType: "error",
+        })
+      );
     }
-  }, [responseMessage, handelOpenSnackbar]);
+  }, [responseMessage, dispatch, updateUserInfoStatus]);
 
   return (
     <>
@@ -151,12 +158,6 @@ const EditProfile = () => {
           />
         </Stack>
       </EditPassoword>
-      <Snackbar
-        alertType={alert}
-        open={openSnackbar}
-        handleClose={handelCloseSnackbar}
-        succeededMessage={"تم تعديل البيانات بنجاح"}
-      />
     </>
   );
 };

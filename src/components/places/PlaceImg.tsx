@@ -7,19 +7,24 @@ import StarIcon from "@mui/icons-material/Star";
 import Typography from "@mui/material/Typography";
 import IconTextStack from "../../sharedComponents/IconTextStack";
 import FavoriteIconContainer from "../../sharedComponents/FavoriteIconContainer";
+import { media } from "../../sharedType/placeType";
+import ImgCrousel from "../../sharedComponents/ImgCarousel";
 type placeImgProps = {
-  img: string;
+  media?: media[];
   governorateName: string | undefined;
-  isFavorite: boolean;
-  rate: number;
+  rate?: number | null;
+  favorable_id: string;
+  itIsFavorite?: number | null;
 };
 const PlaceImg = ({
-  img,
+  media,
   governorateName,
-  isFavorite,
   rate,
+  favorable_id,
+  itIsFavorite,
 }: placeImgProps) => {
   const navigate = useNavigate();
+
   return (
     <Box
       sx={{
@@ -30,34 +35,10 @@ const PlaceImg = ({
         borderRadius: ".5rem",
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          width: "100%",
-          height: "-webkit-fill-available",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          borderRadius: "inherit",
-        }}
-        component={"img"}
-        src={img ? img : "/images/aleppo.jpg"}
-      ></Box>
+      <ImgCrousel
+        imgSrcs={media ? media.map((i) => i.original_url) : ["!", "2", "3"]}
+      />
 
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          width: "100%",
-          height: "100%",
-          background: "linear-gradient(0deg,rgba(0,0,150,.5), transparent)",
-          borderRadius: "inherit",
-        }}
-      ></Box>
       <IconTextStack
         sx={{ display: { lg: "none" } }}
         _onClick={() => navigate(-1)}
@@ -78,11 +59,15 @@ const PlaceImg = ({
       <IconTextStack bottom={20} right={{ xs: 10, md: 20 }}>
         <>
           <StarIcon sx={{ color: "var(--golden-color)" }} />
-          <Typography color={"GrayText"}>{rate}</Typography>
+          <Typography color={"GrayText"}>{Number(rate)}</Typography>
         </>
       </IconTextStack>
 
-      <FavoriteIconContainer />
+      <FavoriteIconContainer
+        favorable_type="place"
+        favorable_id={favorable_id}
+        itIsFavorite={Boolean(itIsFavorite)}
+      />
     </Box>
   );
 };

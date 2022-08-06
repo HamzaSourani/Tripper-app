@@ -1,26 +1,33 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import placesType from "../sharedType/placesType";
+import placeCardsType from "../sharedType/placeCardsType";
 import statusType from "../sharedType/fetchDataStatusType";
 
 export const fetchPlaces = createAsyncThunk(
   "places/fetchPlaces",
   async (filter?: string) => {
     const url = filter
-      ? `http://tripper.dentatic.com/api/places${filter}`
+      ? `http://tripper.dentatic.com/api/places?${filter}`
       : "http://tripper.dentatic.com/api/places";
+    const bearerToken: string = (() => {
+      if (localStorage.getItem("bearerToken") !== null)
+        return localStorage.getItem("bearerToken")!;
+      else return "";
+    })();
+
     const res = await axios({
       method: "get",
       url: url,
       headers: {
         Accept: "application/json",
+        Authorization: bearerToken ? ` Bearer ${JSON.parse(bearerToken)}` : "",
       },
     });
     return res.data.data.data;
   }
 );
 type stateType = {
-  places: placesType;
+  places: placeCardsType[];
   status: statusType;
 };
 const initialState: stateType = {

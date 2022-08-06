@@ -6,11 +6,17 @@ import statusType from "../sharedType/fetchDataStatusType";
 export const fetchPlace = createAsyncThunk(
   "place/fetchPlace",
   async (placeId: string) => {
+    const bearerToken: string = (() => {
+      if (localStorage.getItem("bearerToken") !== null)
+        return localStorage.getItem("bearerToken")!;
+      else return "";
+    })();
     const res = await axios({
       method: "get",
       url: `http://tripper.dentatic.com/api/places/${placeId}`,
       headers: {
         Accept: "application/json",
+        Authorization: bearerToken ? ` Bearer ${JSON.parse(bearerToken)}` : "",
       },
     });
     return res.data.data;

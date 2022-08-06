@@ -7,8 +7,8 @@ const useFetchTrips = (filter?: string) => {
   const status = useAppSelector((state: RootState) => state.trips.status);
   const trips = useAppSelector((state: RootState) => state.trips.trips);
   React.useEffect(() => {
-    if (status === "idle") dispatch(fetchTrips(filter));
-  }, [dispatch, filter, status]);
+    dispatch(fetchTrips(filter));
+  }, [dispatch, filter]);
   return [status, trips] as const;
 };
 

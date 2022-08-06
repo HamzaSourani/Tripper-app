@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import InputFilter from "../../sharedComponents/InputFilter";
@@ -10,7 +11,7 @@ import OutlineGoBack from "../../sharedComponents/OutlineGoBack";
 const Places = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const places = useAppSelector((state) => state.places.places);
+  const places = useAppSelector((state: RootState) => state.places.places);
   return (
     <>
       <Outlet />

@@ -10,11 +10,12 @@ const useFetchPlace = (id: string) => {
   const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    if (typeof place === "undefined") dispatch(fetchPlace(id));
-    else if (id !== place.id) {
-      dispatch(fetchPlace(id));
-    }
-  }, [dispatch, id, place]);
+    // if (typeof place === "undefined") dispatch(fetchPlace(id));
+    // else if (id !== place.id) {
+    //   dispatch(fetchPlace(id));
+    // }
+    dispatch(fetchPlace(id));
+  }, [dispatch, id]);
   return [fetchPlaceStatus, place] as const;
 };
 

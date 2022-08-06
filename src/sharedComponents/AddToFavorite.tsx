@@ -3,11 +3,12 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 type addToFavoriteProps = {
   addToFavorite: boolean;
+  itIsFavorite: boolean;
 };
-const AddToFavorite = ({ addToFavorite }: addToFavoriteProps) => {
+const AddToFavorite = ({ addToFavorite, itIsFavorite }: addToFavoriteProps) => {
   return (
     <>
-      {addToFavorite ? (
+      {addToFavorite || itIsFavorite ? (
         <FavoriteIcon
           sx={{
             color: "red",

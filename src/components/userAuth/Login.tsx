@@ -9,11 +9,14 @@ import InputText from "../../sharedComponents/InputText";
 import Brand from "../../sharedComponents/Brand";
 import LoadingButton from "../../sharedComponents/LoadingButton";
 import useUserLogin from "../../customHooks/useUserLogin";
+
 import { useAppDispatch } from "../../app/hooks";
 import { checkUserStatus } from "../../features/isUserAuthorizedSlice";
+import { setSnackbarParam } from "../../features/snackbarSlice";
 const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+
   const dispatch = useAppDispatch();
   const userInfo = {
     email,
@@ -26,9 +29,23 @@ const Login = () => {
   React.useEffect(() => {
     if (authStatus === "succeeded") {
       dispatch(checkUserStatus());
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "تم تسجيل الدخول بنجاح",
+          alertType: "success",
+        })
+      );
       setEmail("");
       setPassword("");
+      window.location.href = "/home";
       navigate("/home");
+    } else if (authStatus === "failed") {
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "حدث خطا ما عند تسجيل الدخول",
+          alertType: "error",
+        })
+      );
     }
   }, [authStatus, navigate, dispatch]);
 

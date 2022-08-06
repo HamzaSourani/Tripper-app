@@ -1,8 +1,10 @@
 import React from "react";
+import { useAppDispatch } from "../app/hooks";
 import axios from "axios";
 import { userLogin } from "../sharedType/userType";
 import statusType from "../sharedType/fetchDataStatusType";
 import useFetchProfile from "./useFetchProfile";
+import { fetchUserFavorites } from "../features/userFavoritesSlice";
 
 const useUserLogin = (userInfo: userLogin) => {
   const [authStatus, setAuthStatus] = React.useState<statusType>("idle");
@@ -21,12 +23,14 @@ const useUserLogin = (userInfo: userLogin) => {
         },
       });
       if (response.data.data.bearer_token) {
-        localStorage.removeItem("bearerToken");
+        localStorage.clear();
         localStorage.setItem(
           "bearerToken",
           JSON.stringify(response.data.data.bearer_token)
         );
-        fetchProfile(response.data.data.bearer_token);
+        localStorage.setItem("userInfo", JSON.stringify(response.data.data));
+
+        // fetchUserFavorites({});
         setAuthStatus("succeeded");
       }
     } catch (error) {

@@ -2,9 +2,27 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import AddToFavorite from "./AddToFavorite";
 import useAddToFavorite from "../customHooks/useAddToFavorite";
-
-const FavoriteIconContainer = () => {
-  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite();
+import useShowIfItFavorite from "../customHooks/useShowIfItFavorite";
+type favoriteIconContainerProps = {
+  favorable_type: "journey" | "place";
+  favorable_id: string;
+  itIsFavorite: boolean;
+};
+const FavoriteIconContainer = ({
+  favorable_type,
+  favorable_id,
+  itIsFavorite,
+}: favoriteIconContainerProps) => {
+  const [favorites, setFavorites] = React.useState<number>(0);
+  const [addToFavorite, addToFavoriteHandler] = useAddToFavorite({
+    data: { favorable_type: favorable_type, favorable_id: favorable_id },
+    setFavorites,
+    favorites: favorites,
+  });
+  // const itIsFavorite = useShowIfItFavorite({
+  //   favorable_type: favorable_type,
+  //   favorable_id: favorable_id,
+  // });
   return (
     <Stack
       sx={{
@@ -20,7 +38,10 @@ const FavoriteIconContainer = () => {
       alignItems="center"
       onClick={addToFavoriteHandler}
     >
-      <AddToFavorite addToFavorite={addToFavorite} />
+      <AddToFavorite
+        addToFavorite={addToFavorite}
+        itIsFavorite={itIsFavorite}
+      />
     </Stack>
   );
 };

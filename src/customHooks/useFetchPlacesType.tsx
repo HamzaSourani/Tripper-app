@@ -13,7 +13,7 @@ type placesType = {
 const useFetchPlacesType = () => {
   const [placesTypeStatus, setPlacesTypeStatus] =
     React.useState<responseStatusType>("idle");
-  const [placesType, setPlacesType] = React.useState([]);
+  const [placesType, setPlacesType] = React.useState<string[]>([]);
   React.useEffect(() => {
     (async () => {
       try {
@@ -25,7 +25,7 @@ const useFetchPlacesType = () => {
             Accept: "application/json",
           },
         });
-        console.log(res.data.data);
+
         setPlacesType(res.data.data.map((type: placesType) => type.name));
         setPlacesTypeStatus("succeeded");
       } catch (error) {

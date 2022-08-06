@@ -1,29 +1,29 @@
 import React from "react";
+import { RootState } from "../app/store";
+import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { handleCloseSnackbar } from "../features/snackbarSlice";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import alertType from "../sharedType/alertType";
-type snackbarProps = {
-  open: boolean;
-  handleClose: () => void;
-  succeededMessage: string;
-  alertType: alertType;
-};
 
-const SnackbarComponent = ({
-  open,
-  handleClose,
-  succeededMessage,
-  alertType,
-}: snackbarProps) => {
+const SnackbarComponent = () => {
+  const dispatch = useAppDispatch();
+  const snackbarState = useAppSelector((state: RootState) => state.snackbar);
+  const handleClose = () => {
+    dispatch(handleCloseSnackbar());
+  };
   return (
-    <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+    <Snackbar
+      open={snackbarState.open}
+      autoHideDuration={4000}
+      onClose={handleClose}
+    >
       <Alert
-        severity={alertType}
+        severity={snackbarState.alertType}
         elevation={4}
         variant="filled"
         onClose={handleClose}
       >
-        {succeededMessage}
+        {snackbarState.alertMessage}
       </Alert>
     </Snackbar>
   );

@@ -12,9 +12,10 @@ import AvatarGroup from "../../sharedComponents/AvatarGroup";
 import FavoriteIconContainer from "../../sharedComponents/FavoriteIconContainer";
 type tripImgProps = {
   numberOfDays: number;
+  favorable_id: string;
 };
 
-const TripImg = ({ numberOfDays }: tripImgProps) => {
+const TripImg = ({ numberOfDays, favorable_id }: tripImgProps) => {
   const navigate = useNavigate();
 
   return (
@@ -56,7 +57,11 @@ const TripImg = ({ numberOfDays }: tripImgProps) => {
             borderRadius: "inherit",
           }}
         ></Box>
-        <FavoriteIconContainer />
+        <FavoriteIconContainer
+          favorable_type="journey"
+          favorable_id={favorable_id}
+          itIsFavorite={true}
+        />
         <IconTextStack
           sx={{ display: { lg: "none" } }}
           _onClick={() => navigate(-1)}

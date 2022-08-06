@@ -3,10 +3,14 @@ import { Routes, Route } from "react-router-dom";
 import { RootState } from "./app/store";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { checkUserStatus } from "./features/isUserAuthorizedSlice";
+import { fetchUserFavorites } from "./features/userFavoritesSlice";
+import useFetchProfile from "./customHooks/useFetchProfile";
+import { fetchPlaceType } from "./features/fetchPlaceTypeSlice";
 import "./App.css";
 import NavBar from "./components/navBar/NavBar";
 import Footer from "./components/Footer";
 import Loading from "./sharedComponents/Loading";
+import Snackbar from "./sharedComponents/SnackbarComponent";
 import Box from "@mui/material/Box";
 import GoToSignup from "./sharedComponents/GoToSignup";
 const Home = lazy(() => import("./components/Home"));
@@ -27,13 +31,20 @@ const Profile = lazy(() => import("./components/user/Profile"));
 const EditProfile = lazy(() => import("./components/user/EditProfile"));
 const LandingPage = lazy(() => import("./landingPage/Index"));
 function App() {
-  const isUserauthorized = useAppSelector(
-    (state: RootState) => state.isUserAuthorized.state
-  );
   const dispatch = useAppDispatch();
   React.useEffect(() => {
     dispatch(checkUserStatus());
+    dispatch(fetchPlaceType());
   }, [dispatch]);
+  const isUserauthorized = useAppSelector(
+    (state: RootState) => state.isUserAuthorized.state
+  );
+  const fetchProfile = useFetchProfile();
+  if (isUserauthorized) {
+    dispatch(fetchUserFavorites({ place: "place" }));
+    dispatch(fetchUserFavorites({ journey: "journey" }));
+    fetchProfile(JSON.parse(localStorage.getItem("bearerToken")!));
+  }
 
   return (
     <div className="App">
@@ -76,6 +87,9 @@ function App() {
             <Route path="trips" element={<Trips />}>
               <Route index element={<NavBar />} />
             </Route>
+            <Route path="governorate/:governorateId/trips" element={<Trips />}>
+              <Route index element={<NavBar />} />
+            </Route>
             <Route path="place/:placeId/trips" element={<Trips />}>
               <Route index element={<NavBar />} />
             </Route>
@@ -112,7 +126,9 @@ function App() {
             )}
           </Routes>
         </Suspense>
+        <Snackbar />
       </Box>
+
       <Footer />
     </div>
   );

@@ -9,9 +9,12 @@ const useFetchPlaces = (filter?: string) => {
   );
   const places = useAppSelector((state: RootState) => state.places.places);
   const dispatch = useAppDispatch();
+  // const fetchPlacesHandler = () => {
+  //   dispatch(fetchPlaces(filter));
+  // };
   React.useEffect(() => {
-    if (fetchPlacesStatus === "idle") dispatch(fetchPlaces(filter));
-  }, [dispatch, filter, fetchPlacesStatus]);
+    dispatch(fetchPlaces(filter));
+  }, [dispatch, filter]);
   return [fetchPlacesStatus, places] as const;
 };
 

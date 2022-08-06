@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../app/hooks";
-
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { setSnackbarParam } from "../../features/snackbarSlice";
 import { RootState } from "../../app/store";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
@@ -16,7 +16,7 @@ import useUserLogout from "../../customHooks/useUserLogout";
 
 const UserInfo = () => {
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const isUserAuthorized = useAppSelector(
     (state: RootState) => state.isUserAuthorized.state
   );
@@ -30,6 +30,22 @@ const UserInfo = () => {
 
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
   const [logoutStatus, handleUserLogout] = useUserLogout();
+  React.useEffect(() => {
+    if (logoutStatus === "succeeded")
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "تم تسجيل الخروج بنجاح",
+          alertType: "success",
+        })
+      );
+    else if (logoutStatus === "failed")
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "حدث خطاء في عملية تسجيل الخروج",
+          alertType: "error",
+        })
+      );
+  }, [dispatch, logoutStatus]);
   const handleLogout = () => {
     handleUserLogout();
     if (logoutStatus === "succeeded") handleCloseMenu();

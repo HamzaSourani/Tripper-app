@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Outlet, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
+import { RootState } from "../../app/store";
 import useFetchGovernorateDetails from "../../customHooks/useFetchGoveronrateDetails";
 import GovernorateImg from "./GovernorateImg";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Carousel from "../../sharedComponents/crarousel/Carousel";
@@ -13,51 +14,45 @@ import TripCard from "../../sharedComponents/TripCard";
 import PlaceCard from "../../sharedComponents/PlaceCard";
 import useFetchTrips from "../../customHooks/useFetchTrips";
 import useFetchPlaces from "../../customHooks/useFetchPlaces";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import CoffeeIcon from "@mui/icons-material/Coffee";
-import CastleIcon from "@mui/icons-material/Castle";
-import HotelIcon from "@mui/icons-material/Hotel";
+import useFetchPlacesType from "../../customHooks/useFetchPlacesType";
 import { multiItem } from "../../sharedData/carouselResponsive";
 import Loading from "../../sharedComponents/Loading";
 import isLoading from "../../sharedFunction/isLoading";
+import placeCardsType from "../../sharedType/placeCardsType";
 type paramsType = {
   governorateId: string | undefined;
 };
-const citySections = [
-  {
-    id: 1,
-    name: "مطاعم",
-    icon: <RestaurantIcon />,
-  },
-  {
-    id: 2,
-    name: "مقاهي",
-    icon: <CoffeeIcon />,
-  },
-  {
-    id: 3,
-    name: "أثري",
-    icon: <CastleIcon />,
-  },
-  {
-    id: 4,
-    name: "فنادق",
-    icon: <HotelIcon />,
-  },
-];
-type sectionType = "مطاعم" | "مقاهي" | "أثري" | "فنادق";
+
 const GovernorateDetails = () => {
-  const [section, setSection] = React.useState<sectionType>("مطاعم");
   const { governorateId } = useParams<paramsType>();
   const navigate = useNavigate();
+
+  const placeTypes = useAppSelector(
+    (state: RootState) => state.placeType.placeTypes
+  );
+  const [section, setSection] = React.useState<string>("أماكن أثرية");
+  const [specificPlaces, setSpecificPlaces] = React.useState<
+    placeCardsType[] | []
+  >([]);
+
   const isthereGover =
     typeof governorateId !== "undefined" ? Number(governorateId) : 1;
   const [fetchGovernorateDetailsStatus, governorateDetails] =
     useFetchGovernorateDetails(isthereGover);
-  const [fetchTripsStatus, trips] = useFetchTrips();
-  const [fetchPlacesStatus, places] = useFetchPlaces(
-    `?filter[place_type]=${section}&filter[city_id]=${governorateId}`
+
+  const [fetchTripsStatus, trips] = useFetchTrips(
+    `filter[city_id]=${governorateId}`
   );
+  const [fetchPlacesStatus, places] = useFetchPlaces(
+    `filter[city_id]=${governorateId}`
+  );
+
+  useEffect(() => {
+    let _specificPlaces = places.filter(
+      (place) => place.place_type === section
+    );
+    setSpecificPlaces(_specificPlaces as placeCardsType[] | []);
+  }, [places, section]);
 
   if (
     typeof governorateId !== "undefined" &&
@@ -67,11 +62,12 @@ const GovernorateDetails = () => {
       <>
         <Outlet />
         {(isLoading(fetchTripsStatus) ||
+          isLoading(fetchPlacesStatus) ||
           isLoading(fetchGovernorateDetailsStatus)) && <Loading />}
         <Grid container justifyContent={"center"} spacing={3}>
           <Grid item xs={11} md={9} lg={5.5}>
             <GovernorateImg
-              img={"/images/aleppo.jpg"}
+              img={governorateDetails.media[0].original_url}
               governorateName={governorateDetails.name}
             />
           </Grid>
@@ -86,17 +82,12 @@ const GovernorateDetails = () => {
           <Grid item xs={11}>
             <Outline
               title={`الرحلات ضمن مدينة ${governorateDetails.name}`}
-              navigateTo=""
+              navigateTo={`/governorate/${governorateId}/trips`}
             />
             <Carousel responsive={multiItem}>
               {trips.map((trip) => {
                 return (
-                  <TripCard
-                    key={trip.id}
-                    description={trip.description}
-                    numberOfDays={trip.number_of_days}
-                    canNotFavorite={true}
-                  />
+                  <TripCard key={trip.id} props={trip} canNotFavorite={true} />
                 );
               })}
             </Carousel>
@@ -116,13 +107,12 @@ const GovernorateDetails = () => {
               spacing={2}
               justifyContent={"center"}
             >
-              {citySections.map((_section, index) => {
+              {placeTypes.map((_section, index) => {
                 return (
                   <Button
                     variant={section === _section.name ? "outlined" : "text"}
                     sx={{ boxShadow: 2 }}
-                    onClick={() => setSection(_section.name as sectionType)}
-                    endIcon={_section.icon}
+                    onClick={() => setSection(_section.name)}
                   >
                     {_section.name}
                   </Button>
@@ -135,7 +125,7 @@ const GovernorateDetails = () => {
               alignItems="center"
               spacing={2}
             >
-              {places.map((place, index) => {
+              {specificPlaces.map((place, index) => {
                 return (
                   <Grid item xs={11} sm={6} md={4}>
                     <PlaceCard

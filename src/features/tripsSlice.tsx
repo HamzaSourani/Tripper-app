@@ -3,20 +3,26 @@ import axios from "axios";
 import statusType from "../sharedType/fetchDataStatusType";
 import tripsType from "../sharedType/tripsType";
 type stateType = {
-  trips: tripsType;
+  trips: tripsType[];
   status: statusType;
 };
 export const fetchTrips = createAsyncThunk(
   "trips/fetchTrips",
   async (filter?: string) => {
     const url = filter
-      ? `http://tripper.dentatic.com/api/journeys${filter}`
+      ? `http://tripper.dentatic.com/api/journeys?${filter}`
       : "http://tripper.dentatic.com/api/journeys";
+    const bearerToken: string = (() => {
+      if (localStorage.getItem("bearerToken") !== null)
+        return localStorage.getItem("bearerToken")!;
+      else return "";
+    })();
     const res = await axios({
       method: "get",
       url: url,
       headers: {
         Accept: "application/json",
+        Authorization: bearerToken ? ` Bearer ${JSON.parse(bearerToken)}` : "",
       },
     });
     return res.data.data.data;

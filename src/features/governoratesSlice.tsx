@@ -12,6 +12,28 @@ type governoratesType = {
   created_at: string;
   updated_at: string;
   country_id: number;
+  media: {
+    id: number;
+    model_type: "city";
+    model_id: string;
+    uuid: string;
+    collection_name: "default";
+    name: string;
+    file_name: string;
+    mime_type: string;
+    disk: "public";
+    conversions_disk: "public";
+    size: string;
+    manipulations: [];
+    custom_properties: [];
+    generated_conversions: [];
+    responsive_images: [];
+    order_column: 1;
+    created_at: string;
+    updated_at: string;
+    original_url: string;
+    preview_url: string;
+  }[];
 }[];
 type stateType = {
   governorates: governoratesType | [];

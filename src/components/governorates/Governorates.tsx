@@ -35,7 +35,7 @@ const Governorates = () => {
               <Grid key={governorate.id} item xs={11} sm={6} md={4}>
                 <GovernorateCard
                   name={governorate.name}
-                  img={governorate.img}
+                  img={governorate.media[0].original_url}
                   onClick={() =>
                     navigate(`${pathname}/governorate/${governorate.id}`)
                   }

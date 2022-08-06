@@ -24,12 +24,12 @@ const Home = () => {
   const [fetchPalceStatus, places] = useFetchPlaces();
   const viewSize = useViewSize({});
   const [anchorEl, handleOpenMenu, handleCloseMenu] = useAnchorMenu();
-
   const openFilterHandler = (e: React.MouseEvent<HTMLElement>) => {
     if (viewSize) handleOpenMenu(e);
     else navigate("/filter");
   };
-
+  // console.log(localStorage.getItem("bearerToken"));
+  // localStorage.clear();
   return (
     <div>
       {(isLoading(fetchGovernoratesStatus) ||
@@ -51,7 +51,7 @@ const Home = () => {
                 <GovernorateCard
                   key={governorate.id}
                   name={governorate.name}
-                  img={governorate.img}
+                  img={governorate.media[0].original_url}
                   onClick={() => navigate(`/governorate/${governorate.id}`)}
                 />
               );
@@ -65,12 +65,7 @@ const Home = () => {
           <Carousel responsive={multiItem}>
             {trips.map((trip) => {
               return (
-                <TripCard
-                  key={trip.id}
-                  description={trip.description}
-                  numberOfDays={trip.number_of_days}
-                  canNotFavorite={true}
-                />
+                <TripCard key={trip.id} props={trip} canNotFavorite={false} />
               );
             })}
           </Carousel>
