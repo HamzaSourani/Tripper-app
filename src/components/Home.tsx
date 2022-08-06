@@ -30,6 +30,7 @@ const Home = () => {
   };
   // console.log(localStorage.getItem("bearerToken"));
   // localStorage.clear();
+
   return (
     <div>
       {(isLoading(fetchGovernoratesStatus) ||

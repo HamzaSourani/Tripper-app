@@ -59,7 +59,7 @@ const PlaceImg = ({
       <IconTextStack bottom={20} right={{ xs: 10, md: 20 }}>
         <>
           <StarIcon sx={{ color: "var(--golden-color)" }} />
-          <Typography color={"GrayText"}>{Number(rate)}</Typography>
+          <Typography color={"GrayText"}>{String(rate)}</Typography>
         </>
       </IconTextStack>
 

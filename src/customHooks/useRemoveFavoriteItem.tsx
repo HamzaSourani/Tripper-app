@@ -18,7 +18,7 @@ const useRemoveFavoriteItem = ({ id, bearerToken }: propsType) => {
       });
 
       if (response.data.message === "Operation succeeded.") {
-        dispatch(removeFromFavorite(id));
+        // dispatch(removeFromFavorite(id));
         setRemoveSucceed(true);
       }
     } catch (error) {}

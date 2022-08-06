@@ -28,7 +28,11 @@ const PlaceCard = ({ onClick, props }: placeType) => {
     navigate(`/place/${props.id}`);
   };
   const [addToFavorite, addToFavoriteHandler] = useAddToFavorite({
-    data: { favorable_type: "place", favorable_id: props.id },
+    data: {
+      favorable_type: "place",
+      favorable_id: props.id,
+      itIsFavorite: Boolean(props.is_favorite),
+    },
     setFavorites: setFavorites,
     favorites: favorites,
   });

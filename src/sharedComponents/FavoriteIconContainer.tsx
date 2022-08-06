@@ -15,7 +15,11 @@ const FavoriteIconContainer = ({
 }: favoriteIconContainerProps) => {
   const [favorites, setFavorites] = React.useState<number>(0);
   const [addToFavorite, addToFavoriteHandler] = useAddToFavorite({
-    data: { favorable_type: favorable_type, favorable_id: favorable_id },
+    data: {
+      favorable_type: favorable_type,
+      favorable_id: favorable_id,
+      itIsFavorite: itIsFavorite,
+    },
     setFavorites,
     favorites: favorites,
   });

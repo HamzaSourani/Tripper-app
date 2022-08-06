@@ -87,7 +87,7 @@ const GovernorateDetails = () => {
             <Carousel responsive={multiItem}>
               {trips.map((trip) => {
                 return (
-                  <TripCard key={trip.id} props={trip} canNotFavorite={true} />
+                  <TripCard key={trip.id} props={trip} canNotFavorite={false} />
                 );
               })}
             </Carousel>
@@ -110,6 +110,7 @@ const GovernorateDetails = () => {
               {placeTypes.map((_section, index) => {
                 return (
                   <Button
+                    key={_section.id}
                     variant={section === _section.name ? "outlined" : "text"}
                     sx={{ boxShadow: 2 }}
                     onClick={() => setSection(_section.name)}
@@ -127,7 +128,7 @@ const GovernorateDetails = () => {
             >
               {specificPlaces.map((place, index) => {
                 return (
-                  <Grid item xs={11} sm={6} md={4}>
+                  <Grid key={place.id} item xs={11} sm={6} md={4}>
                     <PlaceCard
                       key={index}
                       props={place}

@@ -2,7 +2,7 @@ import React from "react";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 type addToFavoriteProps = {
-  addToFavorite: boolean;
+  addToFavorite?: boolean;
   itIsFavorite: boolean;
 };
 const AddToFavorite = ({ addToFavorite, itIsFavorite }: addToFavoriteProps) => {

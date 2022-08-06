@@ -33,6 +33,7 @@ const PlaceDetails = () => {
   );
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
   if (typeof placeId !== "undefined") {
     return (
       <>
@@ -47,7 +48,7 @@ const PlaceDetails = () => {
               governorateName={place?.city}
               rate={place?.review}
               favorable_id={placeId}
-              itIsFavorite={place?.is_favorite}
+              itIsFavorite={place?.is_favorite ? place.is_favorite : 0}
             />
           </Grid>
           <Grid item xs={11} md={9} lg={5.5}>
@@ -130,19 +131,23 @@ const PlaceDetails = () => {
               })}
             </Carousel>
           </Grid>
-          <Grid item xs={11} lg={11}>
-            <Outline
-              title={`المنتجات ضمن  ${place?.name}`}
-              navigateTo="/governorates"
-            />
-          </Grid>
-          <Grid item xs={11}>
-            <Carousel responsive={multiItem}>
-              {place?.products.map((product) => {
-                return <ProductCard key={product.id} {...product} />;
-              })}
-            </Carousel>
-          </Grid>
+          {place?.products.length && (
+            <>
+              <Grid item xs={11} lg={11}>
+                <Outline
+                  title={`المنتجات ضمن  ${place?.name}`}
+                  navigateTo="/governorates"
+                />
+              </Grid>
+              <Grid item xs={11}>
+                <Carousel responsive={multiItem}>
+                  {place?.products.map((product) => {
+                    return <ProductCard key={product.id} {...product} />;
+                  })}
+                </Carousel>
+              </Grid>
+            </>
+          )}
           <Grid item xs={11}>
             <Comments />
           </Grid>

@@ -19,7 +19,11 @@ type tripCardProps = {
 const TripCard = ({ onClick, canNotFavorite, props }: tripCardProps) => {
   const [favorites, setFavorites] = React.useState<number>(0);
   const [addToFavorite, addToFavoriteHandler] = useAddToFavorite({
-    data: { favorable_type: "journey", favorable_id: props.id },
+    data: {
+      favorable_type: "journey",
+      favorable_id: props.id,
+      itIsFavorite: Boolean(props.is_favorite),
+    },
     setFavorites,
     favorites: favorites,
   });
