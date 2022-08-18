@@ -28,7 +28,7 @@ const Home = () => {
     if (viewSize) handleOpenMenu(e);
     else navigate("/filter");
   };
-  // console.log(localStorage.getItem("bearerToken"));
+  console.log(localStorage.getItem("bearerToken"));
   // localStorage.clear();
 
   return (
@@ -39,9 +39,9 @@ const Home = () => {
       <Outlet />
 
       <Grid container justifyContent={"center"}>
-        <Grid item xs={11} md={9}>
+        {/* <Grid item xs={11} md={9}>
           <InputFilter onClick={openFilterHandler} />
-        </Grid>
+        </Grid> */}
         <Grid item xs={11} lg={11.5}>
           <Outline title="المحافظات السورية" navigateTo="/governorates" />
         </Grid>
@@ -66,7 +66,12 @@ const Home = () => {
           <Carousel responsive={multiItem}>
             {trips.map((trip) => {
               return (
-                <TripCard key={trip.id} props={trip} canNotFavorite={false} />
+                <TripCard
+                  key={trip.id}
+                  props={trip}
+                  canNotFavorite={false}
+                  onClick={() => navigate(`/trip/${trip.id}`)}
+                />
               );
             })}
           </Carousel>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RootState } from "../app/store";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { mountComment, unMountComment } from "../features/PlaceAddCommentSlice";
@@ -13,28 +13,73 @@ import Avatar from "@mui/material/Avatar";
 import StarIcon from "@mui/icons-material/Star";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-const Comments = () => {
-  const dispatch = useAppDispatch();
-  const commentStatus = useAppSelector(
-    (state: RootState) => state.placeAddComment
-  );
+import reviewType from "../sharedType/reviewType";
+import useAddComment from "../customHooks/useAddComment";
+import { editUserProfile } from "../sharedType/userType";
+type commentsPropsType = {
+  tripOrPlaceName: string;
+  tripOrPlaceId: string;
+  reviews: reviewType[];
+  reviewableType: "place" | "journey";
+};
+const Comments = ({
+  tripOrPlaceName,
+  reviews,
+  tripOrPlaceId,
+  reviewableType,
+}: commentsPropsType) => {
   const [commentValue, setCommentValue] = React.useState<string>("");
-  const input = React.useRef<HTMLInputElement>(null);
-  console.log(commentStatus.focus);
-  if (commentStatus.focus) {
-    input.current?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }
+  const [mountTempComment, setMountTempComment] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>("");
+  const [userImg, setUserImg] = useState<string | null>("");
+  const [mountComment, setMountComment] = useState<boolean>(false);
+  const isUserAuth = useAppSelector(
+    (state: RootState) => state.isUserAuthorized.state
+  );
 
-  React.useEffect(() => {
-    return () => {
-      dispatch(unMountComment());
-    };
-  }, [dispatch]);
+  const commentProps = {
+    reviewableId: tripOrPlaceId,
+    reviewableType: reviewableType,
+    comment: commentValue,
+    review: 1,
+  };
+  const [status, userReview, addComment] = useAddComment(commentProps);
+  const mountAddCommentHandler = () => {
+    const userEnfo: editUserProfile = JSON.parse(
+      localStorage.getItem("userInfo")!
+    );
+    setMountComment(true);
+    setUserImg(userEnfo.img);
+    setUserName(userEnfo.name);
+  };
+  // const dispatch = useAppDispatch();
+  // const commentStatus = useAppSelector(
+  //   (state: RootState) => state.placeAddComment
+  // );
+
+  // const input = React.useRef<HTMLInputElement>(null);
+  // console.log(commentStatus.focus);
+  // if (commentStatus.focus) {
+  //   input.current?.scrollIntoView({
+  //     behavior: "smooth",
+  //   });
+  // }
+
+  // React.useEffect(() => {
+  //   return () => {
+  //     dispatch(unMountComment());
+  //   };
+  // }, [dispatch]);
+  useEffect(() => {
+    if (status === "succeeded") {
+      setMountComment(false);
+      setMountTempComment(true);
+    }
+  }, [status]);
 
   const sendCommentHandler = () => {
-    dispatch(unMountComment());
+    // dispatch(unMountComment());
+    addComment();
   };
   return (
     <>
@@ -48,63 +93,73 @@ const Comments = () => {
         >
           التعليقات و التقيمات
         </Typography>
-        <Typography
-          sx={{
-            "&:hover": {
-              cursor: "pointer",
-            },
-          }}
-          color={"GrayText"}
-          onClick={() => {
-            dispatch(mountComment());
-          }}
-        >
-          إضافة تعليق
-        </Typography>
+        {isUserAuth && (
+          <Typography
+            sx={{
+              "&:hover": {
+                cursor: "pointer",
+              },
+            }}
+            color={"GrayText"}
+            onClick={mountAddCommentHandler}
+          >
+            إضافة تعليق
+          </Typography>
+        )}
       </Stack>
       <List sx={{ width: "100%", maxWidth: 500, bgcolor: "background.paper" }}>
-        {commentStatus.addComment && (
+        {
+          // commentStatus.addComment
+          mountComment && (
+            <Stack
+              direction={"row"}
+              spacing={2}
+              alignItems={"center"}
+              justifyContent={"center"}
+            >
+              <TextField
+                // focused={commentStatus.focus}
+                fullWidth
+                variant="outlined"
+                multiline
+                placeholder={`إضافة تعليق حول ${tripOrPlaceName}`}
+                value={commentValue}
+                onChange={(e) => setCommentValue(e.target.value)}
+              />
+              <Button variant="contained" onClick={sendCommentHandler}>
+                تعليق
+              </Button>
+            </Stack>
+          )
+        }
+        {mountTempComment && (
           <ListItem alignItems="flex-start">
             <ListItemAvatar>
-              <Avatar alt="" src="/images/aleppo.jpg" />
+              <Avatar alt="" src={""} />
             </ListItemAvatar>
-            <ListItemText
-              primary="Brunch this weekend?"
-              secondary={
-                <Stack
-                  direction={"row"}
-                  spacing={2}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
-                  <TextField
-                    focused={commentStatus.focus}
-                    fullWidth
-                    variant="outlined"
-                    multiline
-                    placeholder="add comment"
-                    value={commentValue}
-                    onChange={(e) => setCommentValue(e.target.value)}
-                  />
-                  <Button variant="contained" onClick={sendCommentHandler}>
-                    تعليق
-                  </Button>
-                </Stack>
-              }
-            />
+            <ListItemText primary={userName} secondary={userReview?.comment} />
+            <ListItemIcon>
+              <Stack
+                direction={"row"}
+                alignItems="center"
+                justifyContent={"center"}
+                spacing={1}
+              >
+                <StarIcon sx={{ color: "var(--golden-color)" }} />
+                <Typography>{userReview?.review}</Typography>
+              </Stack>
+            </ListItemIcon>
           </ListItem>
         )}
-        {[1, 2, 3].map((comment) => {
+        {reviews.map((review) => {
           return (
-            <ListItem key={comment} alignItems="flex-start">
+            <ListItem key={review.id} alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt="" src="/images/aleppo.jpg" />
+                <Avatar alt="" src={review.user.img} />
               </ListItemAvatar>
               <ListItemText
-                primary="Brunch this weekend?"
-                secondary={
-                  " — I'll be in your neighborhood doing errands this…"
-                }
+                primary={review.user.name}
+                secondary={review.comment}
               />
               <ListItemIcon>
                 <Stack
@@ -114,7 +169,7 @@ const Comments = () => {
                   spacing={1}
                 >
                   <StarIcon sx={{ color: "var(--golden-color)" }} />
-                  <Typography>4.5</Typography>
+                  <Typography>{review.review}</Typography>
                 </Stack>
               </ListItemIcon>
             </ListItem>

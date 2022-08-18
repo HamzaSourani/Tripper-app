@@ -43,7 +43,12 @@ const Profile = () => {
             <Typography variant="h5">{userName}</Typography>
             <Typography color={"GrayText"}>{email}</Typography>
           </Stack>
-          <Tabs tabsArray={["رحلاتي", "الأماكن", "المدن"]} />
+          <Tabs
+            tabsArray={[
+              { arabic: "رحلاتي", english: "journey" },
+              { arabic: "الأماكن", english: "place" },
+            ]}
+          />
         </Grid>
       </Grid>
     </>

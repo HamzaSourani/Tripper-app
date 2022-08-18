@@ -1,3 +1,7 @@
+import review from "./reviewType";
+import favorites_relation from "./favoritesRelation";
+import media from "./mediaType";
+import productsType from "./productsType";
 type place =
   | {
       id: string;
@@ -9,7 +13,7 @@ type place =
       country: string;
       review: number | null;
       favorites: number;
-      is_favorite: number | null;
+      favorites_relation: favorites_relation[];
       place_type_id: string;
       name: string;
       description: string;
@@ -41,33 +45,12 @@ type place =
       }[];
       specs: specs[];
       specs_place: spacs_place[];
-      products: product[];
-      reviews: [];
+      products: productsType[];
+      reviews: review[];
       media: media[];
     }
   | undefined;
-export type media = {
-  id: number;
-  model_type: "place";
-  model_id: string;
-  uuid: string;
-  collection_name: string;
-  name: string;
-  file_name: string;
-  mime_type: string;
-  disk: "public";
-  conversions_disk: "public";
-  size: number;
-  manipulations: [];
-  custom_properties: [];
-  generated_conversions: [];
-  responsive_images: [];
-  order_column: number;
-  created_at: string;
-  updated_at: string;
-  original_url: string;
-  preview_url: string;
-};
+
 export type specs = {
   id: string;
   name: string;
@@ -120,4 +103,5 @@ export type product = {
     deleted_at: null;
   };
 };
+
 export default place;

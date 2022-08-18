@@ -1,3 +1,4 @@
+import favorites_relation from "./favoritesRelation";
 type placeCardsType = {
   id: string;
   name: string;
@@ -9,7 +10,7 @@ type placeCardsType = {
   comment: number;
   review: number;
   favorites: number;
-  is_favorite: number;
+  favorites_relation: favorites_relation[];
   media: {
     id: number;
     model_type: "place";

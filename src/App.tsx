@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import { RootState } from "./app/store";
 import { useAppSelector, useAppDispatch } from "./app/hooks";
 import { checkUserStatus } from "./features/isUserAuthorizedSlice";
-import { fetchUserFavorites } from "./features/userFavoritesSlice";
 import useFetchProfile from "./customHooks/useFetchProfile";
 import { fetchPlaceType } from "./features/fetchPlaceTypeSlice";
 import "./App.css";
@@ -41,8 +40,6 @@ function App() {
   );
   const fetchProfile = useFetchProfile();
   if (isUserauthorized) {
-    dispatch(fetchUserFavorites({ place: "place" }));
-    dispatch(fetchUserFavorites({ journey: "journey" }));
     fetchProfile(JSON.parse(localStorage.getItem("bearerToken")!));
   }
 

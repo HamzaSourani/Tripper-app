@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams, Outlet, useNavigate, useLocation } from "react-router-dom";
 import useFetchGovernorateDetails from "../../customHooks/useFetchGoveronrateDetails";
+import { useAppSelector } from "../../app/hooks";
 import { RootState } from "../../app/store";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -8,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import Carousel from "../../sharedComponents/crarousel/Carousel";
 import Outline from "../../sharedComponents/Outline";
-import { useAppSelector } from "../../app/hooks";
 import PlaceImg from "./PlaceImg";
 import TripCard from "../../sharedComponents/TripCard";
 import ProductCard from "../../sharedComponents/ProductCard";
@@ -37,10 +37,10 @@ const PlaceDetails = () => {
   if (typeof placeId !== "undefined") {
     return (
       <>
-        <Outlet />
         {(isLoading(fetchTripsStatus) || isLoading(fetchPalceStatus)) && (
           <Loading />
         )}
+        <Outlet />
         <Grid container justifyContent={"center"} spacing={3}>
           <Grid item xs={11} md={9} lg={5.5}>
             <PlaceImg
@@ -48,7 +48,9 @@ const PlaceDetails = () => {
               governorateName={place?.city}
               rate={place?.review}
               favorable_id={placeId}
-              itIsFavorite={place?.is_favorite ? place.is_favorite : 0}
+              itIsFavorite={
+                place?.favorites_relation ? place.favorites_relation.length : 0
+              }
             />
           </Grid>
           <Grid item xs={11} md={9} lg={5.5}>
@@ -89,7 +91,12 @@ const PlaceDetails = () => {
             <Carousel responsive={multiItem}>
               {trips.map((trip) => {
                 return (
-                  <TripCard key={trip.id} props={trip} canNotFavorite={false} />
+                  <TripCard
+                    key={trip.id}
+                    props={trip}
+                    canNotFavorite={false}
+                    onClick={() => navigate(`/trip/${trip.id}`)}
+                  />
                 );
               })}
             </Carousel>
@@ -105,31 +112,37 @@ const PlaceDetails = () => {
             </Typography>
           </Grid>
           <Grid item xs={11}>
-            <Carousel responsive={multiItem}>
-              {[1, 2, 3, 4, 5].map((i) => {
-                return (
-                  <Paper key={i} sx={{ p: 2 }}>
-                    <Grid container rowSpacing={2}>
-                      <Grid item xs={12}>
-                        <Typography fontWeight={"bold"} variant={"h6"}>
-                          طاولة
-                        </Typography>
+            {place?.specs && (
+              <Carousel responsive={multiItem}>
+                {place?.specs.map((spec) => {
+                  return (
+                    <Paper key={spec.id} sx={{ p: 2, minHeight: 150 }}>
+                      <Grid container rowSpacing={2}>
+                        <Grid item xs={12}>
+                          <Typography fontWeight={"bold"} variant={"h6"}>
+                            {spec.name}
+                          </Typography>
+                        </Grid>
+                        <>
+                          {place.specs_place.map((spec_place) => {
+                            return (
+                              <>
+                                {spec_place.specs_id === spec.id &&
+                                  spec_place.options.map((option) => (
+                                    <Grid key={option.id} item xs={6}>
+                                      -{option.name}
+                                    </Grid>
+                                  ))}
+                              </>
+                            );
+                          })}
+                        </>
                       </Grid>
-                      <>
-                        {" "}
-                        {[1, 2, 3, 4].map((spac) => {
-                          return (
-                            <Grid key={spac} item xs={6}>
-                              -{"2 شخص"}
-                            </Grid>
-                          );
-                        })}
-                      </>
-                    </Grid>
-                  </Paper>
-                );
-              })}
-            </Carousel>
+                    </Paper>
+                  );
+                })}
+              </Carousel>
+            )}
           </Grid>
           {place?.products.length && (
             <>
@@ -149,7 +162,12 @@ const PlaceDetails = () => {
             </>
           )}
           <Grid item xs={11}>
-            <Comments />
+            <Comments
+              tripOrPlaceName={place ? place.name : ""}
+              reviews={place ? place.reviews : []}
+              tripOrPlaceId={placeId}
+              reviewableType={"place"}
+            />
           </Grid>
         </Grid>
       </>

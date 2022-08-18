@@ -12,7 +12,12 @@ const Favorite = () => {
           <SearchInput />
         </Grid>
         <Grid item xs={12}>
-          <Tabs tabsArray={["الرحلات", "الأماكن"]} />
+          <Tabs
+            tabsArray={[
+              { arabic: "رحلاتي", english: "journey" },
+              { arabic: "الأماكن", english: "place" },
+            ]}
+          />
         </Grid>
       </Grid>
     </>

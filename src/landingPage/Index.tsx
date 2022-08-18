@@ -1,5 +1,5 @@
 import React from "react";
-import Container from "@mui/material/Container";
+import { useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -15,6 +15,7 @@ import { singleItem, multiItem } from "../sharedData/carouselResponsive";
 import useFetchTrips from "../customHooks/useFetchTrips";
 import useFetchProducts from "../customHooks/useFetchProducts";
 const Index = () => {
+  const navigate = useNavigate();
   const [fetchTripsStatus, trips] = useFetchTrips();
   const products = useFetchProducts();
   return (
@@ -87,7 +88,12 @@ const Index = () => {
           <Carousel responsive={singleItem}>
             {trips.map((trip) => {
               return (
-                <TripCard key={trip.id} props={trip} canNotFavorite={true} />
+                <TripCard
+                  key={trip.id}
+                  props={trip}
+                  canNotFavorite={true}
+                  onClick={() => navigate(`/trip/${trip.id}`)}
+                />
               );
             })}
           </Carousel>

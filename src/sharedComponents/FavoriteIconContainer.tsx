@@ -2,7 +2,6 @@ import React from "react";
 import Stack from "@mui/material/Stack";
 import AddToFavorite from "./AddToFavorite";
 import useAddToFavorite from "../customHooks/useAddToFavorite";
-import useShowIfItFavorite from "../customHooks/useShowIfItFavorite";
 type favoriteIconContainerProps = {
   favorable_type: "journey" | "place";
   favorable_id: string;
@@ -23,10 +22,7 @@ const FavoriteIconContainer = ({
     setFavorites,
     favorites: favorites,
   });
-  // const itIsFavorite = useShowIfItFavorite({
-  //   favorable_type: favorable_type,
-  //   favorable_id: favorable_id,
-  // });
+
   return (
     <Stack
       sx={{

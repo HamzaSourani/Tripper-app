@@ -7,14 +7,14 @@ import StarIcon from "@mui/icons-material/Star";
 import Typography from "@mui/material/Typography";
 import IconTextStack from "../../sharedComponents/IconTextStack";
 import FavoriteIconContainer from "../../sharedComponents/FavoriteIconContainer";
-import { media } from "../../sharedType/placeType";
+import media from "../../sharedType/mediaType";
 import ImgCrousel from "../../sharedComponents/ImgCarousel";
 type placeImgProps = {
   media?: media[];
   governorateName: string | undefined;
   rate?: number | null;
   favorable_id: string;
-  itIsFavorite?: number | null;
+  itIsFavorite: number | null;
 };
 const PlaceImg = ({
   media,

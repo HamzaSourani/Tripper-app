@@ -13,7 +13,6 @@ import StarIcon from "@mui/icons-material/Star";
 import Grid from "@mui/material/Grid";
 import AddToFavorite from "../sharedComponents/AddToFavorite";
 import useAddToFavorite from "../customHooks/useAddToFavorite";
-import useShowIfItFavorite from "../customHooks/useShowIfItFavorite";
 import placeCardsType from "../sharedType/placeCardsType";
 type placeType = {
   props: placeCardsType;
@@ -31,7 +30,9 @@ const PlaceCard = ({ onClick, props }: placeType) => {
     data: {
       favorable_type: "place",
       favorable_id: props.id,
-      itIsFavorite: Boolean(props.is_favorite),
+      itIsFavorite: Boolean(
+        props.favorites_relation ? props.favorites_relation.length : 1
+      ),
     },
     setFavorites: setFavorites,
     favorites: favorites,
@@ -71,7 +72,7 @@ const PlaceCard = ({ onClick, props }: placeType) => {
             borderRadius: "inherit",
           }}
           component={"img"}
-          src={props.media[0].original_url}
+          src={props.media[0] ? props.media[0].original_url : ""}
         ></Box>
 
         <IconTextStack left={{ xs: 10, md: 20 }} top={{ xs: 10, md: 20 }}>
@@ -107,7 +108,9 @@ const PlaceCard = ({ onClick, props }: placeType) => {
           >
             <AddToFavorite
               addToFavorite={addToFavorite}
-              itIsFavorite={Boolean(props.is_favorite)}
+              itIsFavorite={Boolean(
+                props.favorites_relation ? props.favorites_relation.length : 1
+              )}
             />
             <Typography>{favorites}</Typography>
           </Stack>

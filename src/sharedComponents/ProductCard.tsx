@@ -2,7 +2,7 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
-import { product } from "../sharedType/placeType";
+import product from "../sharedType/productsType";
 const ProductCard = (props: product) => {
   return (
     <Stack
@@ -34,7 +34,7 @@ const ProductCard = (props: product) => {
             borderRadius: "inherit",
           }}
           component={"img"}
-          src="/images/aleppo.jpg"
+          src={props.media[0].original_url}
         ></Box>
       </Box>
       <Stack spacing={1} sx={{ p: 1, width: "100%" }}>
@@ -61,7 +61,7 @@ const ProductCard = (props: product) => {
               color={"primary"}
               fontWeight="bold"
             >
-              5000
+              {props.price}
             </Typography>
             <Typography color={"GrayText"}>ل.س</Typography>
           </Stack>

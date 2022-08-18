@@ -1,3 +1,4 @@
+import mediaType from "./mediaType";
 type product = {
   id: string;
   product_type_id: string;
@@ -6,6 +7,8 @@ type product = {
   created_at: string;
   updated_at: string;
   deleted_at: null;
+  price: number;
+  media: mediaType[];
   product_type: {
     id: string;
     place_type_id: string;

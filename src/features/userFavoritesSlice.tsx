@@ -1,14 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import addToFavoriteParam from "../sharedType/addToFavoriteParam";
-import favoritesType from "../sharedType/favoritesType";
-type favoriteItem = {
-  favorable_id: string;
-  favorable_type: "place" | "journey";
-  user_id: string;
-  id: string;
+
+import placeCardsType from "../sharedType/placeCardsType";
+import tripsType from "../sharedType/tripsType";
+
+type stateType = {
+  favorites: tripsType[] | placeCardsType[];
+  favoritesType: "place" | "journey";
 };
-type stateType = favoriteItem[];
 
 export const fetchAddToFavorite = createAsyncThunk(
   "userFavorite/addToFavorite",
@@ -27,16 +27,10 @@ export const fetchAddToFavorite = createAsyncThunk(
 );
 export const fetchUserFavorites = createAsyncThunk(
   "userFavorite/fetchUserFavorites",
-  async (param: favoritesType) => {
-    let url = (() => {
-      if (param.journey)
-        return `http://tripper.dentatic.com/api/client/favorites?favorable_type=${param.journey}`;
-      else if (param.place)
-        return `http://tripper.dentatic.com/api/client/favorites?favorable_type=${param.place}`;
-    })();
+  async (param: string) => {
     const response = await axios({
       method: "get",
-      url,
+      url: `http://tripper.dentatic.com/api/client/favorites?favorable_type=${param}`,
       headers: {
         Accept: "application/json",
         Authorization: `Bearer ${JSON.parse(
@@ -47,29 +41,20 @@ export const fetchUserFavorites = createAsyncThunk(
     return response.data.data;
   }
 );
-const initialState: stateType = [];
+const initialState: stateType = { favorites: [], favoritesType: "journey" };
 const userFavorite = createSlice({
   name: "userFavorite",
   initialState,
   reducers: {
-    removeFromFavorite(state, action: PayloadAction<string>) {
-      state = state.filter((item) => item.favorable_id !== action.payload);
+    changeFavoritesType(state, action: PayloadAction<"place" | "journey">) {
+      state.favoritesType = action.payload;
     },
   },
   extraReducers(builder) {
-    builder.addCase(
-      fetchAddToFavorite.fulfilled,
-      (state, action: PayloadAction<favoriteItem>) => {
-        state.push(action.payload);
-      }
-    );
-    builder.addCase(
-      fetchUserFavorites.fulfilled,
-      (state, action: PayloadAction<favoriteItem[]>) => {
-        return action.payload;
-      }
-    );
+    builder.addCase(fetchUserFavorites.fulfilled, (state, action) => {
+      state.favorites = [...action.payload];
+    });
   },
 });
 export default userFavorite.reducer;
-export const { removeFromFavorite } = userFavorite.actions;
+export const { changeFavoritesType } = userFavorite.actions;

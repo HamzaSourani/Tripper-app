@@ -1,3 +1,6 @@
+import favorites_relation from "./favoritesRelation";
+import review from "./reviewType";
+import media from "./mediaType";
 type trips = {
   id: string;
   name: string;
@@ -11,12 +14,13 @@ type trips = {
   ended_at: string;
   category: "مغامرات" | "ترفيه" | "تاريخ" | "تجربة جديدة";
   review: null;
+  reviews: review[];
   favorites: Number;
   stations: stations;
-  is_favorite: number | null;
+  favorites_relation: favorites_relation[];
 };
 
-type stations = [
+export type stations = [
   {
     id: string;
     journey_id: string;
@@ -49,9 +53,27 @@ type stations = [
           created_at: string;
           updated_at: string;
           deleted_at: null;
+          address: {
+            id: string;
+            addressable_type: "place";
+            addressable_id: string;
+            address: string;
+            street_address: string;
+            longitude: number;
+            latitude: number;
+            postal_code: string;
+            is_default: number;
+            created_at: null;
+            updated_at: null;
+            deleted_at: null;
+            city_id: number;
+          };
+          reviews: review[];
+          media: media[];
         };
       }
     ];
   }
 ];
+
 export default trips;

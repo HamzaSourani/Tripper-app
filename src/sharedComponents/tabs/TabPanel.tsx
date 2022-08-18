@@ -1,22 +1,24 @@
-import React from "react";
-import Box from "@mui/material/Box";
+import React, { ReactNode } from "react";
+import Grid from "@mui/material/Grid";
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children: ReactNode;
   index: number;
   value: number;
 }
-const TabPanel = (props: TabPanelProps) => {
-  const { children, value, index, ...other } = props;
+const TabPanel = ({ children, value, index }: TabPanelProps) => {
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
-      {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && (
+        <Grid container spacing={2} sx={{ p: 3 }}>
+          {children}
+        </Grid>
+      )}
     </div>
   );
 };

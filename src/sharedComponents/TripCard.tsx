@@ -8,11 +8,10 @@ import IconTextStack from "./IconTextStack";
 import AvatarGroup from "./AvatarGroup";
 import AddToFavorite from "../sharedComponents/AddToFavorite";
 import useAddToFavorite from "../customHooks/useAddToFavorite";
-import useShowIfItFavorite from "../customHooks/useShowIfItFavorite";
 import formatDate from "../sharedFunction/formatDate";
 import tripsType from "../sharedType/tripsType";
 type tripCardProps = {
-  onClick?: () => void;
+  onClick: () => void;
   canNotFavorite?: boolean;
   props: tripsType;
 };
@@ -22,7 +21,9 @@ const TripCard = ({ onClick, canNotFavorite, props }: tripCardProps) => {
     data: {
       favorable_type: "journey",
       favorable_id: props.id,
-      itIsFavorite: Boolean(props.is_favorite),
+      itIsFavorite: Boolean(
+        props.favorites_relation ? props.favorites_relation.length : 1
+      ),
     },
     setFavorites,
     favorites: favorites,
@@ -83,7 +84,9 @@ const TripCard = ({ onClick, canNotFavorite, props }: tripCardProps) => {
           >
             <AddToFavorite
               addToFavorite={addToFavorite}
-              itIsFavorite={Boolean(props.is_favorite)}
+              itIsFavorite={Boolean(
+                props.favorites_relation ? props.favorites_relation.length : 1
+              )}
             />
           </Stack>
         )}

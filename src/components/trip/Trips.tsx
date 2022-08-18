@@ -26,8 +26,8 @@ const Trips = () => {
   console.log(placeId);
   return (
     <>
-      <Outlet />
       {isLoading(fetchTripsStatus) && <Loading />}
+      <Outlet />
       <Container>
         <Grid
           container
@@ -44,7 +44,12 @@ const Trips = () => {
           {trips.map((trip) => {
             return (
               <Grid key={trip.id} item xs={11} sm={6} md={4}>
-                <TripCard key={trip.id} props={trip} canNotFavorite={true} />{" "}
+                <TripCard
+                  key={trip.id}
+                  props={trip}
+                  canNotFavorite={true}
+                  onClick={() => navigate(`/trip/${trip.id}`)}
+                />{" "}
               </Grid>
             );
           })}

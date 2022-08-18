@@ -87,7 +87,12 @@ const GovernorateDetails = () => {
             <Carousel responsive={multiItem}>
               {trips.map((trip) => {
                 return (
-                  <TripCard key={trip.id} props={trip} canNotFavorite={false} />
+                  <TripCard
+                    key={trip.id}
+                    props={trip}
+                    canNotFavorite={false}
+                    onClick={() => navigate(`/trip/${trip.id}`)}
+                  />
                 );
               })}
             </Carousel>

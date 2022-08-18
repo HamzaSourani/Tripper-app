@@ -1,10 +1,7 @@
 import React from "react";
-import { useAppDispatch } from "../app/hooks";
 import axios from "axios";
-import { removeFromFavorite } from "../features/userFavoritesSlice";
 type propsType = { id: string; bearerToken: string };
 const useRemoveFavoriteItem = ({ id, bearerToken }: propsType) => {
-  const dispatch = useAppDispatch();
   const [removeSucceed, setRemoveSucceed] = React.useState<boolean>(false);
   const removeItemFromFavorite = async () => {
     try {

@@ -2,7 +2,7 @@ import React from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { handleOpenGOToSignup } from "../features/goToSignupSlice";
 import { fetchAddToFavorite } from "../features/userFavoritesSlice";
-import addToFavoriteType from "../sharedType/favoriteType";
+import addToFavoriteType from "../sharedType/addFavoriteType";
 import useRemoveFavoriteItem from "../customHooks/useRemoveFavoriteItem";
 type propsType = {
   data: addToFavoriteType;
