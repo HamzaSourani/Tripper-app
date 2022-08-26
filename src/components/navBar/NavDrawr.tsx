@@ -15,7 +15,7 @@ import RowStack from "../../sharedComponents/RowStack";
 import NavigationIcon from "../../sharedComponents/NavigationIconLarg";
 import useUserLogout from "../../customHooks/useUserLogout";
 import { Login } from "@mui/icons-material";
-
+import getUserImage from "../../sharedFunction/getUserImage";
 type drawerProps = {
   open: boolean;
   closeDrawer: () => void;
@@ -28,7 +28,8 @@ const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
     (state: RootState) => state.isUserAuthorized.state
   );
   const [logoutStatus, handleUserLogout] = useUserLogout();
-
+  const userImage = getUserImage();
+  const [imgSrc, setImgSrc] = React.useState<File | undefined>();
   const logInOut = isUserAuthorized ? "تسجيل الخروج" : "تسجيل الدخول";
 
   React.useEffect(() => {
@@ -74,7 +75,11 @@ const NavDrawr = ({ open, closeDrawer }: drawerProps) => {
         {isUserAuthorized && (
           <>
             <Stack sx={{ mr: 12, mb: 3 }} alignItems="center" spacing={1}>
-              <Avatar src="" alt="" sx={{ width: 80, height: 80 }} />
+              <Avatar
+                src={imgSrc && URL.createObjectURL(imgSrc)}
+                alt=""
+                sx={{ width: 80, height: 80 }}
+              />
               <Typography variant="h6" sx={{ color: "var(--gray-color)" }}>
                 {JSON.parse(localStorage.getItem("userInfo")!).name}
               </Typography>

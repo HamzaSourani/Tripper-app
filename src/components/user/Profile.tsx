@@ -10,6 +10,7 @@ const Profile = () => {
   const userData: editUserProfile = JSON.parse(
     localStorage.getItem("userInfo")!
   );
+
   const { userName, email } = userData;
 
   return (

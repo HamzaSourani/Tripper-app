@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import UserImg from "../../sharedComponents/UserImg";
-import InputPassword from "../../sharedComponents/InputPassword";
+
 import InputText from "../../sharedComponents/InputText";
 import InputSelect from "../../sharedComponents/InputSelect";
 import useToggleEle from "../../customHooks/useToggleEle";
@@ -25,8 +25,7 @@ const EditProfile = () => {
   const [firstName, setFirstName] = useState<string>(userData.first_name);
   const [lastName, setLastName] = useState<string>(userData.last_name);
   const [name, setName] = useState<string>(userData.name);
-  const [password, setPassword] = useState<string>("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+
   const [cityId, setCityId] = useState<string>(userData.city_id);
   const [gender, setGender] = useState<string>(userData.gender);
   const [responseMessage, setResponseMessage] = React.useState<string>("");
@@ -48,7 +47,7 @@ const EditProfile = () => {
     if (responseMessage === "Operation succeeded.") {
       dispatch(
         setSnackbarParam({
-          alertMessage: "تم إنشاء الحساب بنجاح",
+          alertMessage: "تم تعديل الحساب بنجاح",
           alertType: "success",
         })
       );
@@ -56,7 +55,7 @@ const EditProfile = () => {
     } else if (updateUserInfoStatus === "failed") {
       dispatch(
         setSnackbarParam({
-          alertMessage: "حدث خطاء ما عند عملية إنشاء الحساب",
+          alertMessage: "حدث خطاء ما عند عملية تعديل الحساب",
           alertType: "error",
         })
       );
@@ -136,28 +135,7 @@ const EditProfile = () => {
           </Box>
         </Grid>
       </Grid>
-      <EditPassoword open={open} handelClose={handelClose}>
-        <Stack spacing={1}>
-          <InputPassword
-            label="كلمة المرور القديمة"
-            value={password}
-            setValue={setPassword}
-            width={"100%"}
-          />
-          <InputPassword
-            label="كلمة المرور الجديدة"
-            value={passwordConfirmation}
-            setValue={setPasswordConfirmation}
-            width={"100%"}
-          />
-          <InputPassword
-            label="تأكيد كلمة المرور الجديدة"
-            value={passwordConfirmation}
-            setValue={setPasswordConfirmation}
-            width={"100%"}
-          />
-        </Stack>
-      </EditPassoword>
+      <EditPassoword open={open} handleClose={handelClose} />
     </>
   );
 };

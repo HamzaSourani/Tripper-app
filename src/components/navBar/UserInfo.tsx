@@ -13,14 +13,15 @@ import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import useAnchorMenu from "../../customHooks/useAnchorMenu";
 import useUserLogout from "../../customHooks/useUserLogout";
-
+import getUserImage from "../../sharedFunction/getUserImage";
 const UserInfo = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const isUserAuthorized = useAppSelector(
     (state: RootState) => state.isUserAuthorized.state
   );
-
+  const userImage = getUserImage();
+  const [imgSrc, setImgSrc] = React.useState<File | undefined>();
   const userNameParagraph = React.useRef<HTMLParagraphElement>(null!);
 
   if (isUserAuthorized && userNameParagraph.current !== null)
@@ -59,7 +60,7 @@ const UserInfo = () => {
     >
       <Tooltip title="إعدادت المستخدم">
         <IconButton onClick={handleOpenMenu} sx={{ p: 0 }}>
-          <Avatar alt="" src="" />
+          <Avatar alt="" src={imgSrc && URL.createObjectURL(imgSrc)} />
         </IconButton>
       </Tooltip>
       <Menu
