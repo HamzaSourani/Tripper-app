@@ -28,6 +28,7 @@ const useAddComment = ({
   const [status, setStatus] = React.useState<statusType>("idle");
   const addComment = async () => {
     try {
+      setStatus("loading");
       const res = await axios({
         method: "post",
         url: "http://tripper.dentatic.com/api/client/reviews/add",

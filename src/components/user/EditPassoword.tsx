@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import Dialog from "@mui/material/Dialog";
-
+import { setSnackbarParam } from "../../features/snackbarSlice";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
@@ -26,6 +26,16 @@ const EditPassoword = ({ open, handleClose }: editPasswordProps) => {
     old_password: oldPassword,
     handleClose,
   });
+  const editPasswordHandler = () => {
+    if (password === passwordConfirmation) editPassword();
+    else
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "كلمة السر الجديدة و تأكيد كلمة السر غير متطابقان",
+          alertType: "error",
+        })
+      );
+  };
   React.useEffect(() => {
     dispatch(chooseDirection("up"));
   }, [dispatch]);
@@ -67,7 +77,7 @@ const EditPassoword = ({ open, handleClose }: editPasswordProps) => {
         <Button variant="text" onClick={handleClose}>
           إلغاء
         </Button>
-        <Button variant="contained" onClick={editPassword}>
+        <Button variant="contained" onClick={editPasswordHandler}>
           إعادة العتيين
         </Button>
       </DialogActions>

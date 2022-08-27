@@ -8,7 +8,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Nav from "./components/navBar/Nav";
 import Carousel from "../sharedComponents/crarousel/Carousel";
 import TripCard from "../sharedComponents/TripCard";
-import ProductCard from "../sharedComponents/ProductCard";
+import ProductCard from "./components/ProductCard";
 import Loading from "../sharedComponents/Loading";
 import isLoading from "../sharedFunction/isLoading";
 import { singleItem, multiItem } from "../sharedData/carouselResponsive";

@@ -29,10 +29,12 @@ const Comments = ({
   reviewableType,
 }: commentsPropsType) => {
   const [commentValue, setCommentValue] = React.useState<string>("");
+  const [reviewsState, setreviewsState] = React.useState<reviewType[]>(reviews);
   const [mountTempComment, setMountTempComment] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>("");
   const [userImg, setUserImg] = useState<string | null>("");
   const [mountComment, setMountComment] = useState<boolean>(false);
+
   const isUserAuth = useAppSelector(
     (state: RootState) => state.isUserAuthorized.state
   );
@@ -44,6 +46,7 @@ const Comments = ({
     review: 1,
   };
   const [status, userReview, addComment] = useAddComment(commentProps);
+
   const mountAddCommentHandler = () => {
     const userEnfo: editUserProfile = JSON.parse(
       localStorage.getItem("userInfo")!
@@ -74,8 +77,12 @@ const Comments = ({
     if (status === "succeeded") {
       setMountComment(false);
       setMountTempComment(true);
+      setreviewsState(
+        reviews.filter((review) => review.user.name !== userName)
+      );
+      setCommentValue("");
     }
-  }, [status]);
+  }, [status, reviews, userName]);
 
   const sendCommentHandler = () => {
     // dispatch(unMountComment());
@@ -126,7 +133,11 @@ const Comments = ({
                 value={commentValue}
                 onChange={(e) => setCommentValue(e.target.value)}
               />
-              <Button variant="contained" onClick={sendCommentHandler}>
+              <Button
+                disabled={status === "loading"}
+                variant="contained"
+                onClick={sendCommentHandler}
+              >
                 تعليق
               </Button>
             </Stack>
@@ -151,7 +162,8 @@ const Comments = ({
             </ListItemIcon>
           </ListItem>
         )}
-        {reviews.map((review) => {
+
+        {reviewsState.map((review) => {
           return (
             <ListItem key={review.id} alignItems="flex-start">
               <ListItemAvatar>

@@ -85,14 +85,14 @@ const TripDetails = () => {
                 </Stack>
               </Stack>
             </Grid>
-            <Grid item container xs={11} md={9} lg={5.5}>
+            <Grid item container xs={11}>
               <Grid item xs={12}>
                 <Typography
                   variant="h4"
                   sx={{ fontWeight: 700 }}
                 >{`مسار رحلة ${trip.name}`}</Typography>
               </Grid>
-              <Grid item xs={11} md={8} lg={6}>
+              <Grid item xs={11} md={9} lg={6}>
                 <TripPath stations={trip.stations} />
               </Grid>
             </Grid>

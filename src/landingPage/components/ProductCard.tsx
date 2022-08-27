@@ -34,13 +34,16 @@ const ProductCard = (props: product) => {
             borderRadius: "inherit",
           }}
           component={"img"}
-          src="/images/aleppo.jpg"
+          src={props.media[0].original_url}
         ></Box>
       </Box>
       <Stack spacing={1} sx={{ p: 1, width: "100%" }}>
-        <Typography variant="body1" color={"GrayText"}>
-          {props.name}
-        </Typography>
+        <Stack direction={"row"} spacing={1} alignItems={"center"}>
+          <Typography variant="h6">{props.place.name}</Typography>
+          <Typography variant="body1" color={"GrayText"}>
+            {`(${props.name})`}
+          </Typography>
+        </Stack>
         <Stack direction={"row"} spacing={2}>
           <Typography
             sx={{ flexGrow: 1 }}
@@ -61,7 +64,7 @@ const ProductCard = (props: product) => {
               color={"primary"}
               fontWeight="bold"
             >
-              5000
+              {props.price}
             </Typography>
             <Typography color={"GrayText"}>ل.س</Typography>
           </Stack>

@@ -31,6 +31,9 @@ const EditProfile = () => {
   const [responseMessage, setResponseMessage] = React.useState<string>("");
   const [open, handelOpen, handelClose] = useToggleEle();
   const dispatch = useAppDispatch();
+  const canUpdateUserData = [cityId, gender, lastName, firstName].every(
+    Boolean
+  );
   const userInfo = {
     first_name: firstName,
     last_name: lastName,
@@ -126,12 +129,14 @@ const EditProfile = () => {
               </Typography>
             </Stack>
 
-            <LoadingButton
-              onClick={update}
-              label="تعديل "
-              loading={updateUserInfoStatus === "loading"}
-              sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
-            />
+            {canUpdateUserData && (
+              <LoadingButton
+                onClick={update}
+                label="تعديل "
+                loading={updateUserInfoStatus === "loading"}
+                sx={{ display: "block", m: "15px auto", minWidth: "50%" }}
+              />
+            )}
           </Box>
         </Grid>
       </Grid>
