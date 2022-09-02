@@ -18,6 +18,25 @@ const useEditPassword = ({
   const [editPasswordStatus, setEditPasswordStatus] =
     React.useState<status>("idle");
   const dispatch = useAppDispatch();
+  const editPasswordHandler = () => {
+    if (password.length >= 8) {
+      if (password === password_confirmation) editPassword();
+      else
+        dispatch(
+          setSnackbarParam({
+            alertMessage: "كلمة السر الجديدة و تأكيد كلمة السر غير متطابقان",
+            alertType: "error",
+          })
+        );
+    } else {
+      dispatch(
+        setSnackbarParam({
+          alertMessage: "كلمة المرور يجب ان يوكن ثمانية محارف فما فوق ",
+          alertType: "error",
+        })
+      );
+    }
+  };
   const editPassword = async () => {
     try {
       setEditPasswordStatus("loading");
@@ -62,7 +81,7 @@ const useEditPassword = ({
         })
       );
   }, []);
-  return editPassword;
+  return editPasswordHandler;
 };
 
 export default useEditPassword;
