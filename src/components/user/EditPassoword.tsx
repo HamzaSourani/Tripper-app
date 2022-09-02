@@ -1,6 +1,6 @@
-import React, { ReactNode, useReducer, useState } from "react";
+//@tripper team
+import React, { useState } from "react";
 import Dialog from "@mui/material/Dialog";
-import { setSnackbarParam } from "../../features/snackbarSlice";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
